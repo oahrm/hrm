@@ -27,6 +27,12 @@
     parent_id, job_description, office_location, emergency_contact, emergency_contact_number, 
     entry_time, leavedate, mailbox, siger_id
   </sql>
+  <select id="selectAllByOnTheJobStatus" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from emp
+    where on_the_job_status = 1
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
