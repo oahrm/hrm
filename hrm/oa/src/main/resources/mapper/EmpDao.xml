@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.EmpDao">
+  <resultMap id="BaseResultMap" type="com.hrm.oa.entity.Emp">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
+    <result column="ranks" jdbcType="INTEGER" property="ranks" />
+    <result column="dept_id" jdbcType="VARCHAR" property="deptId" />
+    <result column="on_the_job_status" jdbcType="INTEGER" property="onTheJobStatus" />
+    <result column="is_it_online" jdbcType="INTEGER" property="isItOnline" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="job_description" jdbcType="VARCHAR" property="jobDescription" />
+    <result column="office_location" jdbcType="VARCHAR" property="officeLocation" />
+    <result column="emergency_contact" jdbcType="VARCHAR" property="emergencyContact" />
+    <result column="emergency_contact_number" jdbcType="VARCHAR" property="emergencyContactNumber" />
+    <result column="entry_time" jdbcType="TIMESTAMP" property="entryTime" />
+    <result column="leavedate" jdbcType="TIMESTAMP" property="leavedate" />
+    <result column="mailbox" jdbcType="VARCHAR" property="mailbox" />
+    <result column="siger_id" jdbcType="VARCHAR" property="sigerId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, mobile, `password`, `name`, sex, post, ranks, dept_id, on_the_job_status, is_it_online, 
+    parent_id, job_description, office_location, emergency_contact, emergency_contact_number, 
+    entry_time, leavedate, mailbox, siger_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from emp
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from emp
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hrm.oa.entity.Emp" useGeneratedKeys="true">
+    insert into emp (mobile, `password`, `name`, 
+      sex, post, ranks, dept_id, 
+      on_the_job_status, is_it_online, parent_id, 
+      job_description, office_location, emergency_contact, 
+      emergency_contact_number, entry_time, leavedate, 
+      mailbox, siger_id)
+    values (#{mobile,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{ranks,jdbcType=INTEGER}, #{deptId,jdbcType=VARCHAR}, 
+      #{onTheJobStatus,jdbcType=INTEGER}, #{isItOnline,jdbcType=INTEGER}, #{parentId,jdbcType=VARCHAR}, 
+      #{jobDescription,jdbcType=VARCHAR}, #{officeLocation,jdbcType=VARCHAR}, #{emergencyContact,jdbcType=VARCHAR}, 
+      #{emergencyContactNumber,jdbcType=VARCHAR}, #{entryTime,jdbcType=TIMESTAMP}, #{leavedate,jdbcType=TIMESTAMP}, 
+      #{mailbox,jdbcType=VARCHAR}, #{sigerId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hrm.oa.entity.Emp" useGeneratedKeys="true">
+    insert into emp
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="post != null">
+        post,
+      </if>
+      <if test="ranks != null">
+        ranks,
+      </if>
+      <if test="deptId != null">
+        dept_id,
+      </if>
+      <if test="onTheJobStatus != null">
+        on_the_job_status,
+      </if>
+      <if test="isItOnline != null">
+        is_it_online,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="jobDescription != null">
+        job_description,
+      </if>
+      <if test="officeLocation != null">
+        office_location,
+      </if>
+      <if test="emergencyContact != null">
+        emergency_contact,
+      </if>
+      <if test="emergencyContactNumber != null">
+        emergency_contact_number,
+      </if>
+      <if test="entryTime != null">
+        entry_time,
+      </if>
+      <if test="leavedate != null">
+        leavedate,
+      </if>
+      <if test="mailbox != null">
+        mailbox,
+      </if>
+      <if test="sigerId != null">
+        siger_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null">
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="ranks != null">
+        #{ranks,jdbcType=INTEGER},
+      </if>
+      <if test="deptId != null">
+        #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="onTheJobStatus != null">
+        #{onTheJobStatus,jdbcType=INTEGER},
+      </if>
+      <if test="isItOnline != null">
+        #{isItOnline,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="jobDescription != null">
+        #{jobDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="officeLocation != null">
+        #{officeLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyContact != null">
+        #{emergencyContact,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyContactNumber != null">
+        #{emergencyContactNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null">
+        #{entryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leavedate != null">
+        #{leavedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mailbox != null">
+        #{mailbox,jdbcType=VARCHAR},
+      </if>
+      <if test="sigerId != null">
+        #{sigerId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.oa.entity.Emp">
+    update emp
+    <set>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null">
+        post = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="ranks != null">
+        ranks = #{ranks,jdbcType=INTEGER},
+      </if>
+      <if test="deptId != null">
+        dept_id = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="onTheJobStatus != null">
+        on_the_job_status = #{onTheJobStatus,jdbcType=INTEGER},
+      </if>
+      <if test="isItOnline != null">
+        is_it_online = #{isItOnline,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="jobDescription != null">
+        job_description = #{jobDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="officeLocation != null">
+        office_location = #{officeLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyContact != null">
+        emergency_contact = #{emergencyContact,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyContactNumber != null">
+        emergency_contact_number = #{emergencyContactNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null">
+        entry_time = #{entryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leavedate != null">
+        leavedate = #{leavedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mailbox != null">
+        mailbox = #{mailbox,jdbcType=VARCHAR},
+      </if>
+      <if test="sigerId != null">
+        siger_id = #{sigerId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrm.oa.entity.Emp">
+    update emp
+    set mobile = #{mobile,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      post = #{post,jdbcType=VARCHAR},
+      ranks = #{ranks,jdbcType=INTEGER},
+      dept_id = #{deptId,jdbcType=VARCHAR},
+      on_the_job_status = #{onTheJobStatus,jdbcType=INTEGER},
+      is_it_online = #{isItOnline,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      job_description = #{jobDescription,jdbcType=VARCHAR},
+      office_location = #{officeLocation,jdbcType=VARCHAR},
+      emergency_contact = #{emergencyContact,jdbcType=VARCHAR},
+      emergency_contact_number = #{emergencyContactNumber,jdbcType=VARCHAR},
+      entry_time = #{entryTime,jdbcType=TIMESTAMP},
+      leavedate = #{leavedate,jdbcType=TIMESTAMP},
+      mailbox = #{mailbox,jdbcType=VARCHAR},
+      siger_id = #{sigerId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
