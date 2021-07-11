@@ -10,80 +10,196 @@ const router = createRouter({
     {
       path: '/post',
       name: 'post',
-      component: () => import(/* webpackChunkName: "RecPost" */ '../views/rec/RecPost.vue')
+      component: () => import('../views/rec/RecPost.vue')
     },
     {
       path: '/job',
       name: 'job',
-      component: () => import(/* webpackChunkName: "dashboard" */ '../views/rec/RecJob.vue')
+      component: () => import('../views/rec/RecJob.vue')
     },
+	{
+	  path: '/noe',
+	  name: 'noe',
+	  component: () => import('../views/rec/RecNoe.vue')
+	},
+	{
+	  path: '/inter',
+	  name: 'inter',
+	  component: () => import('../views/rec/RecInter.vue')
+	},
+	{
+	  path: '/res',
+	  name: 'res',
+	  component: () => import('../views/rec/RecRes.vue')
+	},
     {
       path: '/login',
       name: 'login',
-      component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
+      component: () => import('../views/Login.vue')
     },
+	{
+	  path: '/perBarw',
+	  name: 'perBarw',
+	  component: () => import( '../views/per/PerBarw.vue')
+	},
+	{
+	  path: '/perEnt',
+	  name: 'perEnt',
+	  component: () => import( '../views/per/PerEnt.vue')
+	},
+	{
+	  path: '/perPost',
+	  name: 'perPost',
+	  component: () => import( '../views/per/PerPost.vue')
+	},
+	{
+	  path: '/perQuid',
+	  name: 'perQuid',
+	  component: () => import( '../views/per/PerQuid.vue')
+	},
+	{
+	  path: '/perCont',
+	  name: 'perCont',
+	  component: () => import( '../views/per/PerCont.vue')
+	},
+	{
+	  path: '/arcCard',
+	  name: 'arcCard',
+	  component: () => import('../views/archives/ArcCard.vue')
+	},
+	{
+	  path: '/arcMail',
+	  name: 'arcMail',
+	  component: () => import('../views/archives/ArcMail.vue')
+	},
+	{
+	  path: '/arcMySub',
+	  name: 'arcMySub',
+	  component: () => import('../views/archives/ArcMySub.vue')
+	},
+	{
+	  path: '/atteAdd',
+	  name: 'atteAdd',
+	  component: () => import( '../views/atte/AtteAdd.vue')
+	},
+	{
+	  path: '/atteFci',
+	  name: 'atteFci',
+	  component: () => import( '../views/atte/AtteFci.vue')
+	},
+	{
+	  path: '/atteSet',
+	  name: 'atteSet',
+	  component: () => import( '../views/atte/AtteSet.vue')
+	},
+	{
+	  path: '/atteSum',
+	  name: 'atteSum',
+	  component: () => import( '../views/atte/AtteSum.vue')
+	},
+	{
+	  path: '/achScore',
+	  name: 'achScore',
+	  component: () => import( '../views/ach/AchScore.vue')
+	},
+	{
+	  path: '/achSet',
+	  name: 'achSet',
+	  component: () => import( '../views/ach/AchSet.vue')
+	},
+	//7
+	{
+	  path: '/mypro',
+	  name: 'mypro',
+	  component: () => import( '../views/pro/Mypro.vue')
+	},
+	{
+	  path: '/proadd',
+	  name: 'proadd',
+	  component: () => import( '../views/pro/ProAdd.vue')
+	},
+	{
+	  path: '/procba',
+	  name: 'procba',
+	  component: () => import( '../views/pro/ProCba.vue')
+	},
+	{
+	  path: '/proday',
+	  name: 'proday',
+	  component: () => import( '../views/pro/ProDay.vue')
+	},
+	{
+	  path: '/proimp',
+	  name: 'proimp',
+	  component: () => import( '../views/pro/ProImp.vue')
+	},
+	{
+	  path: '/prokan',
+	  name: 'prokan',
+	  component: () => import( '../views/pro/ProKan.vue')
+	},
+	{
+	  path: '/promon',
+	  name: 'promon',
+	  component: () => import( '../views/pro/ProMon.vue')
+	},
     {
       path: '/swiper',
       name: 'swiper',
-      component: () => import(/* webpackChunkName: "swiper" */ '../views/Swiper.vue')
+      component: () => import( '../views/Swiper.vue')
     },
     {
       path: '/hot',
       name: 'hot',
-      component: () => import(/* webpackChunkName: "hot" */ '../views/IndexConfig.vue')
+      component: () => import('../views/IndexConfig.vue')
     },
     {
       path: '/new',
       name: 'new',
-      component: () => import(/* webpackChunkName: "new" */ '../views/IndexConfig.vue')
+      component: () => import('../views/IndexConfig.vue')
     },
     {
       path: '/recommend',
       name: 'recommend',
-      component: () => import(/* webpackChunkName: "recommend" */ '../views/IndexConfig.vue')
+      component: () => import('../views/IndexConfig.vue')
     },
     {
       path: '/category',
       name: 'category',
-      component: () => import(/* webpackChunkName: "category" */ '../views/Category.vue'),
+      component: () => import('../views/Category.vue'),
       children: [
         {
           path: '/category/level2',
           name: 'level2',
-          component: () => import(/* webpackChunkName: "level2" */ '../views/Category.vue'),
+          component: () => import('../views/Category.vue'),
         },
         {
           path: '/category/level3',
           name: 'level3',
-          component: () => import(/* webpackChunkName: "level3" */ '../views/Category.vue'),
+          component: () => import('../views/Category.vue'),
         }
       ]
     },
     {
       path: '/good',
       name: 'good',
-      component: () => import(/* webpackChunkName: "new" */ '../views/Good.vue')
+      component: () => import('../views/Good.vue')
     },
     {
       path: '/guest',
       name: 'guest',
-      component: () => import(/* webpackChunkName: "guest" */ '../views/Guest.vue')
+      component: () => import('../views/Guest.vue')
     },
     {
       path: '/order',
       name: 'order',
-      component: () => import(/* webpackChunkName: "order" */ '../views/Order.vue')
+      component: () => import('../views/Order.vue')
     },
     {
       path: '/order_detail',
       name: 'order_detail',
-      component: () => import(/* webpackChunkName: "order_detail" */ '../views/OrderDetail.vue')
-    },
-	{
-	  path: '/www',
-	  name: 'www',
-	  component: () => import(/* webpackChunkName: "1" */ '../views/www.vue')
-	}
+      component: () => import('../views/OrderDetail.vue')
+    }
   ]
 })
 

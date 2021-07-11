@@ -23,8 +23,9 @@
             <el-menu-item-group>
               <el-menu-item index="/post"><i class="el-icon-data-line" />职位管理</el-menu-item>
               <el-menu-item index="/job"><i class="el-icon-odometer" />岗位要求</el-menu-item>
-              <el-menu-item index="/add"><i class="el-icon-plus" />简历管理</el-menu-item>
-			  <el-menu-item index="/add"><i class="el-icon-plus" />面试管理</el-menu-item>
+              <el-menu-item index="/noe"><i class="el-icon-plus" />简历管理</el-menu-item>
+			  <el-menu-item index="/inter"><i class="el-icon-plus" />面试管理</el-menu-item>
+			  <el-menu-item index="/res"><i class="el-icon-plus" />入职通知</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="2">
@@ -32,11 +33,11 @@
               <span>人事关系</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="/swiper"><i class="el-icon-picture" />劳务合同签署</el-menu-item>
-              <el-menu-item index="/hot"><i class="el-icon-star-on" />员工入职</el-menu-item>
-              <el-menu-item index="/new"><i class="el-icon-sell" />员工转正</el-menu-item>
-              <el-menu-item index="/recommend"><i class="el-icon-thumb" />员工调岗</el-menu-item>
-			  <el-menu-item index="/recommend"><i class="el-icon-thumb" />员工离职</el-menu-item>
+              <el-menu-item index="/perBarw"><i class="el-icon-picture" />劳务合同签署</el-menu-item>
+              <el-menu-item index="/perCont"><i class="el-icon-star-on" />员工入职</el-menu-item>
+              <el-menu-item index="/perEnt"><i class="el-icon-sell" />员工转正</el-menu-item>
+              <el-menu-item index="/perPost"><i class="el-icon-thumb" />员工调岗</el-menu-item>
+			  <el-menu-item index="/perQuid"><i class="el-icon-thumb" />员工离职</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="3">
@@ -44,9 +45,9 @@
               <span>员工档案</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="/category"><i class="el-icon-menu" />员工台账</el-menu-item>
-              <el-menu-item index="/good"><i class="el-icon-s-goods" />我的卡片</el-menu-item>
-              <el-menu-item index="/guest"><i class="el-icon-user-solid" />我的下属</el-menu-item>
+              <el-menu-item index="/arcMail"><i class="el-icon-menu" />员工台账</el-menu-item>
+              <el-menu-item index="/arcCard"><i class="el-icon-s-goods" />我的卡片</el-menu-item>
+              <el-menu-item index="/arcMySub"><i class="el-icon-user-solid" />我的下属</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="4">
@@ -54,10 +55,10 @@
               <span>考勤管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="/account"><i class="el-icon-lock" />添加员工考勤信息</el-menu-item>
-			  <el-menu-item index="/account"><i class="el-icon-lock" />设置考勤时间</el-menu-item>
-			  <el-menu-item index="/account"><i class="el-icon-lock" />外勤签到</el-menu-item>
-			  <el-menu-item index="/account"><i class="el-icon-lock" />考勤汇总报表</el-menu-item>
+              <el-menu-item index="/atteAdd"><i class="el-icon-lock" />添加员工考勤信息</el-menu-item>
+			  <el-menu-item index="/atteSet"><i class="el-icon-lock" />设置考勤时间</el-menu-item>
+			  <el-menu-item index="/atteFci"><i class="el-icon-lock" />外勤签到</el-menu-item>
+			  <el-menu-item index="/atteSum"><i class="el-icon-lock" />考勤汇总报表</el-menu-item>
 			</el-menu-item-group>
           </el-submenu>
 		  <el-submenu index="5">
@@ -65,8 +66,8 @@
 		      <span>绩效管理</span>
 		    </template>
 		    <el-menu-item-group>
-		      <el-menu-item index="/account"><i class="el-icon-lock" />绩效评分</el-menu-item>
-			  <el-menu-item index="/account"><i class="el-icon-lock" />绩效参数设置</el-menu-item>
+		      <el-menu-item index="/achScore"><i class="el-icon-lock" />绩效评分</el-menu-item>
+			  <el-menu-item index="/achSet"><i class="el-icon-lock" />绩效参数设置</el-menu-item>
 			</el-menu-item-group>
 		  </el-submenu>
 		  <el-submenu index="6">
@@ -74,13 +75,13 @@
 		      <span>项目管理</span>
 		    </template>
 		    <el-menu-item-group>
-		      <el-menu-item index="/account"><i class="el-icon-lock" />创建新项目</el-menu-item>
-			  <el-menu-item index="/account"><i class="el-icon-lock" />任务执行</el-menu-item>
-			  <el-menu-item index="/account"><i class="el-icon-lock" />我的项目</el-menu-item>
-			  <el-menu-item index="/account"><i class="el-icon-lock" />项目验收</el-menu-item>
-			  <el-menu-item index="/account"><i class="el-icon-lock" />项目日报</el-menu-item>
-			  <el-menu-item index="/account"><i class="el-icon-lock" />项目监控</el-menu-item>
-			  <el-menu-item index="/account"><i class="el-icon-lock" />项目看板</el-menu-item>
+		      <el-menu-item index="/mypro"><i class="el-icon-lock" />创建新项目</el-menu-item>
+			  <el-menu-item index="/proadd"><i class="el-icon-lock" />任务执行</el-menu-item>
+			  <el-menu-item index="/procba"><i class="el-icon-lock" />我的项目</el-menu-item>
+			  <el-menu-item index="/proday"><i class="el-icon-lock" />项目验收</el-menu-item>
+			  <el-menu-item index="/proimp"><i class="el-icon-lock" />项目日报</el-menu-item>
+			  <el-menu-item index="/prokan"><i class="el-icon-lock" />项目监控</el-menu-item>
+			  <el-menu-item index="/promon"><i class="el-icon-lock" />项目看板</el-menu-item>
 		    </el-menu-item-group>
 		  </el-submenu>
         </el-menu>
