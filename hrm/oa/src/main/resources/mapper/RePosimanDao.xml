@@ -20,6 +20,22 @@
     <include refid="Base_Column_List" />
     from re_posiman
   </select>
+
+  <!--findAll总岗位-->
+  <select id="staffnum"  resultType="java.lang.Integer">
+    select
+    sum(organnum)
+    from re_posiman
+  </select>
+
+  <!--findAll实际岗位-->
+  <select id="actualnum"  resultType="java.lang.Integer">
+    select
+    sum(actualnum)
+    from re_posiman
+  </select>
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

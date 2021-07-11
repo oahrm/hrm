@@ -36,19 +36,38 @@
     from re_job_requirements
     where job_id = #{jobId,jdbcType=VARCHAR}
   </select>
+
+  <!--岗位需求人数-->
+  <select id="demandNumsum"  resultType="java.lang.Integer">
+    SELECT sum(demand_num) from re_job_requirements
+  </select>
+
+
+  <!--岗位数-->
+  <select id="sumdemand"  resultType="java.lang.Integer">
+    SELECT count(demand_num) from re_job_requirements
+  </select>
+
+  <!--查询全部-->
+  <select id="findAll"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from re_job_requirements
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from re_job_requirements
     where job_id = #{jobId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="job_id" keyProperty="jobId" parameterType="com.hrm.oa.entity.ReJobRequirementsEntity" useGeneratedKeys="true">
-    insert into re_job_requirements (job_name, demand_num, applicant, 
+    insert into re_job_requirements (job_id,job_name, demand_num, applicant,
       application_dept, application_time, `source`, 
       reason, nature_of_work, job_responsibilities, 
       education, work_experience, place_of_work, 
       lower_age_limit, upper_age_limit, Salary_floor, 
       salary_cap, major, english_level, 
       other, stats)
-    values (#{jobName,jdbcType=VARCHAR}, #{demandNum,jdbcType=INTEGER}, #{applicant,jdbcType=VARCHAR}, 
+    values (#{jobId,jdbcType=VARCHAR},#{jobName,jdbcType=VARCHAR}, #{demandNum,jdbcType=INTEGER}, #{applicant,jdbcType=VARCHAR},
       #{applicationDept,jdbcType=VARCHAR}, #{applicationTime,jdbcType=TIMESTAMP}, #{source,jdbcType=VARCHAR}, 
       #{reason,jdbcType=VARCHAR}, #{natureOfWork,jdbcType=VARCHAR}, #{jobResponsibilities,jdbcType=VARCHAR}, 
       #{education,jdbcType=VARCHAR}, #{workExperience,jdbcType=VARCHAR}, #{placeOfWork,jdbcType=VARCHAR}, 

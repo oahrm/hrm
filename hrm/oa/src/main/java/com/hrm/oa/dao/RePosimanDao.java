@@ -21,4 +21,7 @@ public interface RePosimanDao {
     int updateByPrimaryKey(RePosimanEntity record);
 
     List<RePosimanEntity> findAll();
+
+    int staffnum();
+    int actualnum();
 }

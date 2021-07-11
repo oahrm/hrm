@@ -11,47 +11,47 @@ import lombok.Data;
  */
 @Data
 public class ReJobRequirementsEntity implements Serializable {
-    private String jobId;
+    private String jobId; //id
 
-    private String jobName;
+    private String jobName;//增补岗位名称
 
-    private Integer demandNum;
+    private Integer demandNum;//需求人数
 
-    private String applicant;
+    private String applicant;//申请人
 
-    private String applicationDept;
+    private String applicationDept;//申请部门
 
-    private Date applicationTime;
+    private Date applicationTime;//申请日期
 
-    private String source;
+    private String source;//用工来源
 
-    private String reason;
+    private String reason;//增补理由
 
-    private String natureOfWork;
+    private String natureOfWork;//工作性质
 
-    private String jobResponsibilities;
+    private String jobResponsibilities;//岗位职责
 
-    private String education;
+    private String education;//学历
 
-    private String workExperience;
+    private String workExperience;//工作经验
 
-    private String placeOfWork;
+    private String placeOfWork;//工作地点
 
-    private Integer lowerAgeLimit;
+    private Integer lowerAgeLimit;//年龄下限
 
-    private Integer upperAgeLimit;
+    private Integer upperAgeLimit;//年龄上限
 
-    private BigDecimal salaryFloor;
+    private BigDecimal salaryFloor;//薪资下限
 
-    private BigDecimal salaryCap;
+    private BigDecimal salaryCap;//薪资上限
 
-    private String major;
+    private String major;//专业
 
-    private Integer englishLevel;
+    private Integer englishLevel;//英语等级
 
-    private String other;
+    private String other;//其他
 
-    private Integer stats;
+    private Integer stats;//状态
 
     private static final long serialVersionUID = 1L;
 }

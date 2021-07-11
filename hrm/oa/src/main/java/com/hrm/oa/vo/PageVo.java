@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Component
 @Data
-public class OrganizationPageVo implements Serializable {
+public class PageVo implements Serializable {
     /**
      * 页尺寸
      */

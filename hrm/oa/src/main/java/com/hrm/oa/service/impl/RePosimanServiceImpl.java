@@ -1,10 +1,11 @@
 package com.hrm.oa.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.hrm.oa.dao.RePosimanDao;
 import com.hrm.oa.entity.RePosimanEntity;
 import com.hrm.oa.service.RePosimanService;
 import com.hrm.oa.util.IdWorker;
-import com.hrm.oa.vo.OrganizationPageVo;
+import com.hrm.oa.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,17 +23,13 @@ public class RePosimanServiceImpl implements RePosimanService {
     protected IdWorker idWorker;
 
     @Override
-    public Map<String, Object> list(OrganizationPageVo organizationPageVo) {
-
+    public Map<String, Object> list(PageVo pageVo) {
+        PageHelper.startPage(pageVo.getPage(), pageVo.getPagesize());
         List<RePosimanEntity> list = reposimanDao.findAll();
         Map<String,Object> map=new HashMap<>();
         map.put("posinmenlist",list);
-        int staffnum=0;
-        int actualnum=0;
-        for(int i=0;i<list.size();i++){
-            actualnum+=list.get(i).getActualnum();
-            staffnum+=list.get(i).getOrgannum();
-        }
+        int staffnum=reposimanDao.staffnum();
+        int actualnum=reposimanDao.actualnum();
         map.put("staffnum",staffnum);
         map.put("actualnum",actualnum);
         
@@ -48,8 +45,6 @@ public class RePosimanServiceImpl implements RePosimanService {
     public int save(RePosimanEntity rePosimanEntity) {
         rePosimanEntity.setPmId(idWorker.nextId()+"");
         rePosimanEntity.setTime(new Date());
-        
-        
         return reposimanDao.insert(rePosimanEntity);
 
     }
