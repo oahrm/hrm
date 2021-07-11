@@ -1,6 +1,7 @@
 package com.hrm.oa.dao;
 
 import com.hrm.oa.entity.PeCycleSetting;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * @author makejava
  * @since 2021-07-11 16:44:05
  */
+@Mapper
 public interface PeCycleSettingDao {
 
     /**

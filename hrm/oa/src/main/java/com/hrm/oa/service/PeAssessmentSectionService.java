@@ -1,5 +1,7 @@
 package com.hrm.oa.service;
 
+import com.github.pagehelper.PageInfo;
+import com.hrm.oa.entity.PeAssessmentResultsShow;
 import com.hrm.oa.entity.PeAssessmentSection;
 
 import java.util.List;
@@ -52,5 +54,7 @@ public interface PeAssessmentSectionService {
      * @return 是否成功
      */
     boolean deleteById(String scoreId);
+
+    PageInfo<PeAssessmentSection> queryAll(PeAssessmentSection peAssessmentSection, int page, int pageSize);
 
 }

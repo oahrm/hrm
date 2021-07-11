@@ -36,7 +36,7 @@ public interface PeAssessmentIndicatorsService {
      * @param peAssessmentIndicators 实例对象
      * @return 实例对象
      */
-    PeAssessmentIndicators insert(PeAssessmentIndicators peAssessmentIndicators);
+    int insert(PeAssessmentIndicators peAssessmentIndicators);
 
     /**
      * 修改数据
@@ -44,7 +44,7 @@ public interface PeAssessmentIndicatorsService {
      * @param peAssessmentIndicators 实例对象
      * @return 实例对象
      */
-    PeAssessmentIndicators update(PeAssessmentIndicators peAssessmentIndicators);
+    int update(PeAssessmentIndicators peAssessmentIndicators);
 
     /**
      * 通过主键删除数据

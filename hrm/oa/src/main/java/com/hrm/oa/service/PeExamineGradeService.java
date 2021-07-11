@@ -44,7 +44,7 @@ public interface PeExamineGradeService {
      * @param peExamineGrade 实例对象
      * @return 实例对象
      */
-    PeExamineGrade update(PeExamineGrade peExamineGrade);
+    int update(PeExamineGrade peExamineGrade);
 
     /**
      * 通过主键删除数据

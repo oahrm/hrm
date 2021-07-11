@@ -1,8 +1,11 @@
 package com.hrm.oa.controller;
 
+import com.hrm.oa.entity.PeAssessmentSetting;
 import com.hrm.oa.entity.PeCycleSetting;
 import com.hrm.oa.service.PeCycleSettingService;
 import com.hrm.oa.util.IdWorker;
+import com.hrm.oa.vo.Result;
+import com.hrm.oa.vo.ResultCode;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +47,25 @@ public class PeCycleSettingController {
         int i = peCycleSettingService.insert(peCycleSetting);
 
         return i;
+    }
+
+    @PutMapping
+    public Result updateSetting(@RequestBody PeCycleSetting peCycleSetting){
+        peCycleSettingService.update(peCycleSetting);
+        return new Result(ResultCode.SUCCESS);
+    }
+
+    @PostMapping("/addCycleSetting")
+    public Result addSetting(@RequestBody PeCycleSetting peCycleSetting) {
+        peCycleSetting.setCycleSettingNumber(idWorker.nextId()+"");
+        peCycleSettingService.insert(peCycleSetting);
+        return new Result(ResultCode.SUCCESS);
+    }
+
+    @DeleteMapping
+    public Result deleteSecitonById(String id){
+        boolean statu =  peCycleSettingService.deleteById(id);
+        return new Result(ResultCode.SUCCESS,statu);
     }
 
     

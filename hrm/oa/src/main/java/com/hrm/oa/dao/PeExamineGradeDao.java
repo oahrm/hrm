@@ -1,6 +1,8 @@
 package com.hrm.oa.dao;
 
 import com.hrm.oa.entity.PeExamineGrade;
+import lombok.NonNull;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.List;
  * @author makejava
  * @since 2021-07-11 16:23:59
  */
+@Mapper
 public interface PeExamineGradeDao {
 
     /**

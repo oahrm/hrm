@@ -51,9 +51,9 @@ public class PeAssessmentIndicatorsServiceImpl implements PeAssessmentIndicators
      * @return 实例对象
      */
     @Override
-    public PeAssessmentIndicators insert(PeAssessmentIndicators peAssessmentIndicators) {
-        this.peAssessmentIndicatorsDao.insert(peAssessmentIndicators);
-        return peAssessmentIndicators;
+    public int insert(PeAssessmentIndicators peAssessmentIndicators) {
+
+        return this.peAssessmentIndicatorsDao.insert(peAssessmentIndicators);
     }
 
     /**
@@ -63,9 +63,9 @@ public class PeAssessmentIndicatorsServiceImpl implements PeAssessmentIndicators
      * @return 实例对象
      */
     @Override
-    public PeAssessmentIndicators update(PeAssessmentIndicators peAssessmentIndicators) {
-        this.peAssessmentIndicatorsDao.update(peAssessmentIndicators);
-        return this.queryById(peAssessmentIndicators.getIndexNumber());
+    public int update(PeAssessmentIndicators peAssessmentIndicators) {
+
+        return this.peAssessmentIndicatorsDao.update(peAssessmentIndicators);
     }
 
     /**

@@ -63,9 +63,9 @@ public class PeExamineGradeServiceImpl implements PeExamineGradeService {
      * @return 实例对象
      */
     @Override
-    public PeExamineGrade update(PeExamineGrade peExamineGrade) {
-        this.peExamineGradeDao.update(peExamineGrade);
-        return this.queryById(peExamineGrade.getScoreId());
+    public int update(PeExamineGrade peExamineGrade) {
+
+        return this.peExamineGradeDao.update(peExamineGrade);
     }
 
     /**
