@@ -2,7 +2,7 @@
   "name": "automotivevue",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --port 8081",
+    "dev": "vite --port 8080",
     "build": "vite build",
     "serve": "vite preview"
   },
