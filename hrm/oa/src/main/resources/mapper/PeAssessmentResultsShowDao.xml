@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.PeAssessmentResultsShowDao">
+
+    <resultMap type="com.hrm.oa.entity.PeAssessmentResultsShow" id="PeAssessmentResultsShowMap">
+        <result property="resultId" column="result_id" jdbcType="VARCHAR"/>
+        <result property="sharingType" column="sharing_type" jdbcType="VARCHAR"/>
+        <result property="sharingPeople" column="sharing_people" jdbcType="VARCHAR"/>
+        <result property="sharingLevel" column="sharing_level" jdbcType="INTEGER"/>
+        <result property="deptId" column="dept_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="PeAssessmentResultsShowMap">
+        select
+          result_id, sharing_type, sharing_people, sharing_level, dept_id
+        from hrm.pe_assessment_results_show
+        where result_id = #{resultId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="PeAssessmentResultsShowMap">
+        select
+          result_id, sharing_type, sharing_people, sharing_level, dept_id
+        from hrm.pe_assessment_results_show
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="PeAssessmentResultsShowMap">
+        select
+        result_id, sharing_type, sharing_people, sharing_level, dept_id
+        from hrm.pe_assessment_results_show
+        <where>
+            <if test="resultId != null and resultId != ''">
+                and result_id = #{resultId}
+            </if>
+            <if test="sharingType != null and sharingType != ''">
+                and sharing_type = #{sharingType}
+            </if>
+            <if test="sharingPeople != null and sharingPeople != ''">
+                and sharing_people = #{sharingPeople}
+            </if>
+            <if test="sharingLevel != null">
+                and sharing_level = #{sharingLevel}
+            </if>
+            <if test="deptId != null and deptId != ''">
+                and dept_id = #{deptId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="resultId" useGeneratedKeys="true">
+        insert into hrm.pe_assessment_results_show(sharing_type, sharing_people, sharing_level, dept_id)
+        values (#{sharingType}, #{sharingPeople}, #{sharingLevel}, #{deptId})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="resultId" useGeneratedKeys="true">
+        insert into hrm.pe_assessment_results_show(sharing_type, sharing_people, sharing_level, dept_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.sharingType}, #{entity.sharingPeople}, #{entity.sharingLevel}, #{entity.deptId})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="resultId" useGeneratedKeys="true">
+        insert into hrm.pe_assessment_results_show(sharing_type, sharing_people, sharing_level, dept_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.sharingType}, #{entity.sharingPeople}, #{entity.sharingLevel}, #{entity.deptId})
+        </foreach>
+        on duplicate key update
+        sharing_type = values(sharing_type) , sharing_people = values(sharing_people) , sharing_level =
+        values(sharing_level) , dept_id = values(dept_id)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hrm.pe_assessment_results_show
+        <set>
+            <if test="sharingType != null and sharingType != ''">
+                sharing_type = #{sharingType},
+            </if>
+            <if test="sharingPeople != null and sharingPeople != ''">
+                sharing_people = #{sharingPeople},
+            </if>
+            <if test="sharingLevel != null">
+                sharing_level = #{sharingLevel},
+            </if>
+            <if test="deptId != null and deptId != ''">
+                dept_id = #{deptId},
+            </if>
+        </set>
+        where result_id = #{resultId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from hrm.pe_assessment_results_show where result_id = #{resultId}
+    </delete>
+
+</mapper>
+
