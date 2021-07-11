@@ -49,9 +49,9 @@ public class PeAssessmentSectionServiceImpl implements PeAssessmentSectionServic
      * @return 实例对象
      */
     @Override
-    public PeAssessmentSection insert(PeAssessmentSection peAssessmentSection) {
-        this.peAssessmentSectionDao.insert(peAssessmentSection);
-        return peAssessmentSection;
+    public int insert(PeAssessmentSection peAssessmentSection) {
+
+        return this.peAssessmentSectionDao.insert(peAssessmentSection);
     }
 
     /**
@@ -61,9 +61,9 @@ public class PeAssessmentSectionServiceImpl implements PeAssessmentSectionServic
      * @return 实例对象
      */
     @Override
-    public PeAssessmentSection update(PeAssessmentSection peAssessmentSection) {
-        this.peAssessmentSectionDao.update(peAssessmentSection);
-        return this.queryById(peAssessmentSection.getScoreId());
+    public int update(PeAssessmentSection peAssessmentSection) {
+
+        return this.peAssessmentSectionDao.update(peAssessmentSection);
     }
 
     /**

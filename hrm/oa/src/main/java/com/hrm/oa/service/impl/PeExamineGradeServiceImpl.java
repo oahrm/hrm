@@ -52,9 +52,8 @@ public class PeExamineGradeServiceImpl implements PeExamineGradeService {
      * @return 实例对象
      */
     @Override
-    public PeExamineGrade insert(PeExamineGrade peExamineGrade) {
-        this.peExamineGradeDao.insert(peExamineGrade);
-        return peExamineGrade;
+    public int insert(PeExamineGrade peExamineGrade) {
+        return this.peExamineGradeDao.insert(peExamineGrade);
     }
 
     /**

@@ -35,7 +35,7 @@ public interface PeAssessmentSectionService {
      * @param peAssessmentSection 实例对象
      * @return 实例对象
      */
-    PeAssessmentSection insert(PeAssessmentSection peAssessmentSection);
+    int insert(PeAssessmentSection peAssessmentSection);
 
     /**
      * 修改数据
@@ -43,7 +43,7 @@ public interface PeAssessmentSectionService {
      * @param peAssessmentSection 实例对象
      * @return 实例对象
      */
-    PeAssessmentSection update(PeAssessmentSection peAssessmentSection);
+    int update(PeAssessmentSection peAssessmentSection);
 
     /**
      * 通过主键删除数据

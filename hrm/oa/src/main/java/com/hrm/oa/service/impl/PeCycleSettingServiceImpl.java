@@ -49,9 +49,9 @@ public class PeCycleSettingServiceImpl implements PeCycleSettingService {
      * @return 实例对象
      */
     @Override
-    public PeCycleSetting insert(PeCycleSetting peCycleSetting) {
-        this.peCycleSettingDao.insert(peCycleSetting);
-        return peCycleSetting;
+    public int insert(PeCycleSetting peCycleSetting) {
+
+        return this.peCycleSettingDao.insert(peCycleSetting);
     }
 
     /**
@@ -61,9 +61,9 @@ public class PeCycleSettingServiceImpl implements PeCycleSettingService {
      * @return 实例对象
      */
     @Override
-    public PeCycleSetting update(PeCycleSetting peCycleSetting) {
-        this.peCycleSettingDao.update(peCycleSetting);
-        return this.queryById(peCycleSetting.getCycleSettingNumber());
+    public int update(PeCycleSetting peCycleSetting) {
+
+        return this.peCycleSettingDao.update(peCycleSetting);
     }
 
     /**
