@@ -1,0 +1,19 @@
+server:
+  port: 8088
+  #连接池配置
+spring:
+  datasource:
+    #mysql配置如下：
+    url: jdbc:mysql://8.140.157.211:3306/hrm?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: Root!!2018
+    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.hrm.examination.wangsheng.entity
+pagehelper:
+  helperDialect: oracle
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countS
+
