@@ -13,7 +13,7 @@ import javax.annotation.Resource;
  * @since 2021-07-11 14:24:43
  */
 @RestController
-@RequestMapping("peAssessmentIndicators")
+@RequestMapping("/peAssessmentIndicators")
 public class PeAssessmentIndicatorsController {
     /**
      * 服务对象
@@ -27,7 +27,7 @@ public class PeAssessmentIndicatorsController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("selectOne")
+    @GetMapping("/selectOne")
     public PeAssessmentIndicators selectOne(String id) {
         return this.peAssessmentIndicatorsService.queryById(id);
     }
