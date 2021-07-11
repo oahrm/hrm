@@ -1,4 +1,5 @@
 <template>
+	C
 </template>
 
 <script>

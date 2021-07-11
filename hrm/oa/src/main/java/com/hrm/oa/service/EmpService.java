@@ -1,5 +1,9 @@
 package com.hrm.oa.service;
 
+import com.hrm.oa.entity.Emp;
+
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  *
@@ -8,4 +12,5 @@ package com.hrm.oa.service;
  * @Description:
  */
 public interface EmpService {
+    List<Emp> findAllTheJobStatusEmpOn();
 }
