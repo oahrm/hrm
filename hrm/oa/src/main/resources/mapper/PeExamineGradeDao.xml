@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.PeExamineGradeDao">
+
+    <resultMap type="com.hrm.oa.entity.PeExamineGrade" id="PeExamineGradeMap">
+        <result property="scoreId" column="score_id" jdbcType="VARCHAR"/>
+        <result property="performanceScoringObject" column="performance_scoring_object" jdbcType="VARCHAR"/>
+        <result property="scoreDate" column="score_date" jdbcType="TIMESTAMP"/>
+        <result property="gradingState" column="grading_state" jdbcType="INTEGER"/>
+        <result property="graderDepartment" column="grader_department" jdbcType="VARCHAR"/>
+        <result property="assessmentScore" column="assessment_score" jdbcType="VARCHAR"/>
+        <result property="evaluate" column="evaluate" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="PeExamineGradeMap">
+        select
+          score_id, performance_scoring_object, score_date, grading_state, grader_department, assessment_score, evaluate
+        from hrm.pe_examine_grade
+        where score_id = #{scoreId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="PeExamineGradeMap">
+        select
+          score_id, performance_scoring_object, score_date, grading_state, grader_department, assessment_score, evaluate
+        from hrm.pe_examine_grade
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="PeExamineGradeMap">
+        select
+        score_id, performance_scoring_object, score_date, grading_state, grader_department, assessment_score, evaluate
+        from hrm.pe_examine_grade
+        <where>
+            <if test="scoreId != null and scoreId != ''">
+                and score_id = #{scoreId}
+            </if>
+            <if test="performanceScoringObject != null and performanceScoringObject != ''">
+                and performance_scoring_object = #{performanceScoringObject}
+            </if>
+            <if test="scoreDate != null">
+                and score_date = #{scoreDate}
+            </if>
+            <if test="gradingState != null">
+                and grading_state = #{gradingState}
+            </if>
+            <if test="graderDepartment != null and graderDepartment != ''">
+                and grader_department = #{graderDepartment}
+            </if>
+            <if test="assessmentScore != null">
+                and assessment_score = #{assessmentScore}
+            </if>
+            <if test="evaluate != null and evaluate != ''">
+                and evaluate = #{evaluate}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="scoreId" useGeneratedKeys="true">
+        insert into hrm.pe_examine_grade(performance_scoring_object, score_date, grading_state, grader_department, assessment_score, evaluate)
+        values (#{performanceScoringObject}, #{scoreDate}, #{gradingState}, #{graderDepartment}, #{assessmentScore}, #{evaluate})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="scoreId" useGeneratedKeys="true">
+        insert into hrm.pe_examine_grade(performance_scoring_object, score_date, grading_state, grader_department,
+        assessment_score, evaluate)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.performanceScoringObject}, #{entity.scoreDate}, #{entity.gradingState},
+            #{entity.graderDepartment}, #{entity.assessmentScore}, #{entity.evaluate})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="scoreId" useGeneratedKeys="true">
+        insert into hrm.pe_examine_grade(performance_scoring_object, score_date, grading_state, grader_department,
+        assessment_score, evaluate)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.performanceScoringObject}, #{entity.scoreDate}, #{entity.gradingState},
+            #{entity.graderDepartment}, #{entity.assessmentScore}, #{entity.evaluate})
+        </foreach>
+        on duplicate key update
+        performance_scoring_object = values(performance_scoring_object) , score_date = values(score_date) ,
+        grading_state = values(grading_state) , grader_department = values(grader_department) , assessment_score =
+        values(assessment_score) , evaluate = values(evaluate)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hrm.pe_examine_grade
+        <set>
+            <if test="performanceScoringObject != null and performanceScoringObject != ''">
+                performance_scoring_object = #{performanceScoringObject},
+            </if>
+            <if test="scoreDate != null">
+                score_date = #{scoreDate},
+            </if>
+            <if test="gradingState != null">
+                grading_state = #{gradingState},
+            </if>
+            <if test="graderDepartment != null and graderDepartment != ''">
+                grader_department = #{graderDepartment},
+            </if>
+            <if test="assessmentScore != null">
+                assessment_score = #{assessmentScore},
+            </if>
+            <if test="evaluate != null and evaluate != ''">
+                evaluate = #{evaluate},
+            </if>
+        </set>
+        where score_id = #{scoreId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from hrm.pe_examine_grade where score_id = #{scoreId}
+    </delete>
+
+</mapper>
+

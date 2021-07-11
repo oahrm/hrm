@@ -1,10 +1,17 @@
 package com.hrm.oa.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hrm.oa.entity.PeAssessmentIndicators;
 import com.hrm.oa.service.PeAssessmentIndicatorsService;
+import com.hrm.oa.vo.Result;
+import com.hrm.oa.vo.ResultCode;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * (PeAssessmentIndicators)表控制层
@@ -30,6 +37,15 @@ public class PeAssessmentIndicatorsController {
     @GetMapping("/selectOne")
     public PeAssessmentIndicators selectOne(String id) {
         return this.peAssessmentIndicatorsService.queryById(id);
+    }
+
+    @GetMapping("/findAllDicators/{page}/{pageSize}")
+    public Result findAllDicators(@PathVariable int page,@PathVariable int pageSize){
+        PageInfo<PeAssessmentIndicators> pageInfo =  peAssessmentIndicatorsService.queryAll(new PeAssessmentIndicators(),page,pageSize);
+        Map<String,Object> map  =new HashMap<>();
+        map.put("peAssessmentIndicators",pageInfo.getList());
+        map.put("total",pageInfo.getTotal());
+        return new Result(ResultCode.SUCCESS,pageInfo);
     }
 
 }
