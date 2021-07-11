@@ -30,15 +30,15 @@
     delete from re_posiman
     where pm_id = #{pmId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" keyColumn="pm_id" keyProperty="pmId" parameterType="com.hrm.oa.entity.RePosimanEntity" useGeneratedKeys="true">
-    insert into re_posiman (d_id, job, organnum, 
+  <insert id="insert" keyColumn="pm_id" keyProperty="pmId" parameterType="com.hrm.oa.entity.RePosimanEntity">
+    insert into re_posiman (pm_Id,d_id, job, organnum,
       actualnum, `state`, `name`, 
       `time`)
-    values (#{dId,jdbcType=INTEGER}, #{job,jdbcType=VARCHAR}, #{organnum,jdbcType=INTEGER}, 
+    values (#{pmId,jdbcType=VARCHAR},#{dId,jdbcType=INTEGER}, #{job,jdbcType=VARCHAR}, #{organnum,jdbcType=INTEGER},
       #{actualnum,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{time,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" keyColumn="pm_id" keyProperty="pmId" parameterType="com.hrm.oa.entity.RePosimanEntity" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="pm_id" keyProperty="pmId" parameterType="com.hrm.oa.entity.RePosimanEntity">
     insert into re_posiman
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="dId != null">

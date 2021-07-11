@@ -9,7 +9,9 @@ import com.sun.org.apache.regexp.internal.REProgram;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -31,11 +33,33 @@ public class RePosimanController {
         if (organizationPageVo.getPagesize() == null) {
             organizationPageVo.setPagesize(10);
         }
-
         //获取列表
-        List<RePosimanEntity> list=rePosimanService.list();
-
+        Map<String, Object> list = rePosimanService.list(organizationPageVo);
         return new Result(ResultCode.SUCCESS,list);
     }
+
+    /**
+     * 查询编制管理列表
+     *
+     */
+    @RequestMapping(value = "add" ,method = RequestMethod.PUT)
+    public Result addjihua(@RequestBody RePosimanEntity rePosimanEntity) throws Exception {
+        //获取列表
+        rePosimanService.save(rePosimanEntity);
+        return new Result(ResultCode.SUCCESS);
+    }
+
+    /**
+     * 查询编制管理列表
+     *
+     */
+    @RequestMapping(value = "del" ,method = RequestMethod.DELETE)
+    public Result deljihua(@RequestBody RePosimanEntity rePosimanEntity) throws Exception {
+        //删除
+        rePosimanService.delposi(rePosimanEntity);
+        return new Result(ResultCode.SUCCESS);
+    }
+
+
 
 }

@@ -10,21 +10,21 @@ import lombok.Data;
  */
 @Data
 public class RePosimanEntity implements Serializable {
-    private String pmId;
+    private String pmId;//编号
 
-    private Integer dId;
+    private Integer dId;//部门
 
-    private String job;
+    private String job;//职务名称
 
-    private Integer organnum;
+    private Integer organnum;//编制人数
 
-    private Integer actualnum;
+    private Integer actualnum;//实际人数
 
-    private Integer state;
+    private Integer state;//状态
 
-    private String name;
+    private String name;//新建人
 
-    private Date time;
+    private Date time;//新建时间
 
     private static final long serialVersionUID = 1L;
 }

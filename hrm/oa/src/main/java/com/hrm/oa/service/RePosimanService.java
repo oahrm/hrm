@@ -1,13 +1,15 @@
 package com.hrm.oa.service;
 
 import com.hrm.oa.entity.RePosimanEntity;
+import com.hrm.oa.vo.OrganizationPageVo;
 
-import java.util.List;
+import java.util.Map;
 
 public interface RePosimanService {
 
-    public List<RePosimanEntity> list();
+    public Map<String, Object> list(OrganizationPageVo organizationPageVo);
 
-    public void save(RePosimanEntity rePosimanEntity);
+    public int save(RePosimanEntity rePosimanEntity);
 
+    int delposi(RePosimanEntity rePosimanEntity);
 }
