@@ -47,9 +47,38 @@
   <el-dialog
   title="提示"
   v-model="dialogVisible"
-  width="30%"
+  width="80%"
   :before-close="handleClose">
-  <span>这是一段信息</span>
+  评分对象：<el-input style="width:30%"></el-input>
+  <el-table
+      :data="tableData"
+      style="width: 100%">
+      <el-table-column
+        prop="date"
+        label="分类"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="name"
+        label="指标类型"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="address"
+        label="指标描述">
+      </el-table-column>
+
+      <el-table-column
+        prop="address"
+        label="目标值">
+      </el-table-column>
+
+      <el-table-column
+        prop="address"
+        label="目标值">
+      </el-table-column>
+
+    </el-table>
   <template #footer>
     <span class="dialog-footer">
       <el-button @click="dialogVisible = false">取 消</el-button>
