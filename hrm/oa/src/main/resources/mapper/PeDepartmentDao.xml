@@ -16,7 +16,7 @@
   <select id="selectAll"  resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from pe_department=#{deptId,jdbcType=VARCHAR}
+    from pe_department
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">

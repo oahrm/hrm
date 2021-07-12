@@ -115,7 +115,7 @@ export default {
 
        var _this = this;
       this.axios
-        .get(this.baseUrl + "/emp/empList")
+        .get(this.baseUrl + "/dept/deptList")
         .then(function (response) {
           _this.empOptions = response.data.data.list;
           console.log("员工列表",_this.empOptions);
