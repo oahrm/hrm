@@ -24,4 +24,10 @@ public interface EmpDao {
      * @return
      */
     List<Emp> selectAllByOnTheJobStatus();
+
+    /**
+     * 通过姓名模糊查询员工
+     * @return
+     */
+    List<Emp> selectByName(String name);
 }
