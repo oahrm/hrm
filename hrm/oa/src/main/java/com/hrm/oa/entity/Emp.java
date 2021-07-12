@@ -2,6 +2,8 @@ package com.hrm.oa.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
@@ -25,6 +27,9 @@ public class Emp implements Serializable {
     private Integer ranks;
 
     private String deptId;
+
+    @JsonProperty(value = "deptName")
+    private String deptName;
 
     private Integer onTheJobStatus;
 

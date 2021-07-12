@@ -29,6 +29,9 @@ public class EmpServiceImpl implements EmpService {
      */
     @Override
     public List<Emp> findByName(String name) {
-        return empDao.selectByName("%"+name+"%");
+        if(name!=null){
+            name = "%"+name+"%";
+        }
+        return empDao.selectByName(name);
     }
 }
