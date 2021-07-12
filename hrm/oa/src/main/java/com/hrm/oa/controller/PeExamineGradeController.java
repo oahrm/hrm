@@ -76,8 +76,9 @@ public class PeExamineGradeController {
         return new Result(ResultCode.SUCCESS);
     }
 
-    @DeleteMapping
-    public Result deleteSecitonById(String id){
+    @DeleteMapping("/{id}")
+    public Result deleteSecitonById(@PathVariable String id){
+        System.out.println("进入了删除方法");
         boolean statu =  peExamineGradeService.deleteById(id);
         return new Result(ResultCode.SUCCESS,statu);
     }

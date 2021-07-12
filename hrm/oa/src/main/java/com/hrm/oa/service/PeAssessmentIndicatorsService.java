@@ -54,6 +54,6 @@ public interface PeAssessmentIndicatorsService {
      */
     boolean deleteById(String indexNumber);
 
-    PageInfo<PeAssessmentIndicators> queryAll(PeAssessmentIndicators peAssessmentIndicators, int page, int pageSize);
+    List<PeAssessmentIndicators> queryAll(PeAssessmentIndicators peAssessmentIndicators);
 
 }

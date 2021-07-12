@@ -80,10 +80,10 @@ public class PeAssessmentIndicatorsServiceImpl implements PeAssessmentIndicators
     }
 
     @Override
-    public PageInfo<PeAssessmentIndicators> queryAll(PeAssessmentIndicators peAssessmentIndicators,int page,int pageSize) {
-        PageHelper.startPage(page,pageSize);
+    public List<PeAssessmentIndicators> queryAll(PeAssessmentIndicators peAssessmentIndicators) {
+//        PageHelper.startPage(page,pageSize);
         List<PeAssessmentIndicators> peAssessmentIndicatorsList =  peAssessmentIndicatorsDao.queryAll(peAssessmentIndicators);
-        PageInfo<PeAssessmentIndicators> pageInfo = new PageInfo<>(peAssessmentIndicatorsList,pageSize);
-        return pageInfo;
+//        PageInfo<PeAssessmentIndicators> pageInfo = new PageInfo<>(peAssessmentIndicatorsList,pageSize);
+        return peAssessmentIndicatorsList;
     }
 }
