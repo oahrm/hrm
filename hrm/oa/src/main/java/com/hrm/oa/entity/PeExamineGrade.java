@@ -4,13 +4,13 @@ import java.util.Date;
 import java.io.Serializable;
 
 /**
- * (PeExamineGrade)实体类
+ * 考核评分表(PeExamineGrade)实体类
  *
  * @author makejava
- * @since 2021-07-11 16:23:59
+ * @since 2021-07-12 17:35:09
  */
 public class PeExamineGrade implements Serializable {
-    private static final long serialVersionUID = -10839225677801349L;
+    private static final long serialVersionUID = -96396363531800579L;
 
     private String scoreId;
 
@@ -25,6 +25,8 @@ public class PeExamineGrade implements Serializable {
     private Object assessmentScore;
 
     private String evaluate;
+
+    private String empName;
 
 
     public String getScoreId() {
@@ -81,6 +83,14 @@ public class PeExamineGrade implements Serializable {
 
     public void setEvaluate(String evaluate) {
         this.evaluate = evaluate;
+    }
+
+    public String getEmpName() {
+        return empName;
+    }
+
+    public void setEmpName(String empName) {
+        this.empName = empName;
     }
 
 }
