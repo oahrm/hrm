@@ -16,7 +16,7 @@ import java.util.List;
  * @since 2021-07-11 21:02:08
  */
 @RestController
-@RequestMapping("dept")
+@RequestMapping("/dept")
 public class PeDepartmentController {
     /**
      * 服务对象
@@ -29,7 +29,7 @@ public class PeDepartmentController {
      *
      * @return 集合
      */
-    @GetMapping("deptList")
+    @GetMapping("/deptList")
     public Result selectOne() {
         List<PeDepartment> list = this.peDepartmentService.findAllDept();
         return new Result(ResultCode.SUCCESS,list);

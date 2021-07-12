@@ -20,7 +20,7 @@ public class PrDetailprojectController {
     /**
      * 服务对象
      */
-    @Autowired
+    @Resource
     private PrDetailprojectService prDetailprojectService;
 
     /**
