@@ -32,23 +32,36 @@ public class EmpController {
      * 查询所有在职员工
      * @return
      */
-    @GetMapping("/empList")
-    public Result empList(){
+    @PostMapping("/empList")
+    public Result empList(@RequestBody PageParam pageParam){
+        PageHelper.startPage(Integer.parseInt(pageParam.getPage()), Integer.parseInt(pageParam.getSize()));
         List<Emp> list = empService.findAllTheJobStatusEmpOn();
-        PageHelper pageHelper = new PageHelper();
-        return new Result(ResultCode.SUCCESS,list);
+        PageInfo<Emp> pageInfo = new PageInfo<>(list);
+        PageResult<Emp> pageResult = new PageResult<>(pageInfo.getTotal(),list);
+        return new Result(ResultCode.SUCCESS,pageResult);
     }
 
     /**
      * 模糊查询所有在职员工
      * @return
      */
-    @GetMapping("/empListByName")
+    @PostMapping("/empListByName")
     public Result empListByName(@RequestBody PageParam pageParam){
-        PageHelper.startPage(pageParam.getPage(), pageParam.getSize());
+        PageHelper.startPage(Integer.parseInt(pageParam.getPage()), Integer.parseInt(pageParam.getSize()));
         List<Emp> list = empService.findByName(pageParam.getKeywords());
+        System.out.println(list.toString());
         PageInfo<Emp> pageInfo = new PageInfo<>(list);
         PageResult<Emp> pageResult = new PageResult<>(pageInfo.getTotal(),list);
         return new Result(ResultCode.SUCCESS,pageResult);
+    }
+
+    /**
+     * 模糊查询所有在职员工
+     * @return
+     */
+    @GetMapping("/list")
+    public Result list(){
+        List<Emp> list = empService.findAllTheJobStatusEmpOn();
+        return new Result(ResultCode.SUCCESS,list);
     }
 }
