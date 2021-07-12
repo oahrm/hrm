@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.HuContractoflaborDao">
+  <resultMap id="BaseResultMap" type="com.hrm.oa.entity.HuContractoflabor">
+    <id column="contract_id" jdbcType="VARCHAR" property="contractId" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    <result column="signer_name" jdbcType="VARCHAR" property="signerName" />
+    <result column="signer_post" jdbcType="VARCHAR" property="signerPost" />
+    <result column="signer_phone" jdbcType="VARCHAR" property="signerPhone" />
+    <result column="signer_time" jdbcType="TIME" property="signerTime" />
+    <result column="signer_state" jdbcType="INTEGER" property="signerState" />
+    <result column="engageform" jdbcType="INTEGER" property="engageform" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    contract_id, dept_name, signer_name, signer_post, signer_phone, signer_time, signer_state, 
+    engageform
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hu_contractoflabor
+    where contract_id = #{contractId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from hu_contractoflabor
+    where contract_id = #{contractId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="contract_id" keyProperty="contractId" parameterType="com.hrm.oa.entity.HuContractoflabor" useGeneratedKeys="true">
+    insert into hu_contractoflabor (dept_name, signer_name, signer_post, 
+      signer_phone, signer_time, signer_state, 
+      engageform)
+    values (#{deptName,jdbcType=VARCHAR}, #{signerName,jdbcType=VARCHAR}, #{signerPost,jdbcType=VARCHAR}, 
+      #{signerPhone,jdbcType=VARCHAR}, #{signerTime,jdbcType=TIME}, #{signerState,jdbcType=INTEGER}, 
+      #{engageform,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="contract_id" keyProperty="contractId" parameterType="com.hrm.oa.entity.HuContractoflabor" useGeneratedKeys="true">
+    insert into hu_contractoflabor
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="deptName != null">
+        dept_name,
+      </if>
+      <if test="signerName != null">
+        signer_name,
+      </if>
+      <if test="signerPost != null">
+        signer_post,
+      </if>
+      <if test="signerPhone != null">
+        signer_phone,
+      </if>
+      <if test="signerTime != null">
+        signer_time,
+      </if>
+      <if test="signerState != null">
+        signer_state,
+      </if>
+      <if test="engageform != null">
+        engageform,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="deptName != null">
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="signerName != null">
+        #{signerName,jdbcType=VARCHAR},
+      </if>
+      <if test="signerPost != null">
+        #{signerPost,jdbcType=VARCHAR},
+      </if>
+      <if test="signerPhone != null">
+        #{signerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="signerTime != null">
+        #{signerTime,jdbcType=TIME},
+      </if>
+      <if test="signerState != null">
+        #{signerState,jdbcType=INTEGER},
+      </if>
+      <if test="engageform != null">
+        #{engageform,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.oa.entity.HuContractoflabor">
+    update hu_contractoflabor
+    <set>
+      <if test="deptName != null">
+        dept_name = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="signerName != null">
+        signer_name = #{signerName,jdbcType=VARCHAR},
+      </if>
+      <if test="signerPost != null">
+        signer_post = #{signerPost,jdbcType=VARCHAR},
+      </if>
+      <if test="signerPhone != null">
+        signer_phone = #{signerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="signerTime != null">
+        signer_time = #{signerTime,jdbcType=TIME},
+      </if>
+      <if test="signerState != null">
+        signer_state = #{signerState,jdbcType=INTEGER},
+      </if>
+      <if test="engageform != null">
+        engageform = #{engageform,jdbcType=INTEGER},
+      </if>
+    </set>
+    where contract_id = #{contractId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrm.oa.entity.HuContractoflabor">
+    update hu_contractoflabor
+    set dept_name = #{deptName,jdbcType=VARCHAR},
+      signer_name = #{signerName,jdbcType=VARCHAR},
+      signer_post = #{signerPost,jdbcType=VARCHAR},
+      signer_phone = #{signerPhone,jdbcType=VARCHAR},
+      signer_time = #{signerTime,jdbcType=TIME},
+      signer_state = #{signerState,jdbcType=INTEGER},
+      engageform = #{engageform,jdbcType=INTEGER}
+    where contract_id = #{contractId,jdbcType=VARCHAR}
+  </update>
+</mapper>

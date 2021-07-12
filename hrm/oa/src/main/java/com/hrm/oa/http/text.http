@@ -1,0 +1,4 @@
+GET http://localhost:8088/selectAllOffer_Hu
+Accept: application/json
+
+###
