@@ -1,5 +1,5 @@
 <template>
-  <el-button>新建绩效评分表</el-button>
+  <el-button @click="dialogVisible=true">新建绩效评分表</el-button>
   <el-table
     ref="multipleTable"
     :data="tableData"
@@ -33,7 +33,6 @@
     <el-button @click="toggleSelection()">取消选择</el-button>
   </div>
 
-  <span class="demonstration">完整功能</span>
   <el-pagination
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
@@ -44,6 +43,20 @@
     :total="400"
   >
   </el-pagination>
+
+  <el-dialog
+  title="提示"
+  v-model="dialogVisible"
+  width="30%"
+  :before-close="handleClose">
+  <span>这是一段信息</span>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="dialogVisible = false">取 消</el-button>
+      <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+    </span>
+  </template>
+</el-dialog>
 </template>
 
 <script>
@@ -69,11 +82,22 @@ export default {
 	  pagination: {
         page: 1,
         pageSize: 10,
-	  }
+	  },
+    dialogVisible: false
     };
   },
   components: {},
   methods: {
+
+    
+    handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      },
+    
     handleCurrentChange(val) {
       this.pagination.page = val
     },
@@ -243,12 +267,12 @@ export default {
     // this.getTicketRecord();
   },
   watch: {
-    pagination: function () {
-      this.getScore();
-    },
-    originStaNameValue: function () {
-      this.computePrice();
-    },
+    // pagination.is: function () {
+    //   this.getScore();
+    // },
+    // originStaNameValue: function () {
+    //   this.computePrice();
+    // },
   },
 };
 </script>
