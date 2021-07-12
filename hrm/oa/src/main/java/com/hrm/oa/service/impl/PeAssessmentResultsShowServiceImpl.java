@@ -1,5 +1,8 @@
 package com.hrm.oa.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.hrm.oa.entity.PeAssessmentIndicators;
 import com.hrm.oa.entity.PeAssessmentResultsShow;
 import com.hrm.oa.dao.PeAssessmentResultsShowDao;
 import com.hrm.oa.service.PeAssessmentResultsShowService;
@@ -49,9 +52,9 @@ public class PeAssessmentResultsShowServiceImpl implements PeAssessmentResultsSh
      * @return 实例对象
      */
     @Override
-    public PeAssessmentResultsShow insert(PeAssessmentResultsShow peAssessmentResultsShow) {
-        this.peAssessmentResultsShowDao.insert(peAssessmentResultsShow);
-        return peAssessmentResultsShow;
+    public int insert(PeAssessmentResultsShow peAssessmentResultsShow) {
+
+        return this.peAssessmentResultsShowDao.insert(peAssessmentResultsShow);
     }
 
     /**
@@ -61,9 +64,9 @@ public class PeAssessmentResultsShowServiceImpl implements PeAssessmentResultsSh
      * @return 实例对象
      */
     @Override
-    public PeAssessmentResultsShow update(PeAssessmentResultsShow peAssessmentResultsShow) {
-        this.peAssessmentResultsShowDao.update(peAssessmentResultsShow);
-        return this.queryById(peAssessmentResultsShow.getResultId());
+    public int update(PeAssessmentResultsShow peAssessmentResultsShow) {
+
+        return  this.peAssessmentResultsShowDao.update(peAssessmentResultsShow);
     }
 
     /**
@@ -75,5 +78,13 @@ public class PeAssessmentResultsShowServiceImpl implements PeAssessmentResultsSh
     @Override
     public boolean deleteById(String resultId) {
         return this.peAssessmentResultsShowDao.deleteById(resultId) > 0;
+    }
+
+    @Override
+    public PageInfo<PeAssessmentResultsShow> queryAll(PeAssessmentResultsShow peAssessmentResultsShow, int page, int pageSize) {
+        PageHelper.startPage(page,pageSize);
+        List<PeAssessmentResultsShow> peAssessmentResultsShows =  peAssessmentResultsShowDao.queryAll(peAssessmentResultsShow);
+        PageInfo<PeAssessmentResultsShow> pageInfo = new PageInfo<>(peAssessmentResultsShows,pageSize);
+        return pageInfo;
     }
 }

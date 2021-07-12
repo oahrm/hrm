@@ -1,5 +1,6 @@
 package com.hrm.oa.service;
 
+import com.github.pagehelper.PageInfo;
 import com.hrm.oa.entity.PeAssessmentIndicators;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public interface PeAssessmentIndicatorsService {
      * @param peAssessmentIndicators 实例对象
      * @return 实例对象
      */
-    PeAssessmentIndicators insert(PeAssessmentIndicators peAssessmentIndicators);
+    int insert(PeAssessmentIndicators peAssessmentIndicators);
 
     /**
      * 修改数据
@@ -43,7 +44,7 @@ public interface PeAssessmentIndicatorsService {
      * @param peAssessmentIndicators 实例对象
      * @return 实例对象
      */
-    PeAssessmentIndicators update(PeAssessmentIndicators peAssessmentIndicators);
+    int update(PeAssessmentIndicators peAssessmentIndicators);
 
     /**
      * 通过主键删除数据
@@ -52,5 +53,7 @@ public interface PeAssessmentIndicatorsService {
      * @return 是否成功
      */
     boolean deleteById(String indexNumber);
+
+    PageInfo<PeAssessmentIndicators> queryAll(PeAssessmentIndicators peAssessmentIndicators, int page, int pageSize);
 
 }

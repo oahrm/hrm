@@ -1,5 +1,7 @@
 package com.hrm.oa.service;
 
+import com.github.pagehelper.PageInfo;
+import com.hrm.oa.entity.PeAssessmentResultsShow;
 import com.hrm.oa.entity.PeAssessmentSection;
 
 import java.util.List;
@@ -35,7 +37,7 @@ public interface PeAssessmentSectionService {
      * @param peAssessmentSection 实例对象
      * @return 实例对象
      */
-    PeAssessmentSection insert(PeAssessmentSection peAssessmentSection);
+    int insert(PeAssessmentSection peAssessmentSection);
 
     /**
      * 修改数据
@@ -43,7 +45,7 @@ public interface PeAssessmentSectionService {
      * @param peAssessmentSection 实例对象
      * @return 实例对象
      */
-    PeAssessmentSection update(PeAssessmentSection peAssessmentSection);
+    int update(PeAssessmentSection peAssessmentSection);
 
     /**
      * 通过主键删除数据
@@ -52,5 +54,7 @@ public interface PeAssessmentSectionService {
      * @return 是否成功
      */
     boolean deleteById(String scoreId);
+
+    PageInfo<PeAssessmentSection> queryAll(PeAssessmentSection peAssessmentSection, int page, int pageSize);
 
 }
