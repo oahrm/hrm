@@ -1,13 +1,15 @@
 package com.hrm.oa.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hrm.oa.entity.Emp;
 import com.hrm.oa.service.impl.EmpServiceImpl;
+import com.hrm.oa.vo.PageParam;
+import com.hrm.oa.vo.PageResult;
 import com.hrm.oa.vo.Result;
 import com.hrm.oa.vo.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ import java.util.List;
  * @Description:
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/emp")
 public class EmpController {
 
@@ -32,6 +35,20 @@ public class EmpController {
     @GetMapping("/empList")
     public Result empList(){
         List<Emp> list = empService.findAllTheJobStatusEmpOn();
+        PageHelper pageHelper = new PageHelper();
         return new Result(ResultCode.SUCCESS,list);
+    }
+
+    /**
+     * 模糊查询所有在职员工
+     * @return
+     */
+    @GetMapping("/empListByName")
+    public Result empListByName(@RequestBody PageParam pageParam){
+        PageHelper.startPage(pageParam.getPage(), pageParam.getSize());
+        List<Emp> list = empService.findByName(pageParam.getKeywords());
+        PageInfo<Emp> pageInfo = new PageInfo<>(list);
+        PageResult<Emp> pageResult = new PageResult<>(pageInfo.getTotal(),list);
+        return new Result(ResultCode.SUCCESS,pageResult);
     }
 }
