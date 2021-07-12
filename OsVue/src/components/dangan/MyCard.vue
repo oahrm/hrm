@@ -28,29 +28,29 @@
 				</el-form>
 			  </el-collapse-item>
 			  <el-collapse-item title="通讯信息" name="2">
-				<el-form :model="emp" :label-position="right" label-width="120px" :inline="true">
-					<el-form-item label="移动电话:">
+				<el-form  ref="emp" :model="emp" :label-position="right" label-width="120px" :inline="true" :rules="rules">
+					<el-form-item label="移动电话:" prop="mobile">
 					    <el-input v-model="emp.mobile" :disabled="flag"></el-input>
 					</el-form-item>
 					<el-form-item label="紧急联系人:">
 					    <el-input v-model="emp.emergencyContact" :disabled="flag"></el-input>
 					</el-form-item>
-					<el-form-item label="紧急联系人电话:">
+					<el-form-item label="紧急联系人电话:" prop="emergencyContactNumber">
 					    <el-input v-model="emp.emergencyContactNumber" :disabled="flag"></el-input>
 					</el-form-item>
-					<el-form-item label="电子邮箱:">
+					<el-form-item label="电子邮箱:" prop="mailbox">
 					    <el-input v-model="emp.mailbox" :disabled="flag"></el-input>
 					</el-form-item>
 				</el-form>
 			  </el-collapse-item>
 			</el-collapse>
-			<el-button type="primary" v-show="isShow1" @click="update">修改</el-button>
+			<el-button type="primary" v-show="isShow1" @click="update">编辑</el-button>
 			<el-button type="primary" v-show="isShow2" @click="add">保存</el-button>
 			<el-button type="primary" v-show="isShow2" @click="qx">取消</el-button>
 		</el-tab-pane>
-	    <el-tab-pane label="工作历程" name="b">
+	    <!-- <el-tab-pane label="工作历程" name="b">
 			
-		</el-tab-pane>
+		</el-tab-pane> -->
 	    <el-tab-pane label="个人信息" name="c">
 			<el-collapse v-model="activeNames3" @change="handleChange">
 			  <el-collapse-item title="个人信息" name="11" class="item">
@@ -84,6 +84,19 @@
 					</el-form-item>
 				</el-form>
 			  </el-collapse-item>
+			  <el-tag style="left: auto;">家庭信息</el-tag>
+			  <el-table
+				  	ref="multipleTable"
+				  	:data="familyList"
+				  	tooltip-effect="dark"
+				  	style="width: 100%">
+				  	<el-table-column prop="member" label="成员" show-overflow-tooltip></el-table-column>
+				  	<el-table-column prop="member" label="称谓" show-overflow-tooltip></el-table-column>
+				  	<el-table-column prop="workUnit" label="工作单位" show-overflow-tooltip></el-table-column>
+				  	<el-table-column prop="post" label="职务" show-overflow-tooltip></el-table-column>
+				  	<el-table-column prop="address" label="地址" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="phone" label="手机号" show-overflow-tooltip></el-table-column>
+			  </el-table>
 			</el-collapse>
 		</el-tab-pane>
 		<el-tab-pane label="工作信息" name="d">
@@ -117,6 +130,58 @@
 				</el-form>
 			  </el-collapse-item>
 			</el-collapse>
+			<el-tabs type="border-card">
+			  <el-tab-pane label="相关合同">
+				  <el-table
+				  	ref="multipleTable"
+				  	:data="ht"
+				  	tooltip-effect="dark"
+				  	style="width: 100%">
+				  	<el-table-column prop="member" label="合同" show-overflow-tooltip></el-table-column>
+				  	<el-table-column prop="member" label="合同类型" show-overflow-tooltip></el-table-column>
+				  	<el-table-column prop="workUnit" label="合同开始日期" show-overflow-tooltip></el-table-column>
+				  	<el-table-column prop="post" label="合同结束日期" show-overflow-tooltip></el-table-column>
+				  </el-table>
+			  </el-tab-pane>
+			  <el-tab-pane label="工作记录"><el-table
+				  	ref="multipleTable"
+				  	:data="jl"
+				  	tooltip-effect="dark"
+				  	style="width: 100%">
+				  	<el-table-column prop="member" label="变动类型" show-overflow-tooltip></el-table-column>
+				  	<el-table-column prop="member" label="岗位" show-overflow-tooltip></el-table-column>
+				  	<el-table-column prop="workUnit" label="日期" show-overflow-tooltip></el-table-column>
+				  	<el-table-column prop="post" label="变动原因" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="post" label="操作人" show-overflow-tooltip></el-table-column>
+				  </el-table></el-tab-pane>
+			  <el-tab-pane label="教育背景"><el-table
+				  	ref="multipleTable"
+				  	:data="jybj"
+				  	tooltip-effect="dark"
+				  	style="width: 100%">
+				  	<el-table-column prop="member" label="学校名称" show-overflow-tooltip></el-table-column>
+				  	<el-table-column prop="member" label="专业" show-overflow-tooltip></el-table-column>
+				  	<el-table-column prop="workUnit" label="开始日期" show-overflow-tooltip></el-table-column>
+				  	<el-table-column prop="post" label="结束日期" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="post" label="学历" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="post" label="详细描述" show-overflow-tooltip></el-table-column>
+					
+				  </el-table></el-tab-pane>
+			  <el-tab-pane label="工作经历">
+				  <el-table
+				  	ref="multipleTable"
+				  	:data="gzjl"
+				  	tooltip-effect="dark"
+				  	style="width: 100%">
+				  	<el-table-column prop="member" label="公司名称" show-overflow-tooltip></el-table-column>
+				  	<el-table-column prop="member" label="开始日期" show-overflow-tooltip></el-table-column>
+				  	<el-table-column prop="workUnit" label="结束日期" show-overflow-tooltip></el-table-column>
+				  	<el-table-column prop="post" label="职务" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="post" label="工作描述" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="post" label="离开原因" show-overflow-tooltip></el-table-column>
+				  </el-table>
+				</el-tab-pane>
+			</el-tabs>
 		</el-tab-pane>
 		<el-tab-pane label="资产信息" name="e">
 			<el-table
@@ -131,7 +196,7 @@
 				<el-table-column prop="specification" label="规格型号" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="assetGroup" label="资产组" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="status" label="状态" show-overflow-tooltip></el-table-column>
-			</el-table>
+		    </el-table>
 		</el-tab-pane>
 		<el-tab-pane label="考勤情况" name="f">
 			
@@ -143,11 +208,30 @@
 <script>
 	export default {
 	    data() {
+			var chePhone = (rule, value, callback) => {
+			   var reg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
+			   if (reg.test(value)) {
+			     callback()
+			   } else {
+			     return callback(new Error('请输入正确的手机号'))
+			   }
+			 };
+			 var chemail = (rule, value, callback) => {
+			    var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/
+			    if(value){
+			      if (reg.test(value)) {
+			        callback()
+			      } else {
+			        return callback(new Error('请输入正确的邮箱'))
+			      }
+			    }else{
+			      callback()
+			    }
+			  };
 	      return {
 	        activeName: 'a',
 			activeNames3: '11',
 			activeNames4: '111',
-			formData:{},
 			activeNames: ['1','2'],
 			emp: {},
 			flag: true,
@@ -155,7 +239,28 @@
 			isShow2: false,
 			asss: [],
 			myInfo: [],
-			empCount: ''
+			empCount: '',
+			familyList: [],
+			ht: [],
+			jl: [],
+			gzjl: [],
+			jybj: [],
+			rules: {
+			   phone: [
+			     {
+			       required: true,
+			       message: '请填写手机号',
+			       trigger: 'blur'
+			     },
+			     { validator: chePhone, trigger: 'blur' }
+			   ],
+			   emergencyContactNumber:[
+				   { validator: chePhone, trigger: 'blur' }
+			   ],
+			   mailbox:[{
+				   validator: chemail, trigger: 'blur'
+			   }]
+			}
 	      }
 	    },
 		methods:{
@@ -178,6 +283,7 @@
 					
 				}else if(tab.index == 2){
 					this.selectOne()
+					this.findFamilyList()
 				}else if(tab.index == 3){
 					
 				}else if(tab.index == 4){
@@ -195,23 +301,30 @@
 				this.isShow1 = true
 				this.isShow2 = false
 				this.flag = true
-				var id = this.$store.state.employee.empId
-				var _this=this
-				if(_this.emp.onTheJobStatus == "实习"){
-					_this.emp.onTheJobStatus = 0
-				}else{
-					_this.emp.onTheJobStatus = 1
-				}
-				this.axios.put("http://localhost:8088/emp/updateEmp",_this.emp)
-				.then(function(response){
-					console.log(response)
-					if(response.data.success){
-						_this.$message.success(response.data.message)
-					}else{
-						_this.$message.error("操作失败")
-					}
-				}).catch(function(error){
-					console.log(error)
+				this.$refs['emp'].validate(valid => {
+				  if (valid) {//valid
+				    var id = this.$store.state.employee.empId
+				    var _this=this
+				    if(_this.emp.onTheJobStatus == "实习"){
+				    	_this.emp.onTheJobStatus = 0
+				    }else{
+				    	_this.emp.onTheJobStatus = 1
+				    }
+				    this.axios.put("http://localhost:8088/emp/updateEmp",_this.emp)
+				    .then(function(response){
+				    	console.log(response)
+				    	if(response.data.success){
+				    		_this.$message.success(response.data.message)
+				    	}else{
+				    		_this.$message.error("操作失败")
+				    	}
+				    }).catch(function(error){
+				    	console.log(error)
+				    })
+				  } else {
+					this.findEmployee()
+				    this.$message.warning("存在非法数据");
+				  }
 				})
 			},
 			qx(){
@@ -281,6 +394,21 @@
 					console.log(response)
 					if(response.data.success){
 						_this.empCount = response.data.data
+					}else{
+						_this.$message.error(response.data.message)
+					}
+				}).catch(function(error){
+					console.log(error)
+				})
+			},
+			findFamilyList(){
+				var id = this.$store.state.employee.empId
+				var _this=this
+				this.axios.get("http://localhost:8088/empFamilyInfo/familyList/"+id)
+				.then(function(response){
+					console.log(response)
+					if(response.data.success){
+						_this.familyList = response.data.data
 					}else{
 						_this.$message.error(response.data.message)
 					}

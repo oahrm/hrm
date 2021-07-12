@@ -23,18 +23,6 @@ public class EmpMessageRecordServiceImpl implements EmpMessageRecordService {
     private EmpMessageRecordDao empMessageRecordDao;
     @Autowired
     private IdWorker idWorker;
-
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param id 主键
-     * @return 实例对象
-     */
-    @Override
-    public EmpMessageRecord queryById(String id) {
-        return this.empMessageRecordDao.queryById(id);
-    }
-
     /**
      * 新增数据
      *
@@ -49,6 +37,19 @@ public class EmpMessageRecordServiceImpl implements EmpMessageRecordService {
         this.empMessageRecordDao.insert(empMessageRecord);
         return empMessageRecord;
     }
+
+    /**
+     * 通过ID查询单条数据
+     *
+     * @param id 主键
+     * @return 实例对象
+     */
+    @Override
+    public EmpMessageRecord queryById(String id) {
+        return this.empMessageRecordDao.queryById(id);
+    }
+
+
     /**
      * 添加多条消息记录
      */
