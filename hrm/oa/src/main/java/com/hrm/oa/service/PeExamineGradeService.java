@@ -1,18 +1,17 @@
 package com.hrm.oa.service;
 
 import com.github.pagehelper.PageInfo;
-import com.hrm.oa.entity.PeAssessmentResultsShow;
-import com.hrm.oa.entity.PeAssessmentSection;
+import com.hrm.oa.entity.PeExamineGrade;
 
 import java.util.List;
 
 /**
- * (PeAssessmentSection)表服务接口
+ * (PeExamineGrade)表服务接口
  *
  * @author makejava
- * @since 2021-07-11 15:15:50
+ * @since 2021-07-11 16:23:59
  */
-public interface PeAssessmentSectionService {
+public interface PeExamineGradeService {
 
     /**
      * 通过ID查询单条数据
@@ -20,7 +19,7 @@ public interface PeAssessmentSectionService {
      * @param scoreId 主键
      * @return 实例对象
      */
-    PeAssessmentSection queryById(String scoreId);
+    PeExamineGrade queryById(String scoreId);
 
     /**
      * 查询多条数据
@@ -29,23 +28,23 @@ public interface PeAssessmentSectionService {
      * @param limit  查询条数
      * @return 对象列表
      */
-    List<PeAssessmentSection> queryAllByLimit(int offset, int limit);
+    List<PeExamineGrade> queryAllByLimit(int offset, int limit);
 
     /**
      * 新增数据
      *
-     * @param peAssessmentSection 实例对象
+     * @param peExamineGrade 实例对象
      * @return 实例对象
      */
-    int insert(PeAssessmentSection peAssessmentSection);
+    int insert(PeExamineGrade peExamineGrade);
 
     /**
      * 修改数据
      *
-     * @param peAssessmentSection 实例对象
+     * @param peExamineGrade 实例对象
      * @return 实例对象
      */
-    int update(PeAssessmentSection peAssessmentSection);
+    int update(PeExamineGrade peExamineGrade);
 
     /**
      * 通过主键删除数据
@@ -55,6 +54,6 @@ public interface PeAssessmentSectionService {
      */
     boolean deleteById(String scoreId);
 
-    PageInfo<PeAssessmentSection> queryAll(PeAssessmentSection peAssessmentSection, int page, int pageSize);
+    PageInfo<PeExamineGrade> queryAll(PeExamineGrade peExamineGrade,int page,int pageSize);
 
 }

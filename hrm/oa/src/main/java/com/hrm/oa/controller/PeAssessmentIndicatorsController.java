@@ -1,10 +1,19 @@
 package com.hrm.oa.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hrm.oa.entity.PeAssessmentIndicators;
+import com.hrm.oa.entity.PeAssessmentResultsShow;
 import com.hrm.oa.service.PeAssessmentIndicatorsService;
+import com.hrm.oa.util.IdWorker;
+import com.hrm.oa.vo.Result;
+import com.hrm.oa.vo.ResultCode;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * (PeAssessmentIndicators)表控制层
@@ -21,6 +30,8 @@ public class PeAssessmentIndicatorsController {
     @Resource
     private PeAssessmentIndicatorsService peAssessmentIndicatorsService;
 
+    IdWorker idWorker = new IdWorker();
+
     /**
      * 通过主键查询单条数据
      *
@@ -30,6 +41,34 @@ public class PeAssessmentIndicatorsController {
     @GetMapping("/selectOne")
     public PeAssessmentIndicators selectOne(String id) {
         return this.peAssessmentIndicatorsService.queryById(id);
+    }
+
+    @PutMapping
+    public Result updateIndicator(@RequestBody PeAssessmentIndicators peAssessmentIndicators){
+        peAssessmentIndicatorsService.update(peAssessmentIndicators);
+        return new Result(ResultCode.SUCCESS);
+    }
+
+    @DeleteMapping
+    public Result deleteIndicatorById(String id){
+        boolean statu =  peAssessmentIndicatorsService.deleteById(id);
+        return new Result(ResultCode.SUCCESS,statu);
+    }
+
+    @GetMapping("/findAllDicators/{page}/{pageSize}")
+    public Result findAllDicators(@PathVariable int page,@PathVariable int pageSize){
+        PageInfo<PeAssessmentIndicators> pageInfo =  peAssessmentIndicatorsService.queryAll(new PeAssessmentIndicators(),page,pageSize);
+        Map<String,Object> map  =new HashMap<>();
+        map.put("peAssessmentIndicators",pageInfo.getList());
+        map.put("total",pageInfo.getTotal());
+        return new Result(ResultCode.SUCCESS,pageInfo);
+    }
+
+    @PostMapping
+    public Result saveIndicators(@RequestBody PeAssessmentIndicators peAssessmentIndicators){
+        peAssessmentIndicators.setIndexNumber(idWorker.nextId()+"");
+        peAssessmentIndicatorsService.insert(peAssessmentIndicators);
+        return new Result(ResultCode.SUCCESS);
     }
 
 }

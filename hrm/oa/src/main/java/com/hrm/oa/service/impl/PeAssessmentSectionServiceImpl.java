@@ -1,5 +1,8 @@
 package com.hrm.oa.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.hrm.oa.entity.PeAssessmentResultsShow;
 import com.hrm.oa.entity.PeAssessmentSection;
 import com.hrm.oa.dao.PeAssessmentSectionDao;
 import com.hrm.oa.service.PeAssessmentSectionService;
@@ -49,9 +52,9 @@ public class PeAssessmentSectionServiceImpl implements PeAssessmentSectionServic
      * @return 实例对象
      */
     @Override
-    public PeAssessmentSection insert(PeAssessmentSection peAssessmentSection) {
-        this.peAssessmentSectionDao.insert(peAssessmentSection);
-        return peAssessmentSection;
+    public int insert(PeAssessmentSection peAssessmentSection) {
+
+        return this.peAssessmentSectionDao.insert(peAssessmentSection);
     }
 
     /**
@@ -61,9 +64,9 @@ public class PeAssessmentSectionServiceImpl implements PeAssessmentSectionServic
      * @return 实例对象
      */
     @Override
-    public PeAssessmentSection update(PeAssessmentSection peAssessmentSection) {
-        this.peAssessmentSectionDao.update(peAssessmentSection);
-        return this.queryById(peAssessmentSection.getScoreId());
+    public int update(PeAssessmentSection peAssessmentSection) {
+
+        return this.peAssessmentSectionDao.update(peAssessmentSection);
     }
 
     /**
@@ -75,5 +78,13 @@ public class PeAssessmentSectionServiceImpl implements PeAssessmentSectionServic
     @Override
     public boolean deleteById(String scoreId) {
         return this.peAssessmentSectionDao.deleteById(scoreId) > 0;
+    }
+
+    @Override
+    public PageInfo<PeAssessmentSection> queryAll(PeAssessmentSection peAssessmentSection, int page, int pageSize) {
+        PageHelper.startPage(page,pageSize);
+        List<PeAssessmentSection> peAssessmentSections =  peAssessmentSectionDao.queryAll(peAssessmentSection);
+        PageInfo<PeAssessmentSection> pageInfo = new PageInfo<>(peAssessmentSections,pageSize);
+        return pageInfo;
     }
 }
