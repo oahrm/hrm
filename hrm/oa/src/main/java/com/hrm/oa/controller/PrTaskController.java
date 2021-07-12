@@ -1,6 +1,5 @@
 package com.hrm.oa.controller;
 
-import com.hrm.oa.entity.PrStage;
 import com.hrm.oa.entity.PrTask;
 import com.hrm.oa.service.PrTaskService;
 import com.hrm.oa.util.IdWorker;
@@ -9,8 +8,6 @@ import com.hrm.oa.vo.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
 
 /**
  * (PrTask)表控制层
@@ -35,6 +32,7 @@ public class PrTaskController {
         PrTask prTaskNew=prTaskService.insertpr_task(prTask);
         return new Result(ResultCode.SUCCESS,prTaskNew);
     }
+
 
 
 }
