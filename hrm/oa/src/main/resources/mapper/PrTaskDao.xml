@@ -35,15 +35,16 @@
     </association>
   </resultMap>
   <sql id="Base_Column_List">
-    t_id, s_id, t_name, t_construction, t_rconstruction, t_starttime, t_endtime, t_progress, 
-    t_approval, t_e_id
+    pr_task.t_id, pr_task.s_id, pr_task.t_name, pr_task.t_construction, pr_task.t_rconstruction,
+    pr_task.t_starttime, pr_task.t_endtime, pr_task.t_progress, pr_task.t_approval, pr_task.t_e_id
   </sql>
   <sql id="Base_Column_List1">
-    id, mobile, `password`, `name`, sex, post, ranks, dept_id, on_the_job_status, is_it_online,
-    parent_id, job_description, office_location, emergency_contact, emergency_contact_number,
-    entry_time, leavedate, mailbox, siger_id
+    emp.id, emp.mobile, emp.`password`, emp.`name`, emp.sex, emp.post, emp.ranks, emp.dept_id,
+    emp.on_the_job_status, emp.is_it_online,emp.parent_id, emp.job_description, emp.office_location,
+    emp.emergency_contact, emp.emergency_contact_number,emp.entry_time, emp.leavedate, emp.mailbox,
+    emp.siger_id
   </sql>
-  <insert id="insertpr_task" keyColumn="t_id" keyProperty="tId" parameterType="com.hrm.oa.entity.PrTask" useGeneratedKeys="true">
+  <insert id="insertpr_task" parameterType="com.hrm.oa.entity.PrTask" useGeneratedKeys="true">
     insert into pr_task (s_id, t_name, t_construction,
       t_rconstruction, t_starttime, t_endtime,
       t_progress, t_approval, t_e_id
@@ -53,12 +54,28 @@
       #{tProgress,jdbcType=DOUBLE}, #{tApproval,jdbcType=VARCHAR}, #{tEId,jdbcType=VARCHAR}
       )
   </insert>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectAllpr_task" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />,
     <include refid="Base_Column_List1" />
     from pr_task
-    where t_id = #{tId,jdbcType=VARCHAR}
+    left join emp on pr_task.t_e_id=emp.id
+  </select>
+  <select id="selectNBegainpr_task" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    <include refid="Base_Column_List1" />
+    from pr_task
+    left join emp on pr_task.t_e_id=emp.id
+    where pr_task.t_progress=0
+  </select>
+  <select id="selectBegainpr_task" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    <include refid="Base_Column_List1" />
+    from pr_task
+    left join emp on pr_task.t_e_id=emp.id
+    where pr_task.t_progress>0 and pr_task.t_progress != 1
   </select>
 <!--  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">-->
 <!--    delete from pr_task-->
