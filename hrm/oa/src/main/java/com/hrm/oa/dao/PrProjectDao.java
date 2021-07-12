@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface PrProjectDao {
+    int insertpr_project(PrProject record);//新增项目
 //    int deleteByPrimaryKey(String pId);
 //
 //    int insert(PrProject record);

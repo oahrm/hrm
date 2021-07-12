@@ -49,7 +49,7 @@
     parent_id, job_description, office_location, emergency_contact, emergency_contact_number,
     entry_time, leavedate, mailbox, siger_id
   </sql>
-  <insert id="insertpr_project" keyColumn="p_id" keyProperty="pId" parameterType="com.hrm.oa.entity.PrProject" useGeneratedKeys="true">
+  <insert id="insertpr_project" parameterType="com.hrm.oa.entity.PrProject" useGeneratedKeys="true">
     insert into pr_project (p_id,p_name, p_type, p_worktype,
       p_contract, p_progress, p_proposal,
       p_status, p_fstatus, p_starttime,

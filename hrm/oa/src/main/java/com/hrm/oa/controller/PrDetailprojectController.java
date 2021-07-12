@@ -1,10 +1,17 @@
 package com.hrm.oa.controller;
 
 import com.hrm.oa.entity.PrDetailproject;
+import com.hrm.oa.entity.PrTask;
 import com.hrm.oa.service.PrDetailprojectService;
+import com.hrm.oa.util.IdWorker;
+import com.hrm.oa.vo.Result;
+import com.hrm.oa.vo.ResultCode;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * (PrDetailproject)表控制层
@@ -20,16 +27,18 @@ public class PrDetailprojectController {
      */
     @Autowired
     private PrDetailprojectService prDetailprojectService;
+    @Autowired
+    private IdWorker idWorker;
 
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-    @GetMapping("selectOne")
-    public PrDetailproject selectOne(String id) {
-        return this.prDetailprojectService.queryById(id);
+    @PostMapping("/insertpr_task")
+    public Result insertpr_task(@RequestBody List<String> biglist){
+        PrDetailproject prDetailproject=new PrDetailproject();
+        prDetailproject.setDId(idWorker.nextId()+"");
+        prDetailproject.setPId(biglist.get(0));
+        prDetailproject.setTId(biglist.get(1));
+        PrDetailproject prDetailprojectNew=prDetailprojectService.insertpr_detailproject(prDetailproject);
+        return new Result(ResultCode.SUCCESS,prDetailprojectNew);
     }
+
 
 }

@@ -10,46 +10,13 @@ import java.util.List;
  * @since 2021-07-11 20:33:52
  */
 public interface PrTaskService {
+    PrTask insertpr_task(PrTask record);//新增项目任务
 
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param tId 主键
-     * @return 实例对象
-     */
-    PrTask queryById(String tId);
+    List<PrTask> selectAllpr_task();//查询所有项目任务
 
-    /**
-     * 查询多条数据
-     *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
-     * @return 对象列表
-     */
-    List<PrTask> queryAllByLimit(int offset, int limit);
+    List<PrTask> selectNBegainpr_task();//查询未开始的项目任务
 
-    /**
-     * 新增数据
-     *
-     * @param prTask 实例对象
-     * @return 实例对象
-     */
-    PrTask insert(PrTask prTask);
+    List<PrTask> selectBegainpr_task();//查询开始的项目任务
 
-    /**
-     * 修改数据
-     *
-     * @param prTask 实例对象
-     * @return 实例对象
-     */
-    PrTask update(PrTask prTask);
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param tId 主键
-     * @return 是否成功
-     */
-    boolean deleteById(String tId);
-
+    PrTask updatepr_task(PrTask record);//修改项目任务
 }

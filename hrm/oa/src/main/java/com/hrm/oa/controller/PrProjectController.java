@@ -2,6 +2,11 @@ package com.hrm.oa.controller;
 
 import com.hrm.oa.entity.PrProject;
 import com.hrm.oa.service.PrProjectService;
+import com.hrm.oa.util.IdWorker;
+import com.hrm.oa.vo.Result;
+import com.hrm.oa.vo.ResultCode;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -18,18 +23,16 @@ public class PrProjectController {
     /**
      * 服务对象
      */
-    @Resource
+    @Autowired
     private PrProjectService prProjectService;
+    @Autowired
+    private IdWorker idWorker;
 
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-    @GetMapping("selectOne")
-    public PrProject selectOne(String id) {
-        return this.prProjectService.queryById(id);
+    @PostMapping("/insertpr_project")
+    public Result insertpr_project(@RequestBody PrProject prProject) {
+        prProject.setPId(idWorker.nextId()+"");
+        PrProject prProjectNew=prProjectService.insertpr_project(prProject);
+        return new Result(ResultCode.SUCCESS,prProjectNew);
     }
 
 }

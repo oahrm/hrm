@@ -21,61 +21,32 @@ public class PrTaskServiceImpl implements PrTaskService {
     @Resource
     private PrTaskDao prTaskDao;
 
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param tId 主键
-     * @return 实例对象
-     */
+
     @Override
-    public PrTask queryById(String tId) {
-        return this.prTaskDao.queryById(tId);
+    public PrTask insertpr_task(PrTask record) {
+        int pr_tId=prTaskDao.insertpr_task(record);
+        return record;
     }
 
-    /**
-     * 查询多条数据
-     *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
-     * @return 对象列表
-     */
     @Override
-    public List<PrTask> queryAllByLimit(int offset, int limit) {
-        return this.prTaskDao.queryAllByLimit(offset, limit);
+    public List<PrTask> selectAllpr_task() {
+
+        return prTaskDao.selectAllpr_task();
     }
 
-    /**
-     * 新增数据
-     *
-     * @param prTask 实例对象
-     * @return 实例对象
-     */
     @Override
-    public PrTask insert(PrTask prTask) {
-        this.prTaskDao.insert(prTask);
-        return prTask;
+    public List<PrTask> selectNBegainpr_task() {
+        return prTaskDao.selectNBegainpr_task();
     }
 
-    /**
-     * 修改数据
-     *
-     * @param prTask 实例对象
-     * @return 实例对象
-     */
     @Override
-    public PrTask update(PrTask prTask) {
-        this.prTaskDao.update(prTask);
-        return this.queryById(prTask.getTId());
+    public List<PrTask> selectBegainpr_task() {
+        return prTaskDao.selectBegainpr_task();
     }
 
-    /**
-     * 通过主键删除数据
-     *
-     * @param tId 主键
-     * @return 是否成功
-     */
     @Override
-    public boolean deleteById(String tId) {
-        return this.prTaskDao.deleteById(tId) > 0;
+    public PrTask updatepr_task(PrTask record) {
+        int pr_tId=prTaskDao.updatepr_task(record);
+        return record;
     }
 }

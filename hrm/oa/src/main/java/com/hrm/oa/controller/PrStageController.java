@@ -1,10 +1,18 @@
 package com.hrm.oa.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hrm.oa.entity.PrStage;
 import com.hrm.oa.service.PrStageService;
+import com.hrm.oa.util.IdWorker;
+import com.hrm.oa.vo.Result;
+import com.hrm.oa.vo.ResultCode;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * (PrStage)表控制层
@@ -15,21 +23,31 @@ import javax.annotation.Resource;
 @RestController
 @Slf4j
 public class PrStageController {
-    /**
-     * 服务对象
-     */
-    @Resource
-    private PrStageService prStageService;
 
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-    @GetMapping("selectOne")
-    public PrStage selectOne(String id) {
-        return this.prStageService.queryById(id);
+    @Autowired
+    private PrStageService prStageService;
+    @Autowired
+    private IdWorker idWorker;
+
+    @PostMapping("/insertpr_stage")
+    public Result insertCourse(@RequestBody PrStage prStage){
+        prStage.setSId(idWorker.nextId()+"");
+        PrStage prStageNew=prStageService.insertpr_stage(prStage);
+        return new Result(ResultCode.SUCCESS,prStageNew);
     }
 
+    @GetMapping("/selectAllpr_stageInfo")
+    public Result selectAllpr_stageInfo(@RequestParam("currentPage") int currentPage,
+                                                @RequestParam("pagesize") int pagesize){
+        PageHelper.startPage(currentPage,pagesize);
+        List<PrStage> entityPage =prStageService.selectAllpr_stage();
+        PageInfo<PrStage> prStagePageInfo = new  PageInfo<>(entityPage);
+        return new Result(ResultCode.SUCCESS,prStagePageInfo);
+    }
+
+    @GetMapping("/selectAllpr_stage")
+    public Result selectAllpr_stage(){
+        List<PrStage> entityPage =prStageService.selectAllpr_stage();
+        return new Result(ResultCode.SUCCESS,entityPage);
+    }
 }

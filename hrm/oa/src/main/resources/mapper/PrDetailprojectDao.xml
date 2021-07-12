@@ -36,7 +36,7 @@
     </association>
   </resultMap>
   <sql id="Base_Column_List">
-    d_id, t_id, p_id
+    pr_detailproject.d_id, pr_detailproject.t_id, pr_detailproject.p_id
   </sql>
   <sql id="Base_Column_pList">
     p_id, p_name, p_type, p_worktype, p_contract, p_progress, p_proposal, p_status, p_fstatus,
@@ -46,6 +46,7 @@
     t_id, s_id, t_name, t_construction, t_rconstruction, t_starttime, t_endtime, t_progress,
     t_approval, t_e_id
   </sql>
+
   <insert id="insertpr_detailproject" keyColumn="d_id" keyProperty="dId" parameterType="com.hrm.oa.entity.PrDetailproject" useGeneratedKeys="true">
     insert into pr_detailproject (d_id,t_id, p_id)
     values (#{dId,jdbcType=VARCHAR},#{tId,jdbcType=VARCHAR}, #{pId,jdbcType=VARCHAR})

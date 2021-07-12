@@ -9,16 +9,16 @@
   <sql id="Base_Column_List">
     s_id, s_name, s_description
   </sql>
-  <insert id="insertpr_stage" keyColumn="s_id" keyProperty="sId" parameterType="com.hrm.oa.entity.PrStage" useGeneratedKeys="true">
+
+  <insert id="insertpr_stage" parameterType="com.hrm.oa.entity.PrStage" useGeneratedKeys="true">
     insert into pr_stage (s_id,s_name, s_description)
     values (#{sId,jdbcType=VARCHAR},#{sName,jdbcType=VARCHAR}, #{sDescription,jdbcType=VARCHAR})
   </insert>
-<!--  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">-->
-<!--    select -->
-<!--    <include refid="Base_Column_List" />-->
-<!--    from pr_stage-->
-<!--    where s_id = #{sId,jdbcType=VARCHAR}-->
-<!--  </select>-->
+  <select id="selectAllpr_stage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pr_stage
+  </select>
 <!--  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">-->
 <!--    delete from pr_stage-->
 <!--    where s_id = #{sId,jdbcType=VARCHAR}-->

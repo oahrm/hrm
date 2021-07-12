@@ -23,6 +23,7 @@ public class PrSchedule implements Serializable {
     private String scId;
 
     private String tId;
+    private PrTask prTask;
 
     private String scContent;
 
@@ -30,6 +31,7 @@ public class PrSchedule implements Serializable {
     private Date scDate;
 
     private String scEId;
+    private Emp emp;
 
     private static final long serialVersionUID = 1L;
 }

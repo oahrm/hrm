@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface PrScheduleDao {
+    int insertpr_schedule(PrSchedule record);//新增任务日程
 //    int deleteByPrimaryKey(String scId);
 //
 //    int insert(PrSchedule record);
