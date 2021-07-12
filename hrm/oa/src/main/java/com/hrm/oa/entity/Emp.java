@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 public class Emp implements Serializable {
-    private String id;
+    private String empId;
 
     private String mobile;
 

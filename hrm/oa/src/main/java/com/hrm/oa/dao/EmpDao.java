@@ -19,15 +19,24 @@ public interface EmpDao {
 
     int updateByPrimaryKey(Emp record);
 
-    /**
-     * 通过在职状态查询员工
-     * @return
-     */
-    List<Emp> selectAllByOnTheJobStatus();
 
     /**
      * 通过姓名模糊查询员工
      * @return
      */
     List<Emp> selectByName(String name);
+
+    /**
+     * 通过部门和职级查询员工
+     * @return
+     */
+    List<Emp> selectByDeptIdAndRanks(Emp emp);
+
+    /**
+     * 通过上级查找员工
+     * @return
+     */
+    List<Emp> selectEmpByParenId(Emp emp);
+
+    List<Emp> selectByOnTheJobStatus();
 }
