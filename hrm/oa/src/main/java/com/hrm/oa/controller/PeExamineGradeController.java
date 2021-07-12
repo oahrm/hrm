@@ -1,6 +1,7 @@
 package com.hrm.oa.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.hrm.oa.common.Pagination;
 import com.hrm.oa.entity.PeAssessmentIndicators;
 import com.hrm.oa.entity.PeCycleSetting;
 import com.hrm.oa.entity.PeExamineGrade;
@@ -8,6 +9,7 @@ import com.hrm.oa.service.PeExamineGradeService;
 import com.hrm.oa.util.IdWorker;
 import com.hrm.oa.vo.Result;
 import com.hrm.oa.vo.ResultCode;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -44,9 +46,10 @@ public class PeExamineGradeController {
     }
 
 
-    @GetMapping("/findAllDicators/{page}/{pageSize}")
-    public Result findAllGrades(@PathVariable int page,@PathVariable int pageSize){
-        PageInfo<PeExamineGrade> pageInfo =  peExamineGradeService.queryAll(new PeExamineGrade(),page,pageSize);
+    @PostMapping("/findAllDicators")
+    public Result findAllGrades(@RequestBody Pagination pagination){
+        System.out.println("进入了这里");
+        PageInfo<PeExamineGrade> pageInfo =  peExamineGradeService.queryAll(new PeExamineGrade(),pagination.getPage(),pagination.getPageSize());
         Map<String,Object> map  =new HashMap<>();
         map.put("peAssessmentIndicators",pageInfo.getList());
         map.put("total",pageInfo.getTotal());

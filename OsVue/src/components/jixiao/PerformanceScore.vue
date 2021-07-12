@@ -1,4 +1,5 @@
 <template>
+  <el-button>新建绩效评分表</el-button>
   <el-table
     ref="multipleTable"
     :data="tableData"
@@ -7,20 +8,23 @@
     @selection-change="handleSelectionChange"
   >
     <el-table-column type="selection"> </el-table-column>
-    <el-table-column label="人员姓名">
-      <template #default="scope">{{ scope.row.date }}</template>
+    <el-table-column prop="performanceScoringObject" label="人员姓名">
     </el-table-column>
-    <el-table-column prop="name" label="岗位"> </el-table-column>
-    <el-table-column prop="address" label="考核期间" show-overflow-tooltip>
-    </el-table-column>
-
-    <el-table-column prop="address" label="绩效分值" show-overflow-tooltip>
+    <el-table-column prop="graderDepartment" label="部门"></el-table-column>
+    <el-table-column  label="考核期间" show-overflow-tooltip>
+            <template #default="scope">{{ scope.row.scoreDate }}</template>
     </el-table-column>
 
-    <el-table-column prop="address" label="状态" show-overflow-tooltip>
+    <el-table-column prop="assessmentScore" label="绩效分值" show-overflow-tooltip>
     </el-table-column>
 
-    <el-table-column label="操作" show-overflow-tooltip> </el-table-column>
+    <el-table-column prop="gradingState" label="状态" show-overflow-tooltip>
+      
+    </el-table-column>
+
+    <el-table-column label="操作" show-overflow-tooltip>
+      <el-button>修改</el-button>
+    </el-table-column>
   </el-table>
   <div style="margin-top: 20px">
     <el-button @click="toggleSelection([tableData[1], tableData[2]])"
@@ -33,7 +37,7 @@
   <el-pagination
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
-    :current-page="currentPage4"
+    :current-page="pagination.pageSize"
     :page-sizes="[100, 200, 300, 400]"
     :page-size="100"
     layout="total, sizes, prev, pager, next, jumper"
@@ -48,24 +52,10 @@ export default {
   name: "App",
   data() {
     return {
-      baseUrl: "http://localhost:9999" /* , */,
+      baseUrl: "http://localhost:8088" /* , */,
       // baseUrl:"http://localhost:7777/vueaxiosmvc"
       empOptions: [],
       empValue: "",
-      payment: [
-        {
-          value: "11",
-          label: "现金",
-        },
-        {
-          value: "12",
-          label: "微信",
-        },
-        {
-          value: "13",
-          label: "支付宝",
-        },
-      ],
       paymentValue: "",
       originStation: [],
       originStaNameValue: "",
@@ -75,8 +65,7 @@ export default {
       destinationStaNoValue: "",
       ticketRates: "",
       price: "",
-      tableData: "",
-      currentPage3: 0,
+      tableData:[],
 	  pagination: {
         page: 1,
         pageSize: 10,
@@ -86,7 +75,7 @@ export default {
   components: {},
   methods: {
     handleCurrentChange(val) {
-      this.page = val
+      this.pagination.page = val
     },
 
     dateFormat: function (row, column) {
@@ -155,18 +144,14 @@ export default {
         });
     },
 
-    getStation() {
+    getScore() {
       var _this = this;
       this.axios
-        .request(this.baseUrl + "/station", {
-          headers: {
-            "X-Requested-With": "XMLHttpRequest",
-          },
-        })
+        .post(this.baseUrl + "/peExamineGrade/findAllDicators",this.pagination)
         .then(function (response) {
-          _this.originStation = response.data;
-          _this.destinationStation = response.data;
-          console.log(response.data);
+          _this.tableData = response.data.data.list
+          console.log(_this.tableData);
+
         })
         .catch(function (error) {
           console.log(error);
@@ -252,14 +237,14 @@ export default {
     },
   },
   created() {
-    this.getStation();
+    this.getScore();
   },
   mounted() {
-    this.getTicketRecord();
+    // this.getTicketRecord();
   },
   watch: {
-    destinationStaNameValue: function () {
-      this.computePrice();
+    pagination: function () {
+      this.getScore();
     },
     originStaNameValue: function () {
       this.computePrice();
