@@ -55,10 +55,10 @@ public class RePosimanController {
     }
 
     /**
-     * 查询编制管理列表
+     * 删除
      *
      */
-    @RequestMapping(value = "del" ,method = RequestMethod.DELETE)
+    @RequestMapping(value = "del" ,method = RequestMethod.PUT)
     public Result deljihua(@RequestBody RePosimanEntity rePosimanEntity) throws Exception {
         //删除
         rePosimanService.delposi(rePosimanEntity);
