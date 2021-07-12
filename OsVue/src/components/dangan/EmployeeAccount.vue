@@ -105,6 +105,23 @@
 			</div>
 		</el-tab-pane>
 	</el-tabs>
+	<el-dialog
+	  title="提示"
+	  v-model="centerDialogVisible"
+	  width="30%"
+	  destroy-on-close
+	  center>
+	  <el-form :model="form">
+		  <el-input placeholder="请输入消息内容" v-model="form.msg" label="消息内容"></el-input>
+	  </el-form>
+	  <template #footer>
+	    <span class="dialog-footer">
+	      <el-button @click="centerDialogVisible = false">取 消</el-button>
+	      <el-button type="primary" @click="sendMessage()">确 定</el-button>
+	    </span>
+	  </template>
+	
+	</el-dialog>
 	
 </template>
 
@@ -125,7 +142,10 @@
 			num: '',
 			num2: '',
 			num3: '',
-			message: {}
+			message: {},
+			centerDialogVisible: false,
+			form: {},
+			msg: ''
 	      }
 	    },
 	    methods: {
@@ -140,10 +160,14 @@
 			this.empListByName()
 		  },
 		  handleSend(row){
-			  console.log(row.name+"你好")
+			  //console.log(row.name+"你好")
+			  this.centerDialogVisible = true
 			  this.message.takeId = row.empId
 			  this.message.sendId = 1
-			  this.message.message = "你好"
+			  
+		  },
+		  sendMessage(){
+			  this.message.message = this.form.msg
 			  var _this=this
 			  this.axios.post("http://localhost:8088/message/addMessage",this.message)
 			  .then(function(response){
@@ -156,6 +180,7 @@
 			  }).catch(function(error){
 			  	console.log(error)
 			  })
+			  this.centerDialogVisible = false
 		  },
 		  handleCurrentChange(val) {
 			console.log(`当前页: ${val}`);
