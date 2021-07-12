@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.PrScheduleDao">
+  <resultMap id="BaseResultMap" type="com.hrm.oa.entity.PrSchedule">
+    <id column="sc_id" jdbcType="VARCHAR" property="scId" />
+    <result column="t_id" jdbcType="VARCHAR" property="tId" />
+    <result column="sc_content" jdbcType="VARCHAR" property="scContent" />
+    <result column="sc_date" jdbcType="TIMESTAMP" property="scDate" />
+    <result column="sc_e_id" jdbcType="VARCHAR" property="scEId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sc_id, t_id, sc_content, sc_date, sc_e_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pr_schedule
+    where sc_id = #{scId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from pr_schedule
+    where sc_id = #{scId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="sc_id" keyProperty="scId" parameterType="com.hrm.oa.entity.PrSchedule" useGeneratedKeys="true">
+    insert into pr_schedule (t_id, sc_content, sc_date, 
+      sc_e_id)
+    values (#{tId,jdbcType=VARCHAR}, #{scContent,jdbcType=VARCHAR}, #{scDate,jdbcType=TIMESTAMP}, 
+      #{scEId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="sc_id" keyProperty="scId" parameterType="com.hrm.oa.entity.PrSchedule" useGeneratedKeys="true">
+    insert into pr_schedule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tId != null">
+        t_id,
+      </if>
+      <if test="scContent != null">
+        sc_content,
+      </if>
+      <if test="scDate != null">
+        sc_date,
+      </if>
+      <if test="scEId != null">
+        sc_e_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tId != null">
+        #{tId,jdbcType=VARCHAR},
+      </if>
+      <if test="scContent != null">
+        #{scContent,jdbcType=VARCHAR},
+      </if>
+      <if test="scDate != null">
+        #{scDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scEId != null">
+        #{scEId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.oa.entity.PrSchedule">
+    update pr_schedule
+    <set>
+      <if test="tId != null">
+        t_id = #{tId,jdbcType=VARCHAR},
+      </if>
+      <if test="scContent != null">
+        sc_content = #{scContent,jdbcType=VARCHAR},
+      </if>
+      <if test="scDate != null">
+        sc_date = #{scDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scEId != null">
+        sc_e_id = #{scEId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sc_id = #{scId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrm.oa.entity.PrSchedule">
+    update pr_schedule
+    set t_id = #{tId,jdbcType=VARCHAR},
+      sc_content = #{scContent,jdbcType=VARCHAR},
+      sc_date = #{scDate,jdbcType=TIMESTAMP},
+      sc_e_id = #{scEId,jdbcType=VARCHAR}
+    where sc_id = #{scId,jdbcType=VARCHAR}
+  </update>
+</mapper>
