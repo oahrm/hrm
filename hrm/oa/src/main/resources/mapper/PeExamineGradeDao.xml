@@ -11,12 +11,13 @@
         <result property="assessmentScore" column="assessment_score" jdbcType="VARCHAR"/>
         <result property="evaluate" column="evaluate" jdbcType="VARCHAR"/>
         <result property="empName" column="emp_name" jdbcType="VARCHAR"/>
+        <result property="deptName" column="dept_name" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="PeExamineGradeMap">
         select
-          score_id, performance_scoring_object, score_date, grading_state, grader_department, assessment_score, evaluate, emp_name
+          score_id, performance_scoring_object, score_date, grading_state, grader_department, assessment_score, evaluate, emp_name, dept_name
         from hrm.pe_examine_grade
         where score_id = #{scoreId}
     </select>
@@ -24,7 +25,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="PeExamineGradeMap">
         select
-          score_id, performance_scoring_object, score_date, grading_state, grader_department, assessment_score, evaluate, emp_name
+          score_id, performance_scoring_object, score_date, grading_state, grader_department, assessment_score, evaluate, emp_name, dept_name
         from hrm.pe_examine_grade
         limit #{offset}, #{limit}
     </select>
@@ -33,7 +34,7 @@
     <select id="queryAll" resultMap="PeExamineGradeMap">
         select
         score_id, performance_scoring_object, score_date, grading_state, grader_department, assessment_score, evaluate,
-        emp_name
+        emp_name, dept_name
         from hrm.pe_examine_grade
         <where>
             <if test="scoreId != null and scoreId != ''">
@@ -60,37 +61,43 @@
             <if test="empName != null and empName != ''">
                 and emp_name = #{empName}
             </if>
+            <if test="deptName != null and deptName != ''">
+                and dept_name = #{deptName}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="scoreId" useGeneratedKeys="true">
-        insert into hrm.pe_examine_grade(performance_scoring_object, score_date, grading_state, grader_department, assessment_score, evaluate, emp_name)
-        values (#{performanceScoringObject}, #{scoreDate}, #{gradingState}, #{graderDepartment}, #{assessmentScore}, #{evaluate}, #{empName})
+        insert into hrm.pe_examine_grade(performance_scoring_object, score_date, grading_state, grader_department, assessment_score, evaluate, emp_name, dept_name)
+        values (#{performanceScoringObject}, #{scoreDate}, #{gradingState}, #{graderDepartment}, #{assessmentScore}, #{evaluate}, #{empName}, #{deptName})
     </insert>
 
     <insert id="insertBatch" keyProperty="scoreId" useGeneratedKeys="true">
         insert into hrm.pe_examine_grade(performance_scoring_object, score_date, grading_state, grader_department,
-        assessment_score, evaluate, emp_name)
+        assessment_score, evaluate, emp_name, dept_name)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.performanceScoringObject}, #{entity.scoreDate}, #{entity.gradingState},
-            #{entity.graderDepartment}, #{entity.assessmentScore}, #{entity.evaluate}, #{entity.empName})
+            #{entity.graderDepartment}, #{entity.assessmentScore}, #{entity.evaluate}, #{entity.empName},
+            #{entity.deptName})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="scoreId" useGeneratedKeys="true">
         insert into hrm.pe_examine_grade(performance_scoring_object, score_date, grading_state, grader_department,
-        assessment_score, evaluate, emp_name)
+        assessment_score, evaluate, emp_name, dept_name)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.performanceScoringObject}, #{entity.scoreDate}, #{entity.gradingState},
-            #{entity.graderDepartment}, #{entity.assessmentScore}, #{entity.evaluate}, #{entity.empName})
+            #{entity.graderDepartment}, #{entity.assessmentScore}, #{entity.evaluate}, #{entity.empName},
+            #{entity.deptName})
         </foreach>
         on duplicate key update
         performance_scoring_object = values(performance_scoring_object) , score_date = values(score_date) ,
         grading_state = values(grading_state) , grader_department = values(grader_department) , assessment_score =
-        values(assessment_score) , evaluate = values(evaluate) , emp_name = values(emp_name)
+        values(assessment_score) , evaluate = values(evaluate) , emp_name = values(emp_name) , dept_name =
+        values(dept_name)
     </insert>
 
     <!--通过主键修改数据-->
@@ -117,6 +124,9 @@
             </if>
             <if test="empName != null and empName != ''">
                 emp_name = #{empName},
+            </if>
+            <if test="deptName != null and deptName != ''">
+                dept_name = #{deptName},
             </if>
         </set>
         where score_id = #{scoreId}

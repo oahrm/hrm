@@ -3,13 +3,13 @@ package com.hrm.oa.entity;
 import java.io.Serializable;
 
 /**
- * (PeAssessmentIndicators)实体类
+ * 考核指标项表(PeAssessmentIndicators)实体类
  *
  * @author makejava
- * @since 2021-07-11 14:24:40
+ * @since 2021-07-12 18:48:33
  */
 public class PeAssessmentIndicators implements Serializable {
-    private static final long serialVersionUID = 845320610715305631L;
+    private static final long serialVersionUID = 374679298336012817L;
 
     private String indexNumber;
 
@@ -17,7 +17,7 @@ public class PeAssessmentIndicators implements Serializable {
 
     private String indicatorDescription;
 
-    private Integer type;
+    private String type;
 
     private Integer initiateMode;
 
@@ -48,11 +48,11 @@ public class PeAssessmentIndicators implements Serializable {
         this.indicatorDescription = indicatorDescription;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 

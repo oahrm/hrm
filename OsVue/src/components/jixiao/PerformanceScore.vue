@@ -8,7 +8,7 @@
     @selection-change="handleSelectionChange"
   >
     <el-table-column type="selection"> </el-table-column>
-    <el-table-column prop="performanceScoringObject" label="人员姓名">
+    <el-table-column prop="empName" label="人员姓名">
     </el-table-column>
     <el-table-column prop="graderDepartment" label="部门"></el-table-column>
     <el-table-column label="考核期间" prop="scoreDate" :formatter="dateFormat" show-overflow-tooltip>
