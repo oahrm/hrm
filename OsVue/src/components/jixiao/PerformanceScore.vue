@@ -1,5 +1,5 @@
 <template>
-  <el-button @click="dialogVisible=true">新建绩效评分表</el-button>
+  <el-button @click="dialogVisible = true">新建绩效评分表</el-button>
   <el-table
     ref="multipleTable"
     :data="tableData"
@@ -11,85 +11,104 @@
     <el-table-column prop="performanceScoringObject" label="人员姓名">
     </el-table-column>
     <el-table-column prop="graderDepartment" label="部门"></el-table-column>
-    <el-table-column  label="考核期间" show-overflow-tooltip>
-            <template #default="scope">{{ scope.row.scoreDate }}</template>
+    <el-table-column label="考核期间" prop="scoreDate" :formatter="dateFormat" show-overflow-tooltip>
     </el-table-column>
 
-    <el-table-column prop="assessmentScore" label="绩效分值" show-overflow-tooltip>
+    <el-table-column
+      prop="assessmentScore"
+      label="绩效分值"
+      show-overflow-tooltip
+      :default-sort="{prop: 'date', order: 'descending'}"
+    >
     </el-table-column>
 
     <el-table-column prop="gradingState" label="状态" show-overflow-tooltip>
-      
     </el-table-column>
 
     <el-table-column label="操作" show-overflow-tooltip>
-      <el-button>修改</el-button>
+
+        <template #default="scope">
+          <el-button>修改</el-button>
+          <el-button @click="removePeIndexList(scope.row.scoreId)">删除</el-button>
+        </template>
+
+      
     </el-table-column>
   </el-table>
-  <div style="margin-top: 20px">
+  <!-- <div style="margin-top: 20px">
     <el-button @click="toggleSelection([tableData[1], tableData[2]])"
       >切换第二、第三行的选中状态</el-button
     >
     <el-button @click="toggleSelection()">取消选择</el-button>
-  </div>
+  </div> -->
 
   <el-pagination
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
     :current-page="pagination.pageSize"
-    :page-sizes="[100, 200, 300, 400]"
-    :page-size="100"
+    :page-sizes="[3, 5, 10, 15]"
+    :page-size="5"
     layout="total, sizes, prev, pager, next, jumper"
-    :total="400"
+    :total=this.tableDateLength
   >
   </el-pagination>
 
   <el-dialog
-  title="提示"
-  v-model="dialogVisible"
-  width="80%"
-  :before-close="handleClose">
-  评分对象：<el-input style="width:30%"></el-input>
-  <el-table
-      :data="tableData"
-      style="width: 100%">
-      <el-table-column
-        prop="date"
-        label="分类"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="指标类型"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="address"
-        label="指标描述">
+    title="提示"
+    v-model="dialogVisible"
+    width="80%"
+    :before-close="handleClose"
+  >
+    评分状态：<el-input></el-input>
+     评分对象：
+  <el-select v-model="value" placeholder="Select">
+    <el-option
+      v-for="item in empOptions"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value">
+    </el-option>
+  </el-select>
+    <el-table :data="peIndexList" style="width: 100%">
+      <el-table-column prop="nameOfIndex" label="分类"> </el-table-column>
+      <el-table-column prop="type" label="指标类型"> </el-table-column>
+      <el-table-column prop="indicatorDescription" label="指标描述">
       </el-table-column>
 
-      <el-table-column
-        prop="address"
-        label="目标值">
+      <el-table-column label="目标值">
+        <template #default="scope">
+          <el-input v-model="scope.row.targetValue"> </el-input>
+        </template>
       </el-table-column>
 
-      <el-table-column
-        prop="address"
-        label="目标值">
+      <el-table-column label="完成值">
+        <template #default="scope">
+          <el-input v-model="scope.row.completeValue"></el-input>
+        </template>
       </el-table-column>
-      
+
+      <el-table-column prop="score" label="评分">
+        
+      </el-table-column>
+
+      <el-table-column prop="goal" label="得分">
+      </el-table-column>
     </el-table>
-  <template #footer>
-    <span class="dialog-footer">
-      <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-    </span>
-  </template>
-</el-dialog>
+    考核得分：
+
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false"
+          >确 定</el-button
+        >
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script>
-// import moment from 'moment'
+import moment from 'moment'
 export default {
   name: "App",
   data() {
@@ -107,28 +126,46 @@ export default {
       destinationStaNoValue: "",
       ticketRates: "",
       price: "",
-      tableData:[],
-	  pagination: {
+      tableData: [],
+      pagination: {
         page: 1,
         pageSize: 10,
-	  },
-    dialogVisible: false
+      },
+      tableDateLength:'',
+      dialogVisible: false,
+      peIndexList:[]
     };
   },
   components: {},
   methods: {
 
-    
+    handleSizeChange(val){
+      this.pagination.pageSize=val
+      this.getScore();
+    },
+
     handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-      },
-    
+      this.$confirm("确认关闭？")
+        .then((_) => {
+          this.dialogVisible = false
+          done();
+        })
+        .catch((_) => {});
+    },
+
+     dateForma:function(row,column){
+
+        var date = row[column.property];
+
+        if(date == undefined){return ''};
+
+        return moment(date).format("YYYY-MM-DD HH:mm:ss")
+
+    },
+
     handleCurrentChange(val) {
-      this.pagination.page = val
+      this.pagination.page = val;
+      this.getScore();
     },
 
     dateFormat: function (row, column) {
@@ -141,87 +178,70 @@ export default {
       return moment(date).format("YYYY-MM-DD HH:mm:ss");
     },
 
-    findUser: function () {
-      const url = this.baseUrl;
-      this.axios({
-        method: "get",
-        url: this.baseUrl + "/restuser",
-        params: {
-          id: 9,
-          uname: "Fred",
-          pwd: "12345678",
-        },
-      })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    findUser1: function () {
-      this.axios
-        .request(this.baseUrl + "/restuser/4", {
-          headers: {
-            "X-Requested-With": "XMLHttpRequest",
-          },
-        })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-
-    editUser: function () {
-      this.axios
-        .put(
-          this.baseUrl + "/restuser",
-          {
-            uid: "23",
-            uname: "Tom",
-            pwd: "12355",
-          },
-          {
-            headers: {
-              "X-Requested-With": "XMLHttpRequest",
-            },
-          }
-        )
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
 
     getScore() {
       var _this = this;
       this.axios
-        .post(this.baseUrl + "/peExamineGrade/findAllDicators",this.pagination)
+        .post(this.baseUrl + "/peExamineGrade/findAllDicators", this.pagination)
         .then(function (response) {
-          _this.tableData = response.data.data.list
+          _this.tableData = response.data.data.list;
+          _this.tableDateLength = response.data.data.total
           console.log(_this.tableData);
-
         })
         .catch(function (error) {
           console.log(error);
         });
     },
 
-    getTicketRecord() {
-      var _this = this;
+    getEmps(){
+
+       var _this = this;
       this.axios
-        .request(this.baseUrl + "/station/tickRecord")
+        .get(this.baseUrl + "/emp/empList")
         .then(function (response) {
-          _this.tableData = response.data;
-          console.log(response.data);
+          _this.empOptions = response.data.data.list;
+          console.log("员工列表",_this.empOptions);
         })
         .catch(function (error) {
           console.log(error);
         });
+
+      
+    },
+
+    getPeIndexList() {
+      var _this = this;
+      this.axios
+        .post(this.baseUrl + "/peIndexList/findAll", {
+          empId:1,
+        })
+        .then(function (response) {
+          _this.peIndexList = response.data.data;
+          console.log("值",_this.peIndexList);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+
+    removePeIndexList(id){
+         var _this = this;
+         console.log(id)
+        this.$confirm("确认删除？")
+        .then((_) => {
+                _this.axios
+        .delete(_this.baseUrl + "/peExamineGrade/"+id)
+        .then(function (response) {
+          
+          this.getScore();
+          done()
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+          
+        })
+        .catch((_) => {});
     },
     buy() {
       const _this = this;
@@ -294,14 +314,15 @@ export default {
   },
   mounted() {
     // this.getTicketRecord();
+    this.getEmps();
   },
   watch: {
     // pagination.is: function () {
     //   this.getScore();
     // },
-    // originStaNameValue: function () {
-    //   this.computePrice();
-    // },
+    dialogVisible: function () {
+      this.getPeIndexList();
+    },
   },
 };
 </script>
