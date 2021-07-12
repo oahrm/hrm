@@ -56,8 +56,8 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="indexNumber" useGeneratedKeys="true">
-        insert into hrm.pe_assessment_indicators(name_of_index, indicator_description, type, initiate_mode, dept_id)
-        values (#{nameOfIndex}, #{indicatorDescription}, #{type}, #{initiateMode}, #{deptId})
+        insert into hrm.pe_assessment_indicators(index_number,name_of_index, indicator_description, type, initiate_mode, dept_id)
+        values (#{indexNumber},#{nameOfIndex}, #{indicatorDescription}, #{type}, #{initiateMode}, #{deptId})
     </insert>
 
     <insert id="insertBatch" keyProperty="indexNumber" useGeneratedKeys="true">

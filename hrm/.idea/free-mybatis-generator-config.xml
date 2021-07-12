@@ -27,11 +27,16 @@
             </Config>
           </value>
         </entry>
+<<<<<<< HEAD
         <entry key="hu_contractoflabor">
+=======
+        <entry key="re_posiman">
+>>>>>>> 641d9f4829b741ad6dc177abd9e3f3e555830936
           <value>
             <Config>
               <option name="comment" value="true" />
               <option name="daoMvnPath" value="src/main/java" />
+<<<<<<< HEAD
               <option name="daoName" value="HuContractoflaborDao" />
               <option name="daoPackage" value="com.hrm.oa.dao" />
               <option name="daoPostfix" value="Dao" />
@@ -68,6 +73,20 @@
               <option name="primaryKey" value="offer_id" />
               <option name="projectFolder" value="$PROJECT_DIR$/oa" />
               <option name="tableName" value="re_offer" />
+=======
+              <option name="daoName" value="RePosimanDao" />
+              <option name="daoPackage" value="com.hrm.oa.dao" />
+              <option name="daoPostfix" value="RePosimanDao" />
+              <option name="modelMvnPath" value="src/main/java" />
+              <option name="modelName" value="RePosimanEntity" />
+              <option name="modelPackage" value="com.hrm.oa.entity" />
+              <option name="name" value="re_posiman" />
+              <option name="overrideJava" value="true" />
+              <option name="overrideXML" value="true" />
+              <option name="primaryKey" value="pm_id" />
+              <option name="projectFolder" value="$PROJECT_DIR$/oa" />
+              <option name="tableName" value="re_posiman" />
+>>>>>>> 641d9f4829b741ad6dc177abd9e3f3e555830936
               <option name="useLombokPlugin" value="true" />
               <option name="useSchemaPrefix" value="true" />
               <option name="xmlMvnPath" value="src/main/resources" />

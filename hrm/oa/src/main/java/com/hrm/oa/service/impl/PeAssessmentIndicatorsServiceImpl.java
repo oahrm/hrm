@@ -1,5 +1,7 @@
 package com.hrm.oa.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hrm.oa.entity.PeAssessmentIndicators;
 import com.hrm.oa.dao.PeAssessmentIndicatorsDao;
 import com.hrm.oa.service.PeAssessmentIndicatorsService;
@@ -49,9 +51,9 @@ public class PeAssessmentIndicatorsServiceImpl implements PeAssessmentIndicators
      * @return 实例对象
      */
     @Override
-    public PeAssessmentIndicators insert(PeAssessmentIndicators peAssessmentIndicators) {
-        this.peAssessmentIndicatorsDao.insert(peAssessmentIndicators);
-        return peAssessmentIndicators;
+    public int insert(PeAssessmentIndicators peAssessmentIndicators) {
+
+        return this.peAssessmentIndicatorsDao.insert(peAssessmentIndicators);
     }
 
     /**
@@ -61,9 +63,9 @@ public class PeAssessmentIndicatorsServiceImpl implements PeAssessmentIndicators
      * @return 实例对象
      */
     @Override
-    public PeAssessmentIndicators update(PeAssessmentIndicators peAssessmentIndicators) {
-        this.peAssessmentIndicatorsDao.update(peAssessmentIndicators);
-        return this.queryById(peAssessmentIndicators.getIndexNumber());
+    public int update(PeAssessmentIndicators peAssessmentIndicators) {
+
+        return this.peAssessmentIndicatorsDao.update(peAssessmentIndicators);
     }
 
     /**
@@ -75,5 +77,13 @@ public class PeAssessmentIndicatorsServiceImpl implements PeAssessmentIndicators
     @Override
     public boolean deleteById(String indexNumber) {
         return this.peAssessmentIndicatorsDao.deleteById(indexNumber) > 0;
+    }
+
+    @Override
+    public PageInfo<PeAssessmentIndicators> queryAll(PeAssessmentIndicators peAssessmentIndicators,int page,int pageSize) {
+        PageHelper.startPage(page,pageSize);
+        List<PeAssessmentIndicators> peAssessmentIndicatorsList =  peAssessmentIndicatorsDao.queryAll(peAssessmentIndicators);
+        PageInfo<PeAssessmentIndicators> pageInfo = new PageInfo<>(peAssessmentIndicatorsList,pageSize);
+        return pageInfo;
     }
 }
