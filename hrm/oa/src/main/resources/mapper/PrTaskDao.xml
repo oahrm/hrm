@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.PrTaskDao">
+  <resultMap id="BaseResultMap" type="com.hrm.oa.entity.PrTask">
+    <id column="t_id" jdbcType="VARCHAR" property="tId" />
+    <result column="s_id" jdbcType="VARCHAR" property="sId" />
+    <result column="t_name" jdbcType="VARCHAR" property="tName" />
+    <result column="t_construction" jdbcType="INTEGER" property="tConstruction" />
+    <result column="t_rconstruction" jdbcType="INTEGER" property="tRconstruction" />
+    <result column="t_starttime" jdbcType="TIMESTAMP" property="tStarttime" />
+    <result column="t_endtime" jdbcType="TIMESTAMP" property="tEndtime" />
+    <result column="t_progress" jdbcType="DOUBLE" property="tProgress" />
+    <result column="t_approval" jdbcType="VARCHAR" property="tApproval" />
+    <result column="t_e_id" jdbcType="VARCHAR" property="tEId" />
+    <association property="emp" javaType="com.hrm.oa.entity.Emp">
+      <id column="id" jdbcType="VARCHAR" property="id" />
+      <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+      <result column="password" jdbcType="VARCHAR" property="password" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="sex" jdbcType="VARCHAR" property="sex" />
+      <result column="post" jdbcType="VARCHAR" property="post" />
+      <result column="ranks" jdbcType="INTEGER" property="ranks" />
+      <result column="dept_id" jdbcType="VARCHAR" property="deptId" />
+      <result column="on_the_job_status" jdbcType="INTEGER" property="onTheJobStatus" />
+      <result column="is_it_online" jdbcType="INTEGER" property="isItOnline" />
+      <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+      <result column="job_description" jdbcType="VARCHAR" property="jobDescription" />
+      <result column="office_location" jdbcType="VARCHAR" property="officeLocation" />
+      <result column="emergency_contact" jdbcType="VARCHAR" property="emergencyContact" />
+      <result column="emergency_contact_number" jdbcType="VARCHAR" property="emergencyContactNumber" />
+      <result column="entry_time" jdbcType="TIMESTAMP" property="entryTime" />
+      <result column="leavedate" jdbcType="TIMESTAMP" property="leavedate" />
+      <result column="mailbox" jdbcType="VARCHAR" property="mailbox" />
+      <result column="siger_id" jdbcType="VARCHAR" property="sigerId" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    t_id, s_id, t_name, t_construction, t_rconstruction, t_starttime, t_endtime, t_progress, 
+    t_approval, t_e_id
+  </sql>
+  <sql id="Base_Column_List1">
+    id, mobile, `password`, `name`, sex, post, ranks, dept_id, on_the_job_status, is_it_online,
+    parent_id, job_description, office_location, emergency_contact, emergency_contact_number,
+    entry_time, leavedate, mailbox, siger_id
+  </sql>
+  <insert id="insertpr_task" keyColumn="t_id" keyProperty="tId" parameterType="com.hrm.oa.entity.PrTask" useGeneratedKeys="true">
+    insert into pr_task (s_id, t_name, t_construction,
+      t_rconstruction, t_starttime, t_endtime,
+      t_progress, t_approval, t_e_id
+      )
+    values (#{sId,jdbcType=VARCHAR}, #{tName,jdbcType=VARCHAR}, #{tConstruction,jdbcType=INTEGER},
+      #{tRconstruction,jdbcType=INTEGER}, #{tStarttime,jdbcType=TIMESTAMP}, #{tEndtime,jdbcType=TIMESTAMP},
+      #{tProgress,jdbcType=DOUBLE}, #{tApproval,jdbcType=VARCHAR}, #{tEId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    <include refid="Base_Column_List1" />
+    from pr_task
+    where t_id = #{tId,jdbcType=VARCHAR}
+  </select>
+<!--  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">-->
+<!--    delete from pr_task-->
+<!--    where t_id = #{tId,jdbcType=VARCHAR}-->
+<!--  </delete>-->
+<!--  -->
+<!--  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.oa.entity.PrTask">-->
+<!--    update pr_task-->
+<!--    <set>-->
+<!--      <if test="sId != null">-->
+<!--        s_id = #{sId,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="tName != null">-->
+<!--        t_name = #{tName,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="tConstruction != null">-->
+<!--        t_construction = #{tConstruction,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--      <if test="tRconstruction != null">-->
+<!--        t_rconstruction = #{tRconstruction,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--      <if test="tStarttime != null">-->
+<!--        t_starttime = #{tStarttime,jdbcType=TIMESTAMP},-->
+<!--      </if>-->
+<!--      <if test="tEndtime != null">-->
+<!--        t_endtime = #{tEndtime,jdbcType=TIMESTAMP},-->
+<!--      </if>-->
+<!--      <if test="tProgress != null">-->
+<!--        t_progress = #{tProgress,jdbcType=DOUBLE},-->
+<!--      </if>-->
+<!--      <if test="tApproval != null">-->
+<!--        t_approval = #{tApproval,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="tEId != null">-->
+<!--        t_e_id = #{tEId,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--    </set>-->
+<!--    where t_id = #{tId,jdbcType=VARCHAR}-->
+<!--  </update>-->
+<!--  <update id="updateByPrimaryKey" parameterType="com.hrm.oa.entity.PrTask">-->
+<!--    update pr_task-->
+<!--    set s_id = #{sId,jdbcType=VARCHAR},-->
+<!--      t_name = #{tName,jdbcType=VARCHAR},-->
+<!--      t_construction = #{tConstruction,jdbcType=INTEGER},-->
+<!--      t_rconstruction = #{tRconstruction,jdbcType=INTEGER},-->
+<!--      t_starttime = #{tStarttime,jdbcType=TIMESTAMP},-->
+<!--      t_endtime = #{tEndtime,jdbcType=TIMESTAMP},-->
+<!--      t_progress = #{tProgress,jdbcType=DOUBLE},-->
+<!--      t_approval = #{tApproval,jdbcType=VARCHAR},-->
+<!--      t_e_id = #{tEId,jdbcType=VARCHAR}-->
+<!--    where t_id = #{tId,jdbcType=VARCHAR}-->
+<!--  </update>-->
+</mapper>

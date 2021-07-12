@@ -55,12 +55,12 @@ public class PeCycleSettingController {
         return new Result(ResultCode.SUCCESS);
     }
 
-//    @PostMapping("/addCycleSetting")
-//    public Result addSetting(@RequestBody PeCycleSetting peCycleSetting) {
-//        peCycleSetting.setCycleSettingNumber(idWorker.nextId()+"");
-//        peCycleSettingService.insert(peCycleSetting);
-//        return new Result(ResultCode.SUCCESS);
-//    }
+    @PostMapping("/addCycleSetting")
+    public Result addSetting(@RequestBody PeCycleSetting peCycleSetting) {
+        peCycleSetting.setCycleSettingNumber(idWorker.nextId()+"");
+        peCycleSettingService.insert(peCycleSetting);
+        return new Result(ResultCode.SUCCESS);
+    }
 
     @DeleteMapping
     public Result deleteSecitonById(String id){

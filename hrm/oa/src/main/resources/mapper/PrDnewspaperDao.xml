@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.PrDnewspaperDao">
+  <resultMap id="BaseResultMap" type="com.hrm.oa.entity.PrDnewspaper">
+    <id column="dn_id" jdbcType="VARCHAR" property="dnId" />
+    <result column="p_id" jdbcType="VARCHAR" property="pId" />
+    <result column="dn_content" jdbcType="VARCHAR" property="dnContent" />
+    <result column="dn_status" jdbcType="VARCHAR" property="dnStatus" />
+    <result column="dn_e_id" jdbcType="VARCHAR" property="dnEId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dn_id, p_id, dn_content, dn_status, dn_e_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pr_dnewspaper
+    where dn_id = #{dnId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from pr_dnewspaper
+    where dn_id = #{dnId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="dn_id" keyProperty="dnId" parameterType="com.hrm.oa.entity.PrDnewspaper" useGeneratedKeys="true">
+    insert into pr_dnewspaper (p_id, dn_content, dn_status, 
+      dn_e_id)
+    values (#{pId,jdbcType=VARCHAR}, #{dnContent,jdbcType=VARCHAR}, #{dnStatus,jdbcType=VARCHAR}, 
+      #{dnEId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="dn_id" keyProperty="dnId" parameterType="com.hrm.oa.entity.PrDnewspaper" useGeneratedKeys="true">
+    insert into pr_dnewspaper
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pId != null">
+        p_id,
+      </if>
+      <if test="dnContent != null">
+        dn_content,
+      </if>
+      <if test="dnStatus != null">
+        dn_status,
+      </if>
+      <if test="dnEId != null">
+        dn_e_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pId != null">
+        #{pId,jdbcType=VARCHAR},
+      </if>
+      <if test="dnContent != null">
+        #{dnContent,jdbcType=VARCHAR},
+      </if>
+      <if test="dnStatus != null">
+        #{dnStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="dnEId != null">
+        #{dnEId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.oa.entity.PrDnewspaper">
+    update pr_dnewspaper
+    <set>
+      <if test="pId != null">
+        p_id = #{pId,jdbcType=VARCHAR},
+      </if>
+      <if test="dnContent != null">
+        dn_content = #{dnContent,jdbcType=VARCHAR},
+      </if>
+      <if test="dnStatus != null">
+        dn_status = #{dnStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="dnEId != null">
+        dn_e_id = #{dnEId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dn_id = #{dnId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrm.oa.entity.PrDnewspaper">
+    update pr_dnewspaper
+    set p_id = #{pId,jdbcType=VARCHAR},
+      dn_content = #{dnContent,jdbcType=VARCHAR},
+      dn_status = #{dnStatus,jdbcType=VARCHAR},
+      dn_e_id = #{dnEId,jdbcType=VARCHAR}
+    where dn_id = #{dnId,jdbcType=VARCHAR}
+  </update>
+</mapper>
