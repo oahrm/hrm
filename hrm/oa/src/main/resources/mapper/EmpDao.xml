@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hrm.oa.dao.EmpDao">
   <resultMap id="BaseResultMap" type="com.hrm.oa.entity.Emp">
-    <id column="id" jdbcType="VARCHAR" property="id" />
+    <id column="emp_id" jdbcType="VARCHAR" property="empId" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -10,6 +10,7 @@
     <result column="post" jdbcType="VARCHAR" property="post" />
     <result column="ranks" jdbcType="INTEGER" property="ranks" />
     <result column="dept_id" jdbcType="VARCHAR" property="deptId" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
     <result column="on_the_job_status" jdbcType="INTEGER" property="onTheJobStatus" />
     <result column="is_it_online" jdbcType="INTEGER" property="isItOnline" />
     <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
@@ -23,27 +24,39 @@
     <result column="siger_id" jdbcType="VARCHAR" property="sigerId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, mobile, `password`, `name`, sex, post, ranks, dept_id, on_the_job_status, is_it_online, 
+    emp_id, mobile, `password`, `name`, sex, post, ranks, dept_id, dept_name, on_the_job_status, is_it_online,
     parent_id, job_description, office_location, emergency_contact, emergency_contact_number, 
     entry_time, leavedate, mailbox, siger_id
   </sql>
-  <select id="selectAllByOnTheJobStatus" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByDeptIdAndRanks" parameterType="com.hrm.oa.entity.Emp" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from emp
-    where on_the_job_status = 1
+    where on_the_job_status = 1 and dept_id = #{deptId,jdbcType=VARCHAR} and ranks = #{ranks,jdbcType=INTEGER} <if test="name != null"> and name like  #{name,jdbcType=VARCHAR} </if>
+  </select>
+  <select id="selectEmpByParenId" parameterType="com.hrm.oa.entity.Emp" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from emp
+    where on_the_job_status = 1 and parent_id = #{parentId,jdbcType=VARCHAR} <if test="name != null"> and name like  #{name,jdbcType=VARCHAR} </if>
   </select>
   <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from emp
-    where on_the_job_status = 1 and <if test="name != null"> name like  #{name,jdbcType=VARCHAR} </if>
+    where on_the_job_status = 1  <if test="name != null"> and name like  #{name,jdbcType=VARCHAR} </if>
+  </select>
+  <select id="selectByOnTheJobStatus" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from emp
+    where on_the_job_status = 1
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from emp
-    where id = #{id,jdbcType=VARCHAR}
+    where emp_id = #{empId,jdbcType=VARCHAR}
   </select>
   <select id="selectAllEmp" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
@@ -52,17 +65,17 @@
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from emp
-    where id = #{id,jdbcType=VARCHAR}
+    where emp_id = #{empId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hrm.oa.entity.Emp" useGeneratedKeys="true">
     insert into emp (mobile, `password`, `name`, 
-      sex, post, ranks, dept_id, 
+      sex, post, ranks, dept_id, dept_name,
       on_the_job_status, is_it_online, parent_id, 
       job_description, office_location, emergency_contact, 
       emergency_contact_number, entry_time, leavedate, 
       mailbox, siger_id)
     values (#{mobile,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{sex,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{ranks,jdbcType=INTEGER}, #{deptId,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{ranks,jdbcType=INTEGER}, #{deptId,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR},
       #{onTheJobStatus,jdbcType=INTEGER}, #{isItOnline,jdbcType=INTEGER}, #{parentId,jdbcType=VARCHAR}, 
       #{jobDescription,jdbcType=VARCHAR}, #{officeLocation,jdbcType=VARCHAR}, #{emergencyContact,jdbcType=VARCHAR}, 
       #{emergencyContactNumber,jdbcType=VARCHAR}, #{entryTime,jdbcType=TIMESTAMP}, #{leavedate,jdbcType=TIMESTAMP}, 
@@ -91,6 +104,9 @@
       </if>
       <if test="deptId != null">
         dept_id,
+      </if>
+      <if test="deptName != null">
+        dept_name,
       </if>
       <if test="onTheJobStatus != null">
         on_the_job_status,
@@ -147,6 +163,9 @@
       </if>
       <if test="deptId != null">
         #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null">
+        #{deptName,jdbcType=VARCHAR},
       </if>
       <if test="onTheJobStatus != null">
         #{onTheJobStatus,jdbcType=INTEGER},
@@ -241,7 +260,7 @@
         siger_id = #{sigerId,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where emp_id = #{empId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hrm.oa.entity.Emp">
     update emp
@@ -263,6 +282,6 @@
       leavedate = #{leavedate,jdbcType=TIMESTAMP},
       mailbox = #{mailbox,jdbcType=VARCHAR},
       siger_id = #{sigerId,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+    where emp_id = #{empId,jdbcType=VARCHAR}
   </update>
 </mapper>
