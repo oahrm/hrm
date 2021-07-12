@@ -92,7 +92,7 @@
 				//console.log(row.name+"你好")
 				this.centerDialogVisible = true
 				this.message.takeId = row.empId
-				this.message.sendId = 1
+				this.message.sendId = this.$store.state.employee.empId
 			},
 			sendMessage(){
 				this.message.message = this.form.msg
@@ -121,6 +121,7 @@
 				this.empListByParentId()
 			},
 			empListByParentId(){
+				this.pageParam.emp.empId = this.$store.state.employee.empId
 				var _this=this
 				this.axios.post("http://localhost:8088/emp/findByParentId",this.pageParam)//list
 				.then(function(response){

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.EmpInfoDao">
+
+    <resultMap type="com.hrm.oa.entity.EmpInfo" id="EmpInfoMap">
+        <result property="empId" column="emp_id" jdbcType="VARCHAR"/>
+        <result property="dateOfBirth" column="date_of_birth" jdbcType="TIMESTAMP"/>
+        <result property="nativePlace" column="native_place" jdbcType="VARCHAR"/>
+        <result property="nation" column="nation" jdbcType="VARCHAR"/>
+        <result property="idCard" column="id_card" jdbcType="VARCHAR"/>
+        <result property="politicalOutlook" column="political_outlook" jdbcType="VARCHAR"/>
+        <result property="dateOfJoiningTheParty" column="date_of_joining_the_party" jdbcType="TIMESTAMP"/>
+        <result property="education" column="education" jdbcType="VARCHAR"/>
+        <result property="academicDegree" column="academic_degree" jdbcType="VARCHAR"/>
+        <result property="currentResidence" column="current_residence" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="EmpInfoMap">
+        select
+          emp_id, date_of_birth, native_place, nation, id_card, political_outlook, date_of_joining_the_party, education, academic_degree, current_residence
+        from hrm.emp_info
+        where emp_id = #{empId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="EmpInfoMap">
+        select
+          emp_id, date_of_birth, native_place, nation, id_card, political_outlook, date_of_joining_the_party, education, academic_degree, current_residence
+        from hrm.emp_info
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="EmpInfoMap">
+        select
+        emp_id, date_of_birth, native_place, nation, id_card, political_outlook, date_of_joining_the_party, education,
+        academic_degree, current_residence
+        from hrm.emp_info
+        <where>
+            <if test="empId != null and empId != ''">
+                and emp_id = #{empId}
+            </if>
+            <if test="dateOfBirth != null">
+                and date_of_birth = #{dateOfBirth}
+            </if>
+            <if test="nativePlace != null and nativePlace != ''">
+                and native_place = #{nativePlace}
+            </if>
+            <if test="nation != null and nation != ''">
+                and nation = #{nation}
+            </if>
+            <if test="idCard != null and idCard != ''">
+                and id_card = #{idCard}
+            </if>
+            <if test="politicalOutlook != null and politicalOutlook != ''">
+                and political_outlook = #{politicalOutlook}
+            </if>
+            <if test="dateOfJoiningTheParty != null">
+                and date_of_joining_the_party = #{dateOfJoiningTheParty}
+            </if>
+            <if test="education != null and education != ''">
+                and education = #{education}
+            </if>
+            <if test="academicDegree != null and academicDegree != ''">
+                and academic_degree = #{academicDegree}
+            </if>
+            <if test="currentResidence != null and currentResidence != ''">
+                and current_residence = #{currentResidence}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="empId" useGeneratedKeys="true">
+        insert into hrm.emp_info(date_of_birth, native_place, nation, id_card, political_outlook, date_of_joining_the_party, education, academic_degree, current_residence)
+        values (#{dateOfBirth}, #{nativePlace}, #{nation}, #{idCard}, #{politicalOutlook}, #{dateOfJoiningTheParty}, #{education}, #{academicDegree}, #{currentResidence})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="empId" useGeneratedKeys="true">
+        insert into hrm.emp_info(date_of_birth, native_place, nation, id_card, political_outlook,
+        date_of_joining_the_party, education, academic_degree, current_residence)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.dateOfBirth}, #{entity.nativePlace}, #{entity.nation}, #{entity.idCard},
+            #{entity.politicalOutlook}, #{entity.dateOfJoiningTheParty}, #{entity.education}, #{entity.academicDegree},
+            #{entity.currentResidence})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="empId" useGeneratedKeys="true">
+        insert into hrm.emp_info(date_of_birth, native_place, nation, id_card, political_outlook,
+        date_of_joining_the_party, education, academic_degree, current_residence)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.dateOfBirth}, #{entity.nativePlace}, #{entity.nation}, #{entity.idCard},
+            #{entity.politicalOutlook}, #{entity.dateOfJoiningTheParty}, #{entity.education}, #{entity.academicDegree},
+            #{entity.currentResidence})
+        </foreach>
+        on duplicate key update
+        date_of_birth = values(date_of_birth) , native_place = values(native_place) , nation = values(nation) , id_card
+        = values(id_card) , political_outlook = values(political_outlook) , date_of_joining_the_party =
+        values(date_of_joining_the_party) , education = values(education) , academic_degree = values(academic_degree) ,
+        current_residence = values(current_residence)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hrm.emp_info
+        <set>
+            <if test="dateOfBirth != null">
+                date_of_birth = #{dateOfBirth},
+            </if>
+            <if test="nativePlace != null and nativePlace != ''">
+                native_place = #{nativePlace},
+            </if>
+            <if test="nation != null and nation != ''">
+                nation = #{nation},
+            </if>
+            <if test="idCard != null and idCard != ''">
+                id_card = #{idCard},
+            </if>
+            <if test="politicalOutlook != null and politicalOutlook != ''">
+                political_outlook = #{politicalOutlook},
+            </if>
+            <if test="dateOfJoiningTheParty != null">
+                date_of_joining_the_party = #{dateOfJoiningTheParty},
+            </if>
+            <if test="education != null and education != ''">
+                education = #{education},
+            </if>
+            <if test="academicDegree != null and academicDegree != ''">
+                academic_degree = #{academicDegree},
+            </if>
+            <if test="currentResidence != null and currentResidence != ''">
+                current_residence = #{currentResidence},
+            </if>
+        </set>
+        where emp_id = #{empId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from hrm.emp_info where emp_id = #{empId}
+    </delete>
+
+</mapper>
+

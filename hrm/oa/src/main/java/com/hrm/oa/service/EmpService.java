@@ -15,4 +15,10 @@ public interface EmpService {
     List<Emp> findEmpByParenId(Emp emp);
 
     List<Emp> findAllEmp();
+
+    Emp findEmpByEmpId(String empId);
+
+    Integer countEmpByParentId(String empId);
+
+    int updateEmpByEmpId(Emp emp);
 }

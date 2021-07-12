@@ -1,16 +1,9 @@
 {
-  "name" : "EmpAssets",
+  "name" : "EmpInfo",
   "preName" : "",
-  "comment" : null,
+  "comment" : "员工个人信息表",
   "templateGroupName" : "Default",
   "fullColumn" : [ {
-    "name" : "id",
-    "comment" : null,
-    "type" : null,
-    "shortType" : null,
-    "custom" : false,
-    "ext" : { }
-  }, {
     "name" : "empId",
     "comment" : null,
     "type" : null,
@@ -18,35 +11,63 @@
     "custom" : false,
     "ext" : { }
   }, {
-    "name" : "name",
+    "name" : "dateOfBirth",
     "comment" : null,
     "type" : null,
     "shortType" : null,
     "custom" : false,
     "ext" : { }
   }, {
-    "name" : "useDeptId",
+    "name" : "nativePlace",
     "comment" : null,
     "type" : null,
     "shortType" : null,
     "custom" : false,
     "ext" : { }
   }, {
-    "name" : "specification",
+    "name" : "nation",
     "comment" : null,
     "type" : null,
     "shortType" : null,
     "custom" : false,
     "ext" : { }
   }, {
-    "name" : "assetGroup",
+    "name" : "idCard",
     "comment" : null,
     "type" : null,
     "shortType" : null,
     "custom" : false,
     "ext" : { }
   }, {
-    "name" : "status",
+    "name" : "politicalOutlook",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "dateOfJoiningTheParty",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "education",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "academicDegree",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "currentResidence",
     "comment" : null,
     "type" : null,
     "shortType" : null,
