@@ -36,9 +36,9 @@
 			    <el-pagination
 				@size-change="handleSizeChange"
 				@current-change="handleCurrentChange"
-			      :current-page="1"
+			      :current-page="pageParam.page"
 			      :page-sizes="[5, 10, 15]"
-			      :page-size="5"
+			      :page-size="pageParam.size"
 			      layout="total, prev, pager, next, sizes, jumper"
 			      :total="num">
 			    </el-pagination>
@@ -164,7 +164,6 @@
 			  this.centerDialogVisible = true
 			  this.message.takeId = row.empId
 			  this.message.sendId = 1
-			  
 		  },
 		  sendMessage(){
 			  this.message.message = this.form.msg
