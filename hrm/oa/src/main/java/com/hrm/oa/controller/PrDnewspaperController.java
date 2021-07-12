@@ -2,6 +2,7 @@ package com.hrm.oa.controller;
 
 import com.hrm.oa.entity.PrDnewspaper;
 import com.hrm.oa.service.PrDnewspaperService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
