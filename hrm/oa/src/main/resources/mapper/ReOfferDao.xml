@@ -34,6 +34,13 @@
     station, department, office_location, base_pay, merit_pay, regular_salary, probation_period, 
     probation_period_salary, arrival_time
   </sql>
+  <!--查询出offer状态为以同意数据到劳务合同签署界面-->
+  <select id="selectOffer_Hucontracto" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from re_offer
+    where offer_status=1
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
