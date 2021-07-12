@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.PeAssessmentSectionDao">
+
+    <resultMap type="com.hrm.oa.entity.PeAssessmentSection" id="PeAssessmentSectionMap">
+        <result property="scoreId" column="score_id" jdbcType="VARCHAR"/>
+        <result property="sectionName" column="section_name" jdbcType="VARCHAR"/>
+        <result property="startValueSymbol" column="start_value_symbol" jdbcType="VARCHAR"/>
+        <result property="initialValue" column="initial_value" jdbcType="INTEGER"/>
+        <result property="endValueSymbol" column="end_value_symbol" jdbcType="VARCHAR"/>
+        <result property="endValue" column="end_value" jdbcType="INTEGER"/>
+        <result property="accordingOrder" column="according_order" jdbcType="INTEGER"/>
+        <result property="deptId" column="dept_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="PeAssessmentSectionMap">
+        select
+          score_id, section_name, start_value_symbol, initial_value, end_value_symbol, end_value, according_order, dept_id
+        from hrm.pe_assessment_section
+        where score_id = #{scoreId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="PeAssessmentSectionMap">
+        select
+          score_id, section_name, start_value_symbol, initial_value, end_value_symbol, end_value, according_order, dept_id
+        from hrm.pe_assessment_section
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="PeAssessmentSectionMap">
+        select
+        score_id, section_name, start_value_symbol, initial_value, end_value_symbol, end_value, according_order, dept_id
+        from hrm.pe_assessment_section
+        <where>
+            <if test="scoreId != null and scoreId != ''">
+                and score_id = #{scoreId}
+            </if>
+            <if test="sectionName != null and sectionName != ''">
+                and section_name = #{sectionName}
+            </if>
+            <if test="startValueSymbol != null and startValueSymbol != ''">
+                and start_value_symbol = #{startValueSymbol}
+            </if>
+            <if test="initialValue != null">
+                and initial_value = #{initialValue}
+            </if>
+            <if test="endValueSymbol != null and endValueSymbol != ''">
+                and end_value_symbol = #{endValueSymbol}
+            </if>
+            <if test="endValue != null">
+                and end_value = #{endValue}
+            </if>
+            <if test="accordingOrder != null">
+                and according_order = #{accordingOrder}
+            </if>
+            <if test="deptId != null and deptId != ''">
+                and dept_id = #{deptId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="scoreId" useGeneratedKeys="true">
+        insert into hrm.pe_assessment_section(section_name, start_value_symbol, initial_value, end_value_symbol, end_value, according_order, dept_id)
+        values (#{sectionName}, #{startValueSymbol}, #{initialValue}, #{endValueSymbol}, #{endValue}, #{accordingOrder}, #{deptId})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="scoreId" useGeneratedKeys="true">
+        insert into hrm.pe_assessment_section(section_name, start_value_symbol, initial_value, end_value_symbol,
+        end_value, according_order, dept_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.sectionName}, #{entity.startValueSymbol}, #{entity.initialValue}, #{entity.endValueSymbol},
+            #{entity.endValue}, #{entity.accordingOrder}, #{entity.deptId})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="scoreId" useGeneratedKeys="true">
+        insert into hrm.pe_assessment_section(section_name, start_value_symbol, initial_value, end_value_symbol,
+        end_value, according_order, dept_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.sectionName}, #{entity.startValueSymbol}, #{entity.initialValue}, #{entity.endValueSymbol},
+            #{entity.endValue}, #{entity.accordingOrder}, #{entity.deptId})
+        </foreach>
+        on duplicate key update
+        section_name = values(section_name) , start_value_symbol = values(start_value_symbol) , initial_value =
+        values(initial_value) , end_value_symbol = values(end_value_symbol) , end_value = values(end_value) ,
+        according_order = values(according_order) , dept_id = values(dept_id)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hrm.pe_assessment_section
+        <set>
+            <if test="sectionName != null and sectionName != ''">
+                section_name = #{sectionName},
+            </if>
+            <if test="startValueSymbol != null and startValueSymbol != ''">
+                start_value_symbol = #{startValueSymbol},
+            </if>
+            <if test="initialValue != null">
+                initial_value = #{initialValue},
+            </if>
+            <if test="endValueSymbol != null and endValueSymbol != ''">
+                end_value_symbol = #{endValueSymbol},
+            </if>
+            <if test="endValue != null">
+                end_value = #{endValue},
+            </if>
+            <if test="accordingOrder != null">
+                according_order = #{accordingOrder},
+            </if>
+            <if test="deptId != null and deptId != ''">
+                dept_id = #{deptId},
+            </if>
+        </set>
+        where score_id = #{scoreId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from hrm.pe_assessment_section where score_id = #{scoreId}
+    </delete>
+
+</mapper>
+
