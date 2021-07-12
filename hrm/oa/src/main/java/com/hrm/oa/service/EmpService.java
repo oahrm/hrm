@@ -13,4 +13,6 @@ import java.util.List;
  */
 public interface EmpService {
     List<Emp> findAllTheJobStatusEmpOn();
+
+    List<Emp> findByName(String name);
 }

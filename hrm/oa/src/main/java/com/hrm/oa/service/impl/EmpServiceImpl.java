@@ -23,4 +23,12 @@ public class EmpServiceImpl implements EmpService {
     public List<Emp> findAllTheJobStatusEmpOn() {
         return empDao.selectAllByOnTheJobStatus();
     }
+    /**
+     *根据姓名模糊查询在职员工
+     * @return
+     */
+    @Override
+    public List<Emp> findByName(String name) {
+        return empDao.selectByName("%"+name+"%");
+    }
 }
