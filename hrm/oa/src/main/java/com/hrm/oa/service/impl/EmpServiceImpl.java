@@ -31,8 +31,9 @@ public class EmpServiceImpl implements EmpService {
      */
     @Override
     public List<Emp> findEmpByDeptIdAndRanks(Emp emp) {
-        emp.setDeptId("3");
-        emp.setRanks(3);
+        Emp emp1 = empDao.selectByPrimaryKey(emp.getEmpId());
+        emp.setDeptId(emp1.getDeptId());
+        emp.setRanks(emp1.getRanks());
         if(emp.getName()!=null){
             emp.setName("%"+emp.getName().trim()+"%");
         }
@@ -45,7 +46,7 @@ public class EmpServiceImpl implements EmpService {
      */
     @Override
     public List<Emp> findEmpByParenId(Emp emp) {
-        emp.setParentId("3");
+        emp.setParentId(emp.getEmpId());
         if(emp.getName()!=null){
             emp.setName("%"+emp.getName().trim()+"%");
         }
@@ -61,8 +62,34 @@ public class EmpServiceImpl implements EmpService {
         return empDao.selectByOnTheJobStatus();
     }
 
+    /**
+     * 查询某个员工
+     * @param empId
+     * @return
+     */
     @Override
-    public List<Emp> selectAllByDeptId(String deptId) {
-        return empDao.selectAllByDeptId(deptId);
+    public Emp findEmpByEmpId(String empId) {
+        return empDao.selectByPrimaryKey(empId);
     }
+
+    /**
+     * 统计某个员工的直接下属数量
+     * @param empId
+     * @return
+     */
+    @Override
+    public Integer countEmpByParentId(String empId) {
+        return empDao.empCount(empId);
+    }
+
+    /**
+     * 通过员工id修改员工信信息
+     * @return
+     */
+    @Override
+    public int updateEmpByEmpId(Emp emp) {
+        return empDao.updateByPrimaryKey(emp);
+    }
+
+
 }

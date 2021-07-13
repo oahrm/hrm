@@ -16,5 +16,9 @@ public interface EmpService {
 
     List<Emp> findAllEmp();
 
-    List<Emp> selectAllByDeptId(String deptId);
+    Emp findEmpByEmpId(String empId);
+
+    Integer countEmpByParentId(String empId);
+
+    int updateEmpByEmpId(Emp emp);
 }

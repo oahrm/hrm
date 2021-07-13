@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.EmpAssetsDao">
+
+    <resultMap type="com.hrm.oa.entity.EmpAssets" id="EmpAssetsMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="empId" column="emp_id" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="useDeptId" column="use_dept_id" jdbcType="VARCHAR"/>
+        <result property="specification" column="specification" jdbcType="VARCHAR"/>
+        <result property="assetGroup" column="asset_group" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询个人的资产-->
+    <select id="queryByEmpId" resultMap="EmpAssetsMap">
+        select
+          id, emp_id, name, use_dept_id, specification, asset_group, status
+        from hrm.emp_assets
+        where emp_id = #{empId}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="EmpAssetsMap">
+        select
+          id, emp_id, name, use_dept_id, specification, asset_group, status
+        from hrm.emp_assets
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="EmpAssetsMap">
+        select
+          id, emp_id, name, use_dept_id, specification, asset_group, status
+        from hrm.emp_assets
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="EmpAssetsMap">
+        select
+        id, emp_id, name, use_dept_id, specification, asset_group, status
+        from hrm.emp_assets
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="empId != null and empId != ''">
+                and emp_id = #{empId}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="useDeptId != null and useDeptId != ''">
+                and use_dept_id = #{useDeptId}
+            </if>
+            <if test="specification != null and specification != ''">
+                and specification = #{specification}
+            </if>
+            <if test="assetGroup != null and assetGroup != ''">
+                and asset_group = #{assetGroup}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into hrm.emp_assets(emp_id, name, use_dept_id, specification, asset_group, status)
+        values (#{empId}, #{name}, #{useDeptId}, #{specification}, #{assetGroup}, #{status})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hrm.emp_assets(emp_id, name, use_dept_id, specification, asset_group, status)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.empId}, #{entity.name}, #{entity.useDeptId}, #{entity.specification}, #{entity.assetGroup},
+            #{entity.status})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hrm.emp_assets(emp_id, name, use_dept_id, specification, asset_group, status)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.empId}, #{entity.name}, #{entity.useDeptId}, #{entity.specification}, #{entity.assetGroup},
+            #{entity.status})
+        </foreach>
+        on duplicate key update
+        emp_id = values(emp_id) , name = values(name) , use_dept_id = values(use_dept_id) , specification =
+        values(specification) , asset_group = values(asset_group) , status = values(status)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hrm.emp_assets
+        <set>
+            <if test="empId != null and empId != ''">
+                emp_id = #{empId},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="useDeptId != null and useDeptId != ''">
+                use_dept_id = #{useDeptId},
+            </if>
+            <if test="specification != null and specification != ''">
+                specification = #{specification},
+            </if>
+            <if test="assetGroup != null and assetGroup != ''">
+                asset_group = #{assetGroup},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from hrm.emp_assets where id = #{id}
+    </delete>
+
+</mapper>
+

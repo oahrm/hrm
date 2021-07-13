@@ -1,5 +1,5 @@
 {
-  "name" : "EmpAssets",
+  "name" : "EmpFamilyInfo",
   "preName" : "",
   "comment" : null,
   "templateGroupName" : "Default",
@@ -18,35 +18,35 @@
     "custom" : false,
     "ext" : { }
   }, {
-    "name" : "name",
+    "name" : "member",
     "comment" : null,
     "type" : null,
     "shortType" : null,
     "custom" : false,
     "ext" : { }
   }, {
-    "name" : "useDeptId",
+    "name" : "workUnit",
     "comment" : null,
     "type" : null,
     "shortType" : null,
     "custom" : false,
     "ext" : { }
   }, {
-    "name" : "specification",
+    "name" : "post",
     "comment" : null,
     "type" : null,
     "shortType" : null,
     "custom" : false,
     "ext" : { }
   }, {
-    "name" : "assetGroup",
+    "name" : "address",
     "comment" : null,
     "type" : null,
     "shortType" : null,
     "custom" : false,
     "ext" : { }
   }, {
-    "name" : "status",
+    "name" : "phone",
     "comment" : null,
     "type" : null,
     "shortType" : null,
