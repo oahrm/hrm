@@ -108,7 +108,7 @@
 
       <el-table-column  label="评分">
         <template #default="scope">
-          {{scope.row.targetValue/scope.row.completeValue}}
+          {{scope = scope.row.targetValue/scope.row.completeValue}}
         </template>
       </el-table-column>
 
