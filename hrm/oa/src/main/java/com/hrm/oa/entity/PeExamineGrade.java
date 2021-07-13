@@ -7,10 +7,10 @@ import java.io.Serializable;
  * 考核评分表(PeExamineGrade)实体类
  *
  * @author makejava
- * @since 2021-07-12 18:01:55
+ * @since 2021-07-13 09:56:55
  */
 public class PeExamineGrade implements Serializable {
-    private static final long serialVersionUID = 237631221081891192L;
+    private static final long serialVersionUID = 433863831480290601L;
 
     private String scoreId;
 
@@ -22,7 +22,7 @@ public class PeExamineGrade implements Serializable {
 
     private String graderDepartment;
 
-    private Object assessmentScore;
+    private Integer assessmentScore;
 
     private String evaluate;
 
@@ -71,11 +71,11 @@ public class PeExamineGrade implements Serializable {
         this.graderDepartment = graderDepartment;
     }
 
-    public Object getAssessmentScore() {
+    public Integer getAssessmentScore() {
         return assessmentScore;
     }
 
-    public void setAssessmentScore(Object assessmentScore) {
+    public void setAssessmentScore(Integer assessmentScore) {
         this.assessmentScore = assessmentScore;
     }
 

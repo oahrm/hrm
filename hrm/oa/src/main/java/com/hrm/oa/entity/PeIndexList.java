@@ -6,10 +6,10 @@ import java.io.Serializable;
  * 指标列表(PeIndexList)实体类
  *
  * @author makejava
- * @since 2021-07-13 01:50:39
+ * @since 2021-07-13 16:50:25
  */
 public class PeIndexList implements Serializable {
-    private static final long serialVersionUID = 556016569584236630L;
+    private static final long serialVersionUID = -24169759883155511L;
 
     private String indexId;
 
@@ -38,6 +38,8 @@ public class PeIndexList implements Serializable {
     private String scoreId;
 
     private String pointerType;
+
+    private Integer weight;
 
 
     public String getIndexId() {
@@ -150,6 +152,14 @@ public class PeIndexList implements Serializable {
 
     public void setPointerType(String pointerType) {
         this.pointerType = pointerType;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
 
 }
