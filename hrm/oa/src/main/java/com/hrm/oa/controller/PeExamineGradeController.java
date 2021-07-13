@@ -15,6 +15,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +63,7 @@ public class PeExamineGradeController {
     @PostMapping("examineGrade")
     public Result addExamineGrades(@RequestBody PeExamineGrade peExamineGrade){
         peExamineGrade.setScoreId(String.valueOf(idWorker.nextId()));
+        peExamineGrade.setScoreDate(new Date());
         int i = peExamineGradeService.insert(peExamineGrade);
         return new Result(ResultCode.SUCCESS,i);
     }

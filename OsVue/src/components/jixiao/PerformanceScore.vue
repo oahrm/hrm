@@ -31,7 +31,6 @@
           <el-button>修改</el-button>
           <el-button @click="removePeIndexList(scope.row.scoreId)">删除</el-button>
         </template>
-
       
     </el-table-column>
   </el-table>
@@ -108,7 +107,7 @@
 
       <el-table-column  label="评分">
         <template #default="scope">
-          {{scope = scope.row.targetValue/scope.row.completeValue}}
+          {{scope.row.score=scope.row.targetValue/scope.row.completeValue}}
         </template>
       </el-table-column>
 
@@ -119,6 +118,14 @@
       </el-table-column>
     </el-table>
     考核得分：{{sum}}
+  <br>
+    考核评价
+    <el-input
+  type="textarea"
+  :rows="2"
+  placeholder="请输入内容"
+  v-model="textarea">
+</el-input>
 
     <template #footer>
       <span class="dialog-footer">
@@ -171,7 +178,9 @@ export default {
           label: '已完成'
         }],
       gradingStatesValue:'',
-      sum:0
+      sum:0,
+      textarea:'',
+      empName:''
     };
   },
   components: {},
@@ -271,8 +280,20 @@ export default {
         });
     },
 
+    getEmpId(){
+      var _this = this;
+      this.axios
+        .get(this.baseUrl + "/emp/findEmp/"+_this.empValue)
+        .then(function (response) {
+          console.log("后端值：",response)
+          _this.empName = response.data.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+
     getPeIndexList() {
-      console.log("进入了这里")
       var _this = this;
       this.axios
         .post(this.baseUrl + "/peIndexList/findAllIndexList", {
@@ -298,7 +319,7 @@ export default {
         .delete(_this.baseUrl + "/peExamineGrade/"+id)
         .then(function (response) {
           
-          this.getScore();
+          _this.getScore();
           done()
         })
         .catch(function (error) {
@@ -312,19 +333,21 @@ export default {
     addIndexList(){
       this.dialogVisible = false;
       const _this = this;
-
+          this.getEmpId();
             this.axios
         .post(
           this.baseUrl + "/peExamineGrade/examineGrade",{
-
+            performanceScoringObject:_this.empValue,
+            gradingState:_this.gradingStatesValue,
+            graderDepartment:_this.deptValue,
+            assessmentScore:_this.sum,
+            evaluate:_this.textarea,
+            empName:_this.empName
           }
         )
         .then(function (response) {
           
-            _this.$message({
-              message: "添加成功",
-              type: "success",
-            });
+            _this.getScore();
             _this.getTicketRecord();
           
         })

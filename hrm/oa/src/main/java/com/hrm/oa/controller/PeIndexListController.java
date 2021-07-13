@@ -1,10 +1,7 @@
 package com.hrm.oa.controller;
 
 import com.hrm.oa.entity.*;
-import com.hrm.oa.service.EmpService;
-import com.hrm.oa.service.PeAssessmentIndicatorsService;
-import com.hrm.oa.service.PeDepartmentService;
-import com.hrm.oa.service.PeIndexListService;
+import com.hrm.oa.service.*;
 import com.hrm.oa.util.IdWorker;
 import com.hrm.oa.vo.Result;
 import com.hrm.oa.vo.ResultCode;
@@ -38,6 +35,9 @@ public class PeIndexListController {
 
     @Resource
     private EmpService empService;
+
+    @Resource
+    private PeExamineGradeService peExamineGradeService;
 
     /**
      * 通过主键查询单条数据
@@ -87,8 +87,9 @@ public class PeIndexListController {
     public Result addIndexList(@RequestBody List<PeIndexList> indexList){
         PeExamineGrade peExamineGrade = new PeExamineGrade();
         peExamineGrade.setScoreId(idWorker.nextId()+"");
-
+        peExamineGrade.setPerformanceScoringObject(indexList.get(0).getEmpId());
         for (PeIndexList peIndexList : indexList) {
+            peIndexList.setIndexId(idWorker.nextId()+"");
             int i =  peIndexListService.insert(peIndexList);
         }
         return new Result(ResultCode.SUCCESS);
