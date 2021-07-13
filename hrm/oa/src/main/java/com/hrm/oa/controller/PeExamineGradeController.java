@@ -62,10 +62,7 @@ public class PeExamineGradeController {
     @PostMapping("/examineGrade")
     public Result addExamineGrades(@RequestBody PeExamineGrade peExamineGrade){
         System.out.println("进入了这个地方");
-        System.out.println(peExamineGrade.getScoreId());
-        if(peExamineGrade.getScoreId()==null||peExamineGrade.getScoreId().equals("")){
-            peExamineGrade.setScoreId(String.valueOf(idWorker.nextId()));
-        }
+        peExamineGrade.setScoreId(String.valueOf(idWorker.nextId()));
         peExamineGrade.setScoreDate(new Date());
         int i = peExamineGradeService.insert(peExamineGrade);
         return new Result(ResultCode.SUCCESS,peExamineGrade.getScoreId());

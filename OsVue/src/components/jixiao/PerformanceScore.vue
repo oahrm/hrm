@@ -157,7 +157,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addOrUpdate==true?addIndexList:updateIndexList">确 定</el-button>
+        <el-button type="primary" @click="addOrUpdate==true?addIndexList():updateIndexList()">确 定</el-button>
       </span>
     </template>
   </el-dialog>
@@ -224,8 +224,8 @@ export default {
       _this.scoreId = row.scoreId
       _this.getPeIndexListByCondition();
       _this.getExamine(row.scoreId);
-      this.dialogVisible=true,
-      
+      this.dialogVisible=true
+      _this.addOrUpdate=false;
       
 
     },
@@ -433,16 +433,20 @@ export default {
           evaluate: _this.textarea,
           empName: _this.empName,
           deptName: _this.deptName,
-          scoreId:_this.scoreId
         })
         .then(function (response) {
-          _this.scoreId = response.data.data
-          console.log(response)
+          _this.scoreId = response.data.data.data
+          console.log("scope",response)
         })
         .catch(function (error) {
           console.log(error);
         });
-      _this.peIndexList[0].scoreId = _this.scoreId
+
+          _this.peIndexList.forEach(e=>{
+            e.scoreId = _this.scoreId
+            e.empId = _this.empValue
+            e.deptId = _this.deptValue
+          })
       this.axios
         .post(this.baseUrl + "/peIndexList/addIndexList", _this.peIndexList)
         .then(function (response) {
@@ -458,7 +462,7 @@ export default {
     },
 
     updateIndexList(){
-            this.dialogVisible = false;
+      this.dialogVisible = false;
       const _this = this;
 
       _this.empOptions.forEach((e) => {
@@ -475,7 +479,7 @@ export default {
 
 
       this.axios
-        .put(this.baseUrl + "/peExamineGrade/", {
+        .put(this.baseUrl + "/peExamineGrade", {
           performanceScoringObject: _this.empValue,
           gradingState: _this.gradingStatesValue,
           graderDepartment: _this.deptValue,
@@ -486,22 +490,22 @@ export default {
           scoreId:_this.scoreId
         })
         .then(function (response) {
-          _this.scoreId = response.data.data
           console.log(response)
         })
         .catch(function (error) {
           console.log(error);
         });
-      _this.peIndexList[0].scoreId = _this.scoreId
+
 
       this.axios
         .post(this.baseUrl + "/peIndexList/updateIndexList", _this.peIndexList)
         .then(function (response) {
           _this.$message({
-            message: "添加成功",
+            message: "修改成功",
             type: "success",
           });
           _this.getScore();
+          _this.addOrUpdate=true;
         })
         .catch(function (error) {
           console.log(error);

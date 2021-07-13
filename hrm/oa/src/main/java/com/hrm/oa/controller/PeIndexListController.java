@@ -91,7 +91,7 @@ public class PeIndexListController {
 
     @PostMapping("/addIndexList")
     public Result addIndexList(@RequestBody List<PeIndexList> indexList){
-
+        
         for (PeIndexList peIndexList : indexList) {
             peIndexList.setIndexId(idWorker.nextId()+"");
             int i =  peIndexListService.insert(peIndexList);
@@ -99,10 +99,9 @@ public class PeIndexListController {
         return new Result(ResultCode.SUCCESS);
     }
 
-    @PutMapping("/updateIndexList")
+    @PostMapping("/updateIndexList")
     public Result updateIndexList(@RequestBody List<PeIndexList> indexList){
         for (PeIndexList peIndexList : indexList) {
-            peIndexList.setIndexId(idWorker.nextId()+"");
             int i =  peIndexListService.update(peIndexList);
         }
         return new Result(ResultCode.SUCCESS);
