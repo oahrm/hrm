@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.HuPersonnelentryDao">
+  <resultMap id="BaseResultMap" type="com.hrm.oa.entity.HuPersonnelentry">
+    <id column="personnelentry_id" jdbcType="VARCHAR" property="personnelentryId" />
+    <result column="entry_time" jdbcType="TIME" property="entryTime" />
+    <result column="personnel_sex" jdbcType="INTEGER" property="personnelSex" />
+    <result column="personnel_phone" jdbcType="VARCHAR" property="personnelPhone" />
+    <result column="personnel_name" jdbcType="VARCHAR" property="personnelName" />
+    <result column="siger_time" jdbcType="TIME" property="sigerTime" />
+    <result column="entry_status" jdbcType="INTEGER" property="entryStatus" />
+    <result column="engageform" jdbcType="INTEGER" property="engageform" />
+    <result column="dept_id" jdbcType="VARCHAR" property="deptId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    personnelentry_id, entry_time, personnel_sex, personnel_phone, personnel_name, siger_time, 
+    entry_status, engageform, dept_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hu_personnelentry
+    where personnelentry_id = #{personnelentryId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from hu_personnelentry
+    where personnelentry_id = #{personnelentryId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="personnelentry_id" keyProperty="personnelentryId" parameterType="com.hrm.oa.entity.HuPersonnelentry" useGeneratedKeys="true">
+    insert into hu_personnelentry (entry_time, personnel_sex, personnel_phone, 
+      personnel_name, siger_time, entry_status, 
+      engageform, dept_id)
+    values (#{entryTime,jdbcType=TIME}, #{personnelSex,jdbcType=INTEGER}, #{personnelPhone,jdbcType=VARCHAR}, 
+      #{personnelName,jdbcType=VARCHAR}, #{sigerTime,jdbcType=TIME}, #{entryStatus,jdbcType=INTEGER}, 
+      #{engageform,jdbcType=INTEGER}, #{deptId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="personnelentry_id" keyProperty="personnelentryId" parameterType="com.hrm.oa.entity.HuPersonnelentry" useGeneratedKeys="true">
+    insert into hu_personnelentry
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="entryTime != null">
+        entry_time,
+      </if>
+      <if test="personnelSex != null">
+        personnel_sex,
+      </if>
+      <if test="personnelPhone != null">
+        personnel_phone,
+      </if>
+      <if test="personnelName != null">
+        personnel_name,
+      </if>
+      <if test="sigerTime != null">
+        siger_time,
+      </if>
+      <if test="entryStatus != null">
+        entry_status,
+      </if>
+      <if test="engageform != null">
+        engageform,
+      </if>
+      <if test="deptId != null">
+        dept_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="entryTime != null">
+        #{entryTime,jdbcType=TIME},
+      </if>
+      <if test="personnelSex != null">
+        #{personnelSex,jdbcType=INTEGER},
+      </if>
+      <if test="personnelPhone != null">
+        #{personnelPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="personnelName != null">
+        #{personnelName,jdbcType=VARCHAR},
+      </if>
+      <if test="sigerTime != null">
+        #{sigerTime,jdbcType=TIME},
+      </if>
+      <if test="entryStatus != null">
+        #{entryStatus,jdbcType=INTEGER},
+      </if>
+      <if test="engageform != null">
+        #{engageform,jdbcType=INTEGER},
+      </if>
+      <if test="deptId != null">
+        #{deptId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.oa.entity.HuPersonnelentry">
+    update hu_personnelentry
+    <set>
+      <if test="entryTime != null">
+        entry_time = #{entryTime,jdbcType=TIME},
+      </if>
+      <if test="personnelSex != null">
+        personnel_sex = #{personnelSex,jdbcType=INTEGER},
+      </if>
+      <if test="personnelPhone != null">
+        personnel_phone = #{personnelPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="personnelName != null">
+        personnel_name = #{personnelName,jdbcType=VARCHAR},
+      </if>
+      <if test="sigerTime != null">
+        siger_time = #{sigerTime,jdbcType=TIME},
+      </if>
+      <if test="entryStatus != null">
+        entry_status = #{entryStatus,jdbcType=INTEGER},
+      </if>
+      <if test="engageform != null">
+        engageform = #{engageform,jdbcType=INTEGER},
+      </if>
+      <if test="deptId != null">
+        dept_id = #{deptId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where personnelentry_id = #{personnelentryId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrm.oa.entity.HuPersonnelentry">
+    update hu_personnelentry
+    set entry_time = #{entryTime,jdbcType=TIME},
+      personnel_sex = #{personnelSex,jdbcType=INTEGER},
+      personnel_phone = #{personnelPhone,jdbcType=VARCHAR},
+      personnel_name = #{personnelName,jdbcType=VARCHAR},
+      siger_time = #{sigerTime,jdbcType=TIME},
+      entry_status = #{entryStatus,jdbcType=INTEGER},
+      engageform = #{engageform,jdbcType=INTEGER},
+      dept_id = #{deptId,jdbcType=VARCHAR}
+    where personnelentry_id = #{personnelentryId,jdbcType=VARCHAR}
+  </update>
+</mapper>

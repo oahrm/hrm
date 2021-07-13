@@ -87,7 +87,17 @@
 					arrivalTime: '',
 					sex: '',
 					contractstatus: '',
-					entrystatus:''
+					entrystatus:'',
+					
+					mobile:'',
+					post:'',
+					deptId:'',
+					deptName:'',
+					onTheJobStatus:'',
+					parentId:'',
+					officeLocation:'',
+					entryTime:'',
+					
 				}
 			}
 		},
@@ -103,49 +113,78 @@
 				this.form.arrivalTime = row.arrivalTime;
 				this.form.contractstatus = row.contractstatus;
 				this.form.entrystatus = row.entrystatus;
+				
+				this.form.mobile = row.phone;
+				this.form.post = row.station;
+				this.form.deptId = row.division;
+				this.form.deptName = row.department;
+				this.form.onTheJobStatus = row.probationPeriod;
+				this.form.parentId = row.directsuperior;
+				this.form.officeLocation = row.officeLocation;
+				this.form.entryTime = row.arrivalTime;
+				
 				this.dialogFormVisible = true
 			},
+			// updateOffer_HuP(id) {
+			// 	console.log(this.form.id)
+			// 	const _this = this
+			// 	this.axios.put("http://localhost:8088/updateOffer_HuP/" + id)
+			// 		.then(function(response) {
+						
+			// 			_this.OfferHuPersonnelbecomeData = response.data.data
+			// 			console.log(response)
+						
+			// 			_this.dialogFormVisible = false
+			// 		}).catch(function(error) {
+			// 			console.log(error)
+			// 		})
+			// }
 			updateOffer_HuP(id) {
-				console.log(this.form.id)
 				const _this = this
-				this.axios.put("http://localhost:8088/updateOffer_HuP/" + id)
+				this.$confirm('确定提交员工合同吗', '提示', {
+						confirmButtonText: '确定',
+						cancelButtonText: '取消',
+						type: 'warning'
+					}).then(()=>{
+				this.axios.put("http://localhost:8088/updateOffer_HuP/"+id)
 					.then(function(response) {
-						_this.OfferHuPersonnelbecomeData = response.data.data
-						console.log(response)
+						_this.axios.get("http://localhost:8088/selectAllOffer_HuP")
+							.then(function(response) {
+								_this.OfferHuPersonnelbecomeData = response.data.data
+								console.log(response)
+							}).catch(function(error) {
+								console.log(error)
+							})
+							console.log("-=-=-=-=-=-=-=-=-=-=-=-=")
+							
+						_this.axios.post("http://localhost:8088/emp/AddEmpOffer", _this.form)
+							.then(function(response) {
+								var emp = response.data.data
+								_this.OfferHuPersonnelbecomeData.push(emp)
+								for (var key in _this.form) {
+									delete _this.form[key];
+									console.log("111")
+								}
+								console.log("7777777777777777777777")
+								
+							}).catch(function(error) {
+								console.log(error)
+							})
+										
+						// AddHuContractoflabor
+							
 						_this.dialogFormVisible = false
 					}).catch(function(error) {
 						console.log(error)
 					})
-			}
-		// 	updateOffer_HuP(id) {
-		// 			const _this = this
-		// 			this.$confirm('确定提交员工合同吗', '提示', {
-		// 					confirmButtonText: '确定',
-		// 					cancelButtonText: '取消',
-		// 					type: 'warning'
-		// 				}).then(()=>{
-		// 					console.log("-=-=-=-=-=-=-=-=-==-=-")
-		// 			this.axios.put("http://localhost:8088/updateOffer_HuP/" + id)
-		// 					.then(function(response) {
-		// 						_this.axios.get("http://localhost:8088/updateOffer_HuP")
-		// 							.then(function(response) {
-		// 								_this.OfferHuPersonnelbecomeData = response.data.data
-		// 								console.log(response)
-		// 							}).catch(function(error) {
-		// 								console.log(error)
-		// 							})
-		// 						_this.dialogFormVisible = false
-		// 					}).catch(function(error) {
-		// 						console.log(error)
-		// 					})
-		// 					}).catch(function(){
-		// 						this.$message({
-		// 							type: 'error',
-		// 							message: '取消提交'
-		// 						});
-		// 					})
-		// 			}
-		// },
+					}).catch(function(){
+						this.$message({
+							type: 'error',
+							message: '取消提交'
+						});
+					})
+			},
+		
 		},
 		created() {
 			const _this = this
