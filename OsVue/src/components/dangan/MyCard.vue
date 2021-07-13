@@ -91,7 +91,6 @@
 				  </el-collapse-item>
 				  <el-tag style="float: left;">家庭信息</el-tag>
 				  <el-table
-					  	ref="multipleTable"
 					  	:data="familyList"
 					  	tooltip-effect="dark"
 					  	style="width: 100%">
@@ -114,23 +113,25 @@
 						<el-form-item label="入职日期:">
 						    <el-input v-model="emp.entryTime" disabled></el-input>
 						</el-form-item>
-						<el-form-item label="合同开始日期:">
-						    <el-input v-model="emp.name" disabled></el-input>
+						<el-form-item label="参加工作日期:">
+						    <el-input v-model="emp.entryTime" disabled></el-input>
 						</el-form-item>
 						<el-form-item label="试用期结束日期:">
-						    <el-input v-model="emp.name" disabled></el-input>
+						    <el-input v-model="emp.syq" disabled></el-input>
+						</el-form-item>
+					</el-form>
+					<el-form :model="contractoflabor" :label-position="right"  label-width="120px" :inline="true">
+						<el-form-item label="合同开始日期:">
+						    <el-input v-model="contractoflabor.signerTime" disabled></el-input>
 						</el-form-item>
 						<el-form-item label="合同结束日期:">
-						    <el-input v-model="emp.name" disabled></el-input>
-						</el-form-item>
-						<el-form-item label="参加工作日期:">
-						    <el-input v-model="emp.name" disabled></el-input>
+						    <el-input v-model="contractoflabor.jssignerTime" disabled></el-input>
 						</el-form-item>
 						<el-form-item label="工龄:">
-						    <el-input v-model="emp.name" disabled></el-input>
+						    <el-input v-model="contractoflabor.name" disabled></el-input>
 						</el-form-item>
 						<el-form-item label="司龄:">
-						    <el-input v-model="emp.name" disabled></el-input>
+						    <el-input v-model="contractoflabor.name" disabled></el-input>
 						</el-form-item>
 					</el-form>
 				  </el-collapse-item>
@@ -138,19 +139,17 @@
 				<el-tabs type="border-card">
 				  <el-tab-pane label="相关合同">
 					  <el-table
-					  	ref="multipleTable"
 					  	:data="ht"
 					  	tooltip-effect="dark"
 					  	style="width: 100%">
-					  	<el-table-column prop="member" label="合同" show-overflow-tooltip></el-table-column>
-					  	<el-table-column prop="member" label="合同类型" show-overflow-tooltip></el-table-column>
-					  	<el-table-column prop="workUnit" label="合同开始日期" show-overflow-tooltip></el-table-column>
-					  	<el-table-column prop="post" label="合同结束日期" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="contractName" label="合同" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="contract" label="合同类型" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="signerTime" label="合同开始日期" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="jssignerTime" label="合同结束日期" show-overflow-tooltip></el-table-column>
 					  </el-table>
 				  </el-tab-pane>
 				  <el-tab-pane label="工作记录">
 					  <el-table
-					  	ref="multipleTable"
 					  	:data="tgList"
 					  	tooltip-effect="dark"
 					  	style="width: 100%">
@@ -175,7 +174,6 @@
 					  </el-table></el-tab-pane>
 				  <el-tab-pane label="工作经历">
 					  <el-table
-					  	ref="multipleTable"
 					  	:data="gzjl"
 					  	tooltip-effect="dark"
 					  	style="width: 100%">
@@ -234,12 +232,15 @@
 			    }
 			  };
 	      return {
-			contractoflabor: {},
+			ht: [],
 	        activeName: 'a',
 			activeNames3: '11',
 			activeNames4: '111',
 			activeNames: ['1','2'],
-			emp: {},
+			emp: {
+				syq: ''
+			},
+			contractoflabor: {},
 			flag: true,
 			isShow1: true,
 			isShow2: false,
@@ -247,7 +248,6 @@
 			myInfo: [],
 			empCount: '',
 			familyList: [],
-			ht: [],
 			tgList: [],
 			gzjl: [],
 			jybj: [],
@@ -291,10 +291,10 @@
 					this.findFamilyList()
 					this.isShow1 = false
 				}else if(tab.index == 2){
-					//this.findContractoflabor()
 					this.findWorkList()
 					this.findEmpEdu()
 					this.postList()
+					this.findContractoflabor()
 					this.isShow1 = false
 				}else if(tab.index == 3){
 					this.findAllAss()
@@ -387,8 +387,6 @@
 						}else{
 							_this.emp.onTheJobStatus = "正式"
 						}
-						_this.emp.entryTime = _this.formatDate(_this.emp.entryTime)
-						
 					}else{
 						_this.$message.error(response.data.message)
 					}
@@ -467,11 +465,16 @@
 			findContractoflabor(){
 				var id = this.emp.sigerId
 				var _this=this
-				this.axios.get("http://localhost:8088/contractoflaborList/"+id)
+				this.axios.get("http://localhost:8088/contractoflabor/"+id)
 				.then(function(response){
 					console.log(response)
 					if(response.data.success){
-						_this.contractoflabor = response.data.data			
+						_this.contractoflabor = response.data.data
+						_this.ht[0] = response.data.data
+						_this.ht[0].signerTime = _this.formatDate(_this.ht[0].signerTime)
+						_this.ht[0].jssignerTime = _this.formatDate(_this.ht[0].jssignerTime)
+						_this.contractoflabor.signerTime = _this.ht[0].signerTime
+						_this.contractoflabor.jssignerTime = _this.ht[0].jssignerTime
 					}else{
 						_this.$message.error(response.data.message)
 					}

@@ -10,7 +10,6 @@
     <result column="signer_time" jdbcType="TIMESTAMP" property="signerTime" />
     <result column="signer_state" jdbcType="INTEGER" property="signerState" />
     <result column="engageform" jdbcType="INTEGER" property="engageform" />
-    <result column="contract" jdbcType="VARCHAR" property="id" />
     <result column="id" jdbcType="VARCHAR" property="id" />
     <result column="jssigner_time" jdbcType="TIMESTAMP" property="jssignerTime" />
     <result column="contract" jdbcType="VARCHAR" property="contract" />
@@ -32,7 +31,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     com.contract_id, com.dept_name, com.signer_name, com.signer_post, com.signer_phone, com.signer_time, com.signer_state,
-    com.engageform, com.id
+    com.engageform, com.id, com.contract, com.jssigner_time, com.contract_name
   </sql>
   <sql id="re_entry_applica">
     app.id, app.title, app.name, app.idcard, app.offer_id, app.post_line, app.entrystatus, app.contractstatus,
@@ -42,7 +41,7 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from hu_contractoflabor
+    from hu_contractoflabor com
     where contract_id = #{contractId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
