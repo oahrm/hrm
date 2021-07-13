@@ -78,13 +78,29 @@ public class EmpController {
     }
 
 
-    //查询出offer状态为以同意数据到劳务合同签署界面
+    //查询员工表为实习期的员工到转正页面
     @GetMapping("/findEmpOersZz")
     public Result findEmpOersZz(){
-        log.debug("查询出offer状态为以同意数据到劳务合同签署界面");
-        List<Emp> offer_hucontracto=empService.findEmpOersZz();
-        return new Result(ResultCode.SUCCESS,offer_hucontracto);
+        log.debug("查询员工表为实习期的员工到转正页面");
+        List<Emp> EmpOersZz=empService.findEmpOersZz();
+        return new Result(ResultCode.SUCCESS,EmpOersZz);
     }
+
+    //查询员工表已转正的员工到已转正页面
+    @GetMapping("/findEmpOersYZz")
+    public Result findEmpOersYZz(){
+        log.debug("查询员工表已转正的员工到已转正页面");
+        List<Emp> EmpOersYZz=empService.findEmpOersYZz();
+        return new Result(ResultCode.SUCCESS,EmpOersYZz);
+    }
+
+
+    //将转正状态更改为1
+    @PutMapping("/updateEmpOersZz/{empId}")
+    public int updateEmpOersZz(@PathVariable("empId") String empId){
+        return  empService.updateEmpOersZz(empId);
+    }
+
 
     /**
      *根据员工id查找员工

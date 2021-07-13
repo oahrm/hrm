@@ -22,11 +22,13 @@
     <result column="leavedate" jdbcType="TIMESTAMP" property="leavedate" />
     <result column="mailbox" jdbcType="VARCHAR" property="mailbox" />
     <result column="siger_id" jdbcType="VARCHAR" property="sigerId" />
+    <result column="become_time" jdbcType="TIMESTAMP" property="becomeTime" />
+
   </resultMap>
   <sql id="Base_Column_List">
     emp_id, mobile, `password`, `name`, sex, post, ranks, dept_id, dept_name, on_the_job_status, is_it_online,
     parent_id, job_description, office_location, emergency_contact, emergency_contact_number, 
-    entry_time, leavedate, mailbox, siger_id
+    entry_time, leavedate, mailbox, siger_id, become_time
   </sql>
 
   <select id="selectAllByDeptId" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -62,12 +64,27 @@
     from emp
   </select>
 
+<!--  查询员工表为实习期的员工到转正页面-->
   <select id="selectEmpOersZz" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from emp
     where on_the_job_status =0
   </select>
+
+  <!--  查询员工表为已转正的员工到转正页面-->
+  <select id="selectEmpOersYZz" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from emp
+    where on_the_job_status =1
+  </select>
+<!--  转正将0改为1-->
+  <update id="updateEmpOersZz">
+     update emp set on_the_job_status=1 ,become_time=now()
+     where emp_id = #{empId,jdbcType=VARCHAR}
+  </update>
+
 
 
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">

@@ -88,6 +88,18 @@ public class EmpServiceImpl implements EmpService {
         return empDao.selectEmpOersZz();
     }
 
+    //查询员工表已转正的员工到已转正页面
+    @Override
+    public List<Emp> findEmpOersYZz() {
+        return empDao.selectEmpOersYZz();
+    }
+
+    //将转正状态更改为1
+    @Override
+    public int updateEmpOersZz(String empId) {
+
+        return empDao.updateEmpOersZz(empId);
+    }
 
     /**
      * 查询某个员工

@@ -24,6 +24,13 @@ public interface EmpService {
     //查询员工表为实习期的员工到转正页面
     List<Emp> findEmpOersZz();
 
+    //查询员工表已转正的员工到已转正页面
+    List<Emp> findEmpOersYZz();
+
+    //将转正状态更改为1
+    int updateEmpOersZz(String empId);
+
+
     Emp findEmpByEmpId(String empId);
 
     Integer countEmpByParentId(String empId);

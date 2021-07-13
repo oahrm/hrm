@@ -80,8 +80,7 @@
 				OfferHuContractoflaborData: [],
 				dialogFormVisible: false,
 				form: {
-					re_entry_applica:{
-					},
+					re_entry_applica:'',
 					id: '',
 					name: '',
 					station: '',
