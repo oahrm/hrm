@@ -75,6 +75,7 @@ public class PeIndexListController {
                 peIndexListTwo.setType(peAssessmentIndicator.getType());
                 peIndexListTwo.setIndicatorDescription(peAssessmentIndicator.getIndicatorDescription());
                 peIndexListTwo.setNameOfIndex(peAssessmentIndicator.getIndexNumber());
+                peIndexListTwo.setWeight(peAssessmentIndicator.getWeight());
                 peIndexListTwo.setInitiateMode(1);
                 peIndexListList.add(peIndexListTwo);
 
