@@ -91,7 +91,6 @@
 				  </el-collapse-item>
 				  <el-tag style="float: left;">家庭信息</el-tag>
 				  <el-table
-					  	ref="multipleTable"
 					  	:data="familyList"
 					  	tooltip-effect="dark"
 					  	style="width: 100%">
@@ -107,30 +106,32 @@
 			<el-tab-pane label="工作信息" name="d">
 				<el-collapse v-model="activeNames4" @change="handleChange">
 				  <el-collapse-item title="工作信息" name="111" class="item">
-				    <el-form :model="emp" :label-position="right"  label-width="120px" :inline="true">
+				    <el-form :model="emp" :label-position="right"  label-width="200px" :inline="true">
 						<el-form-item label="用工性质:">
 						    <el-input v-model="emp.onTheJobStatus" disabled></el-input>
 						</el-form-item>
 						<el-form-item label="入职日期:">
 						    <el-input v-model="emp.entryTime" disabled></el-input>
 						</el-form-item>
-						<el-form-item label="合同开始日期:">
-						    <el-input v-model="emp.name" disabled></el-input>
+						<el-form-item label="参加工作日期:">
+						    <el-input v-model="emp.entryTime" disabled></el-input>
 						</el-form-item>
 						<el-form-item label="试用期结束日期:">
-						    <el-input v-model="emp.name" disabled></el-input>
-						</el-form-item>
-						<el-form-item label="合同结束日期:">
-						    <el-input v-model="emp.name" disabled></el-input>
-						</el-form-item>
-						<el-form-item label="参加工作日期:">
-						    <el-input v-model="emp.name" disabled></el-input>
+						    <el-input v-model="emp.syq" disabled></el-input>
 						</el-form-item>
 						<el-form-item label="工龄:">
-						    <el-input v-model="emp.name" disabled></el-input>
+						    <el-input v-model="emp.gl" disabled></el-input>
 						</el-form-item>
 						<el-form-item label="司龄:">
-						    <el-input v-model="emp.name" disabled></el-input>
+						    <el-input v-model="emp.sl" disabled></el-input>
+						</el-form-item>
+					</el-form>
+					<el-form :model="contractoflabor" :label-position="right"  label-width="120px" :inline="true">
+						<el-form-item label="合同开始日期:">
+						    <el-input v-model="contractoflabor.signerTime" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="合同结束日期:">
+						    <el-input v-model="contractoflabor.jssignerTime" disabled></el-input>
 						</el-form-item>
 					</el-form>
 				  </el-collapse-item>
@@ -138,19 +139,17 @@
 				<el-tabs type="border-card">
 				  <el-tab-pane label="相关合同">
 					  <el-table
-					  	ref="multipleTable"
 					  	:data="ht"
 					  	tooltip-effect="dark"
 					  	style="width: 100%">
-					  	<el-table-column prop="member" label="合同" show-overflow-tooltip></el-table-column>
-					  	<el-table-column prop="member" label="合同类型" show-overflow-tooltip></el-table-column>
-					  	<el-table-column prop="workUnit" label="合同开始日期" show-overflow-tooltip></el-table-column>
-					  	<el-table-column prop="post" label="合同结束日期" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="contractName" label="合同" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="contract" label="合同类型" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="signerTime" label="合同开始日期" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="jssignerTime" label="合同结束日期" show-overflow-tooltip></el-table-column>
 					  </el-table>
 				  </el-tab-pane>
 				  <el-tab-pane label="工作记录">
 					  <el-table
-					  	ref="multipleTable"
 					  	:data="tgList"
 					  	tooltip-effect="dark"
 					  	style="width: 100%">
@@ -175,7 +174,6 @@
 					  </el-table></el-tab-pane>
 				  <el-tab-pane label="工作经历">
 					  <el-table
-					  	ref="multipleTable"
 					  	:data="gzjl"
 					  	tooltip-effect="dark"
 					  	style="width: 100%">
@@ -234,12 +232,17 @@
 			    }
 			  };
 	      return {
-			contractoflabor: {},
+			ht: [],
 	        activeName: 'a',
 			activeNames3: '11',
 			activeNames4: '111',
 			activeNames: ['1','2'],
-			emp: {},
+			emp: {
+				syq: '',
+				sl: '',
+				gl: ''
+			},
+			contractoflabor: {},
 			flag: true,
 			isShow1: true,
 			isShow2: false,
@@ -247,7 +250,6 @@
 			myInfo: [],
 			empCount: '',
 			familyList: [],
-			ht: [],
 			tgList: [],
 			gzjl: [],
 			jybj: [],
@@ -270,6 +272,41 @@
 	      }
 	    },
 		methods:{
+			//计算年
+			getage(str) {
+			      var date = new Date(str);
+			      var d = new Date();
+			      var age =
+			        d.getFullYear() -
+			        date.getFullYear() -
+			        (d.getMonth() < date.getMonth() ||
+			        (d.getMonth() == date.getMonth() &&
+			          d.getDate() < date.getDate())
+			          ? 1
+			          : 0);
+			      return age;
+			},
+			// 计算天数
+			dateDiff: function (targetDate) {
+			      let date2 = new Date(targetDate);
+			      let date1 = new Date();
+			      date1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate());
+			      date2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
+			      const diff = date1.getTime() - date2.getTime(); //目标时间减去当前时间
+			      const diffDate = diff / (24 * 60 * 60 * 1000);
+			      return diffDate;
+			},
+			createBeginDate(date){
+			        date.setMonth(date.getMonth()+3);
+			        date.toLocaleDateString()
+			        var y = date.getFullYear()
+			        var m = date.getMonth() + 1
+			        m = m < 10 ? ('0' + m) : m
+			        var d = date.getDate()
+			        d = d < 10 ? ('0' + d) : d
+			        const time = y + '-' + m + '-' + d
+			        return time;
+			},
 			formatDate(date) {
 			  var d = new Date(date),
 			    month = '' + (d.getMonth() + 1),
@@ -291,10 +328,10 @@
 					this.findFamilyList()
 					this.isShow1 = false
 				}else if(tab.index == 2){
-					//this.findContractoflabor()
 					this.findWorkList()
 					this.findEmpEdu()
 					this.postList()
+					this.findContractoflabor()
 					this.isShow1 = false
 				}else if(tab.index == 3){
 					this.findAllAss()
@@ -382,13 +419,15 @@
 					console.log(response)
 					if(response.data.success){
 						_this.emp = response.data.data
+						_this.emp.syq = _this.createBeginDate(new Date(_this.emp.entryTime))
+						_this.emp.sl = _this.getage(_this.emp.entryTime)
+						_this.emp.gl = _this.dateDiff(_this.emp.entryTime)
+						console.log(_this.emp.syq)
 						if(_this.emp.onTheJobStatus == 0){
 							_this.emp.onTheJobStatus = "实习"
 						}else{
 							_this.emp.onTheJobStatus = "正式"
 						}
-						_this.emp.entryTime = _this.formatDate(_this.emp.entryTime)
-						
 					}else{
 						_this.$message.error(response.data.message)
 					}
@@ -467,11 +506,16 @@
 			findContractoflabor(){
 				var id = this.emp.sigerId
 				var _this=this
-				this.axios.get("http://localhost:8088/contractoflaborList/"+id)
+				this.axios.get("http://localhost:8088/contractoflabor/"+id)
 				.then(function(response){
 					console.log(response)
 					if(response.data.success){
-						_this.contractoflabor = response.data.data			
+						_this.contractoflabor = response.data.data
+						_this.ht[0] = response.data.data
+						_this.ht[0].signerTime = _this.formatDate(_this.ht[0].signerTime)
+						_this.ht[0].jssignerTime = _this.formatDate(_this.ht[0].jssignerTime)
+						_this.contractoflabor.signerTime = _this.ht[0].signerTime
+						_this.contractoflabor.jssignerTime = _this.ht[0].jssignerTime
 					}else{
 						_this.$message.error(response.data.message)
 					}

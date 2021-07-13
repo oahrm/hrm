@@ -44,4 +44,9 @@ public class HuContractoflaborServiceImpl implements HuContractoflaborService {
         huContractoflaborDao.insert(huContractoflabor);
         return huContractoflabor;
     }
+
+    @Override
+    public HuContractoflabor findContractoflaborById(String contractId) {
+        return huContractoflaborDao.selectByPrimaryKey(contractId);
+    }
 }
