@@ -35,7 +35,7 @@
 			      width="100">
 			      <template #default="scope">
 			        <el-button @click="handleSend(scope.row)" type="text" size="small">发消息</el-button>
-					<router-link target="_blank" :to="{path:'/MySubordinates',query:{data:scope.row.empName}}">
+					<router-link target="_blank" :to="{path:'/MySubSubordinates',query: {id:scope.row.empId}}">
 						<el-button type="text" size="small">
 							下属
 						</el-button>

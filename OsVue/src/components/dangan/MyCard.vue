@@ -109,10 +109,10 @@
 				  <el-collapse-item title="工作信息" name="111" class="item">
 				    <el-form :model="emp" :label-position="right"  label-width="120px" :inline="true">
 						<el-form-item label="用工性质:">
-						    <el-input v-model="emp.name" disabled></el-input>
+						    <el-input v-model="emp.onTheJobStatus" disabled></el-input>
 						</el-form-item>
 						<el-form-item label="入职日期:">
-						    <el-input v-model="emp.name" disabled></el-input>
+						    <el-input v-model="emp.entryTime" disabled></el-input>
 						</el-form-item>
 						<el-form-item label="合同开始日期:">
 						    <el-input v-model="emp.name" disabled></el-input>
@@ -151,14 +151,14 @@
 				  <el-tab-pane label="工作记录">
 					  <el-table
 					  	ref="multipleTable"
-					  	:data="jl"
+					  	:data="tgList"
 					  	tooltip-effect="dark"
 					  	style="width: 100%">
-					  	<el-table-column prop="member" label="变动类型" show-overflow-tooltip></el-table-column>
-					  	<el-table-column prop="member" label="岗位" show-overflow-tooltip></el-table-column>
-					  	<el-table-column prop="workUnit" label="日期" show-overflow-tooltip></el-table-column>
-					  	<el-table-column prop="post" label="变动原因" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="post" label="操作人" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="primaryDept" label="原部门" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="newDept" label="新部门" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="primaryStation" label="原岗位" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="newStation" label="新岗位" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="transferData" label="调岗时间" show-overflow-tooltip></el-table-column>
 					  </el-table>
 					  </el-tab-pane>
 				  <el-tab-pane label="教育背景">
@@ -248,7 +248,7 @@
 			empCount: '',
 			familyList: [],
 			ht: [],
-			jl: [],
+			tgList: [],
 			gzjl: [],
 			jybj: [],
 			rules: {
@@ -283,17 +283,22 @@
 			},
 			handleClick(tab, event) {
 				if(tab.index == 0){
+					this.isShow1 = true
 					this.countEmp()
 					this.findEmployee()
 				}else if(tab.index == 1){
 					this.selectOne()
 					this.findFamilyList()
+					this.isShow1 = false
 				}else if(tab.index == 2){
-					this.findContractoflabor()
+					//this.findContractoflabor()
 					this.findWorkList()
 					this.findEmpEdu()
+					this.postList()
+					this.isShow1 = false
 				}else if(tab.index == 3){
 					this.findAllAss()
+					this.isShow1 = false
 				}
 			},
 			update(){
@@ -382,6 +387,7 @@
 						}else{
 							_this.emp.onTheJobStatus = "正式"
 						}
+						_this.emp.entryTime = _this.formatDate(_this.emp.entryTime)
 						
 					}else{
 						_this.$message.error(response.data.message)
@@ -466,6 +472,24 @@
 					console.log(response)
 					if(response.data.success){
 						_this.contractoflabor = response.data.data			
+					}else{
+						_this.$message.error(response.data.message)
+					}
+				}).catch(function(error){
+					console.log(error)
+				})
+			},
+			postList(){
+				var id = this.$store.state.employee.empId
+				var _this=this
+				this.axios.get("http://localhost:8088/huPosttransfer/postList/"+id)
+				.then(function(response){
+					console.log(response)
+					if(response.data.success){
+						_this.tgList = response.data.data
+						for(var i=0;i<_this.tgList.length;i++){
+							_this.tgList[i].transferData = _this.formatDate(_this.tgList[i].transferData)
+						}
 					}else{
 						_this.$message.error(response.data.message)
 					}
