@@ -157,7 +157,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addIndexList">确 定</el-button>
+        <el-button type="primary" @click="addOrUpdate==true?addIndexList:updateIndexList">确 定</el-button>
       </span>
     </template>
   </el-dialog>
@@ -211,6 +211,7 @@ export default {
       textarea: "",
       empName: "",
       deptName: "",
+      addOrUpdate:true
     };
   },
   components: {},
@@ -223,7 +224,8 @@ export default {
       _this.scoreId = row.scoreId
       _this.getPeIndexListByCondition();
       _this.getExamine(row.scoreId);
-      this.dialogVisible=true
+      this.dialogVisible=true,
+      
       
 
     },
@@ -433,13 +435,67 @@ export default {
           deptName: _this.deptName,
           scoreId:_this.scoreId
         })
-        .then(function (response) {})
+        .then(function (response) {
+          _this.scoreId = response.data.data
+          console.log(response)
+        })
         .catch(function (error) {
           console.log(error);
         });
-
+      _this.peIndexList[0].scoreId = _this.scoreId
       this.axios
         .post(this.baseUrl + "/peIndexList/addIndexList", _this.peIndexList)
+        .then(function (response) {
+          _this.$message({
+            message: "添加成功",
+            type: "success",
+          });
+          _this.getScore();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+
+    updateIndexList(){
+            this.dialogVisible = false;
+      const _this = this;
+
+      _this.empOptions.forEach((e) => {
+        if (e.empId == _this.empValue) {
+          _this.empName = e.name;
+        }
+      });
+
+      _this.deptOptions.forEach((e) => {
+        if (e.deptId == _this.deptValue) {
+          _this.deptName = e.name;
+        }
+      });
+
+
+      this.axios
+        .put(this.baseUrl + "/peExamineGrade/", {
+          performanceScoringObject: _this.empValue,
+          gradingState: _this.gradingStatesValue,
+          graderDepartment: _this.deptValue,
+          assessmentScore: _this.scores,
+          evaluate: _this.textarea,
+          empName: _this.empName,
+          deptName: _this.deptName,
+          scoreId:_this.scoreId
+        })
+        .then(function (response) {
+          _this.scoreId = response.data.data
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      _this.peIndexList[0].scoreId = _this.scoreId
+
+      this.axios
+        .post(this.baseUrl + "/peIndexList/updateIndexList", _this.peIndexList)
         .then(function (response) {
           _this.$message({
             message: "添加成功",

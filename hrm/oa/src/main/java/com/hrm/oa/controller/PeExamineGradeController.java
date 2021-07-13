@@ -68,7 +68,7 @@ public class PeExamineGradeController {
         }
         peExamineGrade.setScoreDate(new Date());
         int i = peExamineGradeService.insert(peExamineGrade);
-        return new Result(ResultCode.SUCCESS,i);
+        return new Result(ResultCode.SUCCESS,peExamineGrade.getScoreId());
     }
 
     @PutMapping

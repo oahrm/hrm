@@ -91,17 +91,20 @@ public class PeIndexListController {
 
     @PostMapping("/addIndexList")
     public Result addIndexList(@RequestBody List<PeIndexList> indexList){
-        PeExamineGrade peExamineGrade = new PeExamineGrade();
-        if(peExamineGrade.getScoreId()==null||peExamineGrade.getScoreId().equals("")){
-            peExamineGrade.setScoreId(idWorker.nextId()+"");
-        }
-        peExamineGrade.setPerformanceScoringObject(indexList.get(0).getEmpId());
+
         for (PeIndexList peIndexList : indexList) {
             peIndexList.setIndexId(idWorker.nextId()+"");
             int i =  peIndexListService.insert(peIndexList);
         }
         return new Result(ResultCode.SUCCESS);
+    }
 
-
+    @PutMapping("/updateIndexList")
+    public Result updateIndexList(@RequestBody List<PeIndexList> indexList){
+        for (PeIndexList peIndexList : indexList) {
+            peIndexList.setIndexId(idWorker.nextId()+"");
+            int i =  peIndexListService.update(peIndexList);
+        }
+        return new Result(ResultCode.SUCCESS);
     }
 }
