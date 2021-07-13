@@ -53,8 +53,8 @@
     delete from re_offer
     where offer_id = #{offerId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" keyColumn="offer_id" keyProperty="offerId" parameterType="com.hrm.oa.entity.ReOfferlinEntity" useGeneratedKeys="true">
-    insert into re_offer (offername, `name`, sex, 
+  <insert id="insert" keyColumn="offer_id" keyProperty="offerId" parameterType="com.hrm.oa.entity.ReOfferlinEntity">
+    insert into re_offer (offer_id,offername, `name`, sex,
       date_of_birth, place, phone, 
       idcard, nation, marita_status, 
       highest_education, academic_degree, mailbox, 
@@ -63,7 +63,7 @@
       base_pay, merit_pay, regular_salary, 
       probation_period, probation_period_salary, 
       arrival_time)
-    values (#{offername,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+    values (#{offerId,jdbcType=VARCHAR},#{offername,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},
       #{dateOfBirth,jdbcType=TIMESTAMP}, #{place,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{idcard,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, #{maritaStatus,jdbcType=VARCHAR}, 
       #{highestEducation,jdbcType=VARCHAR}, #{academicDegree,jdbcType=VARCHAR}, #{mailbox,jdbcType=VARCHAR}, 
