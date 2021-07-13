@@ -24,8 +24,16 @@ public class CwcheckServiceImpl implements CwcheckService {
         cwCheck.setCheckdata(new Date());
         cwCheck.setEmpname("张三");
         cwCheck.setDeptname("研发部");
-
+        cwCheck.setTypelq("普通出勤");
+//        Date time = new Date("08:00:00");
+//
+//        if(new Date("HH:mm:ss")!= time){
+//            cwCheck.setTypecd("是");
+//        }else {
+//            cwCheck.setTypecd("否");
+//        }
         return cwCheckDao.insertcheck(cwCheck);
+
 
 
         }

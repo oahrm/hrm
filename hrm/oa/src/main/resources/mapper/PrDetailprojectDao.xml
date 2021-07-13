@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.PrDetailprojectDao">
+  <resultMap id="BaseResultMap" type="com.hrm.oa.entity.PrDetailproject">
+    <id column="d_id" jdbcType="VARCHAR" property="dId" />
+    <result column="t_id" jdbcType="VARCHAR" property="tId" />
+    <result column="p_id" jdbcType="VARCHAR" property="pId" />
+    <association property="prProject" javaType="com.hrm.oa.entity.PrProject">
+      <id column="p_id" jdbcType="VARCHAR" property="pId" />
+      <result column="p_name" jdbcType="VARCHAR" property="pName" />
+      <result column="p_type" jdbcType="VARCHAR" property="pType" />
+      <result column="p_worktype" jdbcType="VARCHAR" property="pWorktype" />
+      <result column="p_contract" jdbcType="VARCHAR" property="pContract" />
+      <result column="p_progress" jdbcType="VARCHAR" property="pProgress" />
+      <result column="p_proposal" jdbcType="VARCHAR" property="pProposal" />
+      <result column="p_status" jdbcType="VARCHAR" property="pStatus" />
+      <result column="p_fstatus" jdbcType="VARCHAR" property="pFstatus" />
+      <result column="p_starttime" jdbcType="TIMESTAMP" property="pStarttime" />
+      <result column="p_endtime" jdbcType="TIMESTAMP" property="pEndtime" />
+      <result column="p_begain" jdbcType="TIMESTAMP" property="pBegain" />
+      <result column="p_customer" jdbcType="VARCHAR" property="pCustomer" />
+      <result column="p_cphone" jdbcType="VARCHAR" property="pCphone" />
+      <result column="p_e_id" jdbcType="VARCHAR" property="pEId" />
+    </association>
+    <association property="prTask" javaType="com.hrm.oa.entity.PrTask">
+      <id column="t_id" jdbcType="VARCHAR" property="tId" />
+      <result column="s_id" jdbcType="VARCHAR" property="sId" />
+      <result column="t_name" jdbcType="VARCHAR" property="tName" />
+      <result column="t_construction" jdbcType="INTEGER" property="tConstruction" />
+      <result column="t_rconstruction" jdbcType="INTEGER" property="tRconstruction" />
+      <result column="t_starttime" jdbcType="TIMESTAMP" property="tStarttime" />
+      <result column="t_endtime" jdbcType="TIMESTAMP" property="tEndtime" />
+      <result column="t_progress" jdbcType="DOUBLE" property="tProgress" />
+      <result column="t_approval" jdbcType="VARCHAR" property="tApproval" />
+      <result column="t_e_id" jdbcType="VARCHAR" property="tEId" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    pr_detailproject.d_id, pr_detailproject.t_id, pr_detailproject.p_id
+  </sql>
+  <sql id="Base_Column_pList">
+    p_id, p_name, p_type, p_worktype, p_contract, p_progress, p_proposal, p_status, p_fstatus,
+    p_starttime, p_endtime, p_begain, p_customer, p_cphone, p_e_id
+  </sql>
+  <sql id="Base_Column_tList">
+    t_id, s_id, t_name, t_construction, t_rconstruction, t_starttime, t_endtime, t_progress,
+    t_approval, t_e_id
+  </sql>
+
+  <insert id="insertpr_detailproject" keyColumn="d_id" keyProperty="dId" parameterType="com.hrm.oa.entity.PrDetailproject" useGeneratedKeys="true">
+    insert into pr_detailproject (d_id,t_id, p_id)
+    values (#{dId,jdbcType=VARCHAR},#{tId,jdbcType=VARCHAR}, #{pId,jdbcType=VARCHAR})
+  </insert>
+
+<!--  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">-->
+<!--    select -->
+<!--    <include refid="Base_Column_List" />-->
+<!--    from pr_detailproject-->
+<!--    where d_id = #{dId,jdbcType=VARCHAR}-->
+<!--  </select>-->
+<!--  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">-->
+<!--    delete from pr_detailproject-->
+<!--    where d_id = #{dId,jdbcType=VARCHAR}-->
+<!--  </delete>-->
+<!--  -->
+<!--  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.oa.entity.PrDetailproject">-->
+<!--    update pr_detailproject-->
+<!--    <set>-->
+<!--      <if test="tId != null">-->
+<!--        t_id = #{tId,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="pId != null">-->
+<!--        p_id = #{pId,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--    </set>-->
+<!--    where d_id = #{dId,jdbcType=VARCHAR}-->
+<!--  </update>-->
+<!--  <update id="updateByPrimaryKey" parameterType="com.hrm.oa.entity.PrDetailproject">-->
+<!--    update pr_detailproject-->
+<!--    set t_id = #{tId,jdbcType=VARCHAR},-->
+<!--      p_id = #{pId,jdbcType=VARCHAR}-->
+<!--    where d_id = #{dId,jdbcType=VARCHAR}-->
+<!--  </update>-->
+</mapper>

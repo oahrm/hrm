@@ -14,21 +14,29 @@
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
   </resultMap>
   <sql id="Base_Column_List">
-    field_id, fielddate, empname, kqtime_id, fielddatetime, filedname, fieldadrss, fieldCustomer, 
+    field_id, fielddate, empname, kqtime_id, fielddatetime, filedname, fieldadrss, fieldCustomer,
     filedremaeks, type_id
+
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByfile" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
+    from cw_field_personnel cw
+    order by field_id desc
+  </select>
+  <select id="selectBydept"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
     from cw_field_personnel
-    where field_id = #{fieldId,jdbcType=INTEGER}
+    order by field_id desc
+    and filedname like CONCAT('%',#{filedname},'%')
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from cw_field_personnel
     where field_id = #{fieldId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="field_id" keyProperty="fieldId" parameterType="com.hrm.oa.entity.CwFieldPersonnel" useGeneratedKeys="true">
-    insert into cw_field_personnel (fielddate, empname, kqtime_id, 
+  <insert id="insertfile" keyColumn="field_id" keyProperty="fieldId" parameterType="com.hrm.oa.entity.CwFieldPersonnel" useGeneratedKeys="true">
+    insert into cw_field_personnel (fielddate, empname, kqtime_id,
       fielddatetime, filedname, fieldadrss, 
       fieldCustomer, filedremaeks, type_id
       )

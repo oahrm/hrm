@@ -7,7 +7,7 @@
 	<el-button type="primary" icon="el-icon-search" style="margin: 0 0 0 10px;">搜索</el-button>
 
 	<el-table :data="tableData" stripe style="width: 100%">
-		<el-table-column prop="checkId" label="编号" width="180">
+		<el-table-column type="index" :index="indexMethod" width="180" align="center">
 		</el-table-column>
 		<el-table-column prop="empname" label="姓名" width="180">
 		</el-table-column>
@@ -16,10 +16,6 @@
 		<el-table-column prop="checkdata" label="打卡日期">
 		</el-table-column>
 		<el-table-column prop="checkdatatime" label="打卡时间">
-		</el-table-column>
-		<el-table-column prop="typezt" label="是否早退">
-		</el-table-column>
-		<el-table-column prop="typecd" label="是否迟到">
 		</el-table-column>
 		<el-table-column prop="typelq" label="打卡类型">
 		</el-table-column>
@@ -57,6 +53,7 @@
 					typecd: '',
 					typelq: ''
 				},
+				
 				pageInfo: {
 					currentPage: 1, //标识当前页码
 					pagesize: 6, //每页多少条数据
@@ -66,29 +63,46 @@
 		},
 		methods: {
 			checkdk() {
-				this.$alert('打卡成功', {
+
+					this.$alert('打卡成功', {
+					
 				          confirmButtonText: '确定',
-				          
-				        });
+					
+				    });
+				
+				
+				
 				const _this = this
+				
 				this.axios.post("http://localhost:8088/insertcheck", this.form)
-					this.axios.get("http://localhost:8088/findPage", {
+				.then(function(response) {
+					console.log(response)
+					_this.axios.get("http://localhost:8088/findPage", {
 							
-							params: this.pageInfo,
+							params: _this.pageInfo,
 							
 						})
 						.then(function(response) {
 					
 							_this.pageInfo.total = response.data.total
 							_this.tableData = response.data.list
-							for (var key in _this.form) {
-								delete _this.form[key]
-							}
+							
 						}).catch(function(error) {
 							console.log(error)
 						})
+					for (var key in _this.form) {
+						delete _this.form[key]
+					}
+					}).catch(function(error) {
+						console.log(error)
+					})
+					 
 					
 			},
+			indexMethod(index) {
+							return index + 1;
+						},
+
 			handleCurrentChange(currentPage) {
 				var _this = this
 				this.pageInfo.currentPage = currentPage
