@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.ReResumeDao">
+  <resultMap id="BaseResultMap" type="com.hrm.oa.entity.ReResumeEntity">
+    <id column="resume_id" jdbcType="VARCHAR" property="resumeId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
+    <result column="place_of_abode" jdbcType="VARCHAR" property="placeOfAbode" />
+    <result column="politics_status" jdbcType="VARCHAR" property="politicsStatus" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="education_experience" jdbcType="VARCHAR" property="educationExperience" />
+    <result column="honors_and_awards" jdbcType="VARCHAR" property="honorsAndAwards" />
+    <result column="work_experience" jdbcType="VARCHAR" property="workExperience" />
+    <result column="professional_skill" jdbcType="VARCHAR" property="professionalSkill" />
+    <result column="self_assessment" jdbcType="VARCHAR" property="selfAssessment" />
+    <result column="highest_education" jdbcType="VARCHAR" property="highestEducation" />
+    <result column="applied_position" jdbcType="VARCHAR" property="appliedPosition" />
+    <result column="channel" jdbcType="VARCHAR" property="channel" />
+    <result column="exp_year" jdbcType="INTEGER" property="expYear" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    resume_id, `name`, sex, birthday, native_place, place_of_abode, politics_status, 
+    phone, email, education_experience, honors_and_awards, work_experience, professional_skill, 
+    self_assessment, highest_education, applied_position, channel, exp_year
+  </sql>
+
+  <select id="findAll"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from re_resume
+  </select>
+
+  <!--findAll总岗位-->
+  <select id="tit"  resultType="java.lang.Integer">
+    select
+    count(sex)
+    from re_resume
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from re_resume
+    where resume_id = #{resumeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from re_resume
+    where resume_id = #{resumeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="resume_id" keyProperty="resumeId" parameterType="com.hrm.oa.entity.ReResumeEntity" useGeneratedKeys="true">
+    insert into re_resume (resume_id,`name`, sex, birthday,
+      native_place, place_of_abode, politics_status, 
+      phone, email, education_experience, 
+      honors_and_awards, work_experience, professional_skill, 
+      self_assessment, highest_education, applied_position, 
+      channel, exp_year)
+    values (#{resumeId,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP},
+      #{nativePlace,jdbcType=VARCHAR}, #{placeOfAbode,jdbcType=VARCHAR}, #{politicsStatus,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{educationExperience,jdbcType=VARCHAR}, 
+      #{honorsAndAwards,jdbcType=VARCHAR}, #{workExperience,jdbcType=VARCHAR}, #{professionalSkill,jdbcType=VARCHAR}, 
+      #{selfAssessment,jdbcType=VARCHAR}, #{highestEducation,jdbcType=VARCHAR}, #{appliedPosition,jdbcType=VARCHAR}, 
+      #{channel,jdbcType=VARCHAR}, #{expYear,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="resume_id" keyProperty="resumeId" parameterType="com.hrm.oa.entity.ReResumeEntity" useGeneratedKeys="true">
+    insert into re_resume
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="nativePlace != null">
+        native_place,
+      </if>
+      <if test="placeOfAbode != null">
+        place_of_abode,
+      </if>
+      <if test="politicsStatus != null">
+        politics_status,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="educationExperience != null">
+        education_experience,
+      </if>
+      <if test="honorsAndAwards != null">
+        honors_and_awards,
+      </if>
+      <if test="workExperience != null">
+        work_experience,
+      </if>
+      <if test="professionalSkill != null">
+        professional_skill,
+      </if>
+      <if test="selfAssessment != null">
+        self_assessment,
+      </if>
+      <if test="highestEducation != null">
+        highest_education,
+      </if>
+      <if test="appliedPosition != null">
+        applied_position,
+      </if>
+      <if test="channel != null">
+        channel,
+      </if>
+      <if test="expYear != null">
+        exp_year,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nativePlace != null">
+        #{nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="placeOfAbode != null">
+        #{placeOfAbode,jdbcType=VARCHAR},
+      </if>
+      <if test="politicsStatus != null">
+        #{politicsStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="educationExperience != null">
+        #{educationExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="honorsAndAwards != null">
+        #{honorsAndAwards,jdbcType=VARCHAR},
+      </if>
+      <if test="workExperience != null">
+        #{workExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalSkill != null">
+        #{professionalSkill,jdbcType=VARCHAR},
+      </if>
+      <if test="selfAssessment != null">
+        #{selfAssessment,jdbcType=VARCHAR},
+      </if>
+      <if test="highestEducation != null">
+        #{highestEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="appliedPosition != null">
+        #{appliedPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null">
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="expYear != null">
+        #{expYear,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.oa.entity.ReResumeEntity">
+    update re_resume
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nativePlace != null">
+        native_place = #{nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="placeOfAbode != null">
+        place_of_abode = #{placeOfAbode,jdbcType=VARCHAR},
+      </if>
+      <if test="politicsStatus != null">
+        politics_status = #{politicsStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="educationExperience != null">
+        education_experience = #{educationExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="honorsAndAwards != null">
+        honors_and_awards = #{honorsAndAwards,jdbcType=VARCHAR},
+      </if>
+      <if test="workExperience != null">
+        work_experience = #{workExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalSkill != null">
+        professional_skill = #{professionalSkill,jdbcType=VARCHAR},
+      </if>
+      <if test="selfAssessment != null">
+        self_assessment = #{selfAssessment,jdbcType=VARCHAR},
+      </if>
+      <if test="highestEducation != null">
+        highest_education = #{highestEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="appliedPosition != null">
+        applied_position = #{appliedPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null">
+        channel = #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="expYear != null">
+        exp_year = #{expYear,jdbcType=INTEGER},
+      </if>
+    </set>
+    where resume_id = #{resumeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrm.oa.entity.ReResumeEntity">
+    update re_resume
+    set `name` = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      native_place = #{nativePlace,jdbcType=VARCHAR},
+      place_of_abode = #{placeOfAbode,jdbcType=VARCHAR},
+      politics_status = #{politicsStatus,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      education_experience = #{educationExperience,jdbcType=VARCHAR},
+      honors_and_awards = #{honorsAndAwards,jdbcType=VARCHAR},
+      work_experience = #{workExperience,jdbcType=VARCHAR},
+      professional_skill = #{professionalSkill,jdbcType=VARCHAR},
+      self_assessment = #{selfAssessment,jdbcType=VARCHAR},
+      highest_education = #{highestEducation,jdbcType=VARCHAR},
+      applied_position = #{appliedPosition,jdbcType=VARCHAR},
+      channel = #{channel,jdbcType=VARCHAR},
+      exp_year = #{expYear,jdbcType=INTEGER}
+    where resume_id = #{resumeId,jdbcType=VARCHAR}
+  </update>
+</mapper>

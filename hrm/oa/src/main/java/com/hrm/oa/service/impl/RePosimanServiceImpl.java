@@ -32,6 +32,7 @@ public class RePosimanServiceImpl implements RePosimanService {
         int actualnum=reposimanDao.actualnum();
         map.put("staffnum",staffnum);
         map.put("actualnum",actualnum);
+        map.put("tit",reposimanDao.tit());
         
         return map;
     }
@@ -43,9 +44,12 @@ public class RePosimanServiceImpl implements RePosimanService {
      */
     @Override
     public int save(RePosimanEntity rePosimanEntity) {
-        rePosimanEntity.setPmId(idWorker.nextId()+"");
-        rePosimanEntity.setTime(new Date());
-        return reposimanDao.insert(rePosimanEntity);
+
+            rePosimanEntity.setPmId(idWorker.nextId() + "");
+            rePosimanEntity.setTime(new Date());
+            return reposimanDao.insert(rePosimanEntity);
+
+
 
     }
 

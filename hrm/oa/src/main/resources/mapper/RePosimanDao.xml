@@ -28,6 +28,13 @@
     from re_posiman
   </select>
 
+  <!--findAll总岗位-->
+  <select id="tit"  resultType="java.lang.Integer">
+    select
+    count(organnum)
+    from re_posiman
+  </select>
+
   <!--findAll实际岗位-->
   <select id="actualnum"  resultType="java.lang.Integer">
     select

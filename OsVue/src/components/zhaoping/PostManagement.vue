@@ -15,7 +15,7 @@
 	
 	<div>
 			<el-table ref="multipleTable" :data="HuContractoflaborData" style="width: 100%" max-height="750">
-				<el-table-column prop="pmId" label="部门编号" width="">
+				<el-table-column prop="did" label="部门编号" width="">
 				</el-table-column>
 				<el-table-column prop="job" label="职务名称" width="">
 				</el-table-column>
@@ -31,35 +31,57 @@
 						<el-button @click.prevent="deleteRow(scope.row, tableData)" type="text" size="small">
 							移除
 						</el-button>
+						<el-button @click.prevent="chakRow(scope.row, tableData);dialogFormVisible = true" type="text" size="small">
+							查看
+						</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
 		</div>
 		
+		  <div class="block">		    
+		    <el-pagination
+		      @size-change="handleSizeChange"
+		      @current-change="handleCurrentChange"
+		      v-model:currentPage="formData.page"
+		     :page-sizes="[2, 10, 20]"
+		     :page-size="10"
+		      layout="sizes, prev, pager, next"
+		      :total=this.tit>
+		    </el-pagination>
+		  </div>
+		 
 		
 		<!-- Form -->
-		<el-button type="text" @click="dialogFormVisible = true">打开嵌套表单的 Dialog</el-button>
+		<el-button type="text" @click="dialogFormVisible = true">新建</el-button>
 		
-		<el-dialog title="收货地址" v-model="dialogFormVisible">
+		<el-dialog title="职务计划-新建模板" v-model="dialogFormVisible">
 		  <el-form :model="form">
-		    <el-form-item label="活动名称" :label-width="formLabelWidth">
-		      <el-input v-model="form.name" autocomplete="off"></el-input>
+		    <el-form-item label="部门" :label-width="formLabelWidth">
+		      <el-input v-model="form.did" autocomplete="off"></el-input>
 		    </el-form-item>
-		    <el-form-item label="活动区域" :label-width="formLabelWidth">
-		      <el-select v-model="form.region" placeholder="请选择活动区域">
-		        <el-option label="区域一" value="shanghai"></el-option>
-		        <el-option label="区域二" value="beijing"></el-option>
-		      </el-select>
-		    </el-form-item>
+		   <el-form-item label="职务名称" :label-width="formLabelWidth">
+		     <el-input v-model="form.job" autocomplete="off"></el-input>
+		   </el-form-item>
+		   <el-form-item label="编制人数" :label-width="formLabelWidth">
+		     <el-input v-model="form.organnum" autocomplete="off"></el-input>
+		   </el-form-item>
+		   <el-form-item label="实际人数" :label-width="formLabelWidth">
+		     <el-input v-model="form.actualnum" autocomplete="off"></el-input>
+		   </el-form-item>
+		   <el-form-item label="状态" :label-width="formLabelWidth">
+		     <el-input v-model="form.state" autocomplete="off"></el-input>
+		   </el-form-item>
 		  </el-form>
 		  <template #footer>
 		    <span class="dialog-footer">
 		      <el-button @click="dialogFormVisible = false">取 消</el-button>
-		      <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+		      <el-button type="primary" @click="dialogFormVisible = false ; aaaa()">确 定</el-button>
 		    </span>
 		  </template>
 		</el-dialog>
-
+		
+	
 
 </template>
 
@@ -72,18 +94,35 @@
 		export default {
 			
 			methods: {
-				  handleClose(done) {
-				        this.$confirm('确认关闭？')
-				          .then(_ => {
-				            done();
-				          })
-				          .catch(_ => {});
-				      },
+				
+				handleSizeChange(val) {
+				   console.log(`每页 ${val} 条`);
+				   this.formData.pagesize=val;
+				  this.init();
+				},
+				handleCurrentChange(val) {
+				  console.log(`当前页: ${val}`);
+				  this.formData.page=val;
+				 this.init();
+				},     
+				//查看
+				chakRow(index, rows){
+					
+					this.form=index
+					
+				},
+				
+				 //删除
 				deleteRow(index, rows) {
+					 						
+						
+							 
+				
 					console.log(index);
 					this.rePosi=index;
 					console.log(this.rePosi);
-					console.log("-----------")
+					console.log("-----------")					
+					
 					const _this = this
 					this.axios.put("http://localhost:8088/recruit/del",this.rePosi)
 					.then(function(response) {						
@@ -91,8 +130,24 @@
 					}).catch(function(error) {
 						console.log(error)
 					})
-					this.init()
+					_this.init();
+					
+					 
+				
 				},
+				//添加
+				aaaa(){
+					console.log("-----------")
+					const _this = this
+					this.axios.put("http://localhost:8088/recruit/add",this.form)
+					.then(function(response) {					
+						
+					}).catch(function(error) {
+						console.log(error)
+					})
+					_this.init();
+				}
+				,
 				a(num){
 					console.log(num)
 				},				
@@ -104,6 +159,7 @@
 						_this.HuContractoflaborData = response.data.data.posinmenlist				
 						_this.actualnum=response.data.data.actualnum
 						_this.staffnum=response.data.data.staffnum
+						_this.tit=response.data.data.tit
 						console.log(_this.HuContractoflaborData)
 					}).catch(function(error) {
 						console.log(error)
@@ -115,23 +171,21 @@
 					HuContractoflaborData:[],
 								actualnum:"",
 								staffnum:"",
+								tit:"",
 					formData: {
 					  page: 1,
-					  pagesize: 10					 
+					  pagesize: 10				 
 					},
 					rePosi:[],
-					   dialogFormVisible: false,
-					        form: {
-					          name: '',
-					          region: '',
-					          date1: '',
-					          date2: '',
-					          delivery: false,
-					          type: [],
-					          resource: '',
-					          desc: ''
-					        },
-					        formLabelWidth: '120px'
+					dialogFormVisible: false,
+				        form: {
+				          did: '',
+				          job: '',
+				          organnum: '',
+				          actualnum: '',
+				          state: ''	
+				        },
+				        formLabelWidth: '120px'	
 					       
 					
 				}
