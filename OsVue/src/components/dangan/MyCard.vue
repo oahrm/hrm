@@ -106,7 +106,7 @@
 			<el-tab-pane label="工作信息" name="d">
 				<el-collapse v-model="activeNames4" @change="handleChange">
 				  <el-collapse-item title="工作信息" name="111" class="item">
-				    <el-form :model="emp" :label-position="right"  label-width="120px" :inline="true">
+				    <el-form :model="emp" :label-position="right"  label-width="200px" :inline="true">
 						<el-form-item label="用工性质:">
 						    <el-input v-model="emp.onTheJobStatus" disabled></el-input>
 						</el-form-item>
@@ -119,6 +119,12 @@
 						<el-form-item label="试用期结束日期:">
 						    <el-input v-model="emp.syq" disabled></el-input>
 						</el-form-item>
+						<el-form-item label="工龄:">
+						    <el-input v-model="emp.gl" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="司龄:">
+						    <el-input v-model="emp.sl" disabled></el-input>
+						</el-form-item>
 					</el-form>
 					<el-form :model="contractoflabor" :label-position="right"  label-width="120px" :inline="true">
 						<el-form-item label="合同开始日期:">
@@ -126,12 +132,6 @@
 						</el-form-item>
 						<el-form-item label="合同结束日期:">
 						    <el-input v-model="contractoflabor.jssignerTime" disabled></el-input>
-						</el-form-item>
-						<el-form-item label="工龄:">
-						    <el-input v-model="contractoflabor.name" disabled></el-input>
-						</el-form-item>
-						<el-form-item label="司龄:">
-						    <el-input v-model="contractoflabor.name" disabled></el-input>
 						</el-form-item>
 					</el-form>
 				  </el-collapse-item>
@@ -238,7 +238,9 @@
 			activeNames4: '111',
 			activeNames: ['1','2'],
 			emp: {
-				syq: ''
+				syq: '',
+				sl: '',
+				gl: ''
 			},
 			contractoflabor: {},
 			flag: true,
@@ -270,6 +272,41 @@
 	      }
 	    },
 		methods:{
+			//计算年
+			getage(str) {
+			      var date = new Date(str);
+			      var d = new Date();
+			      var age =
+			        d.getFullYear() -
+			        date.getFullYear() -
+			        (d.getMonth() < date.getMonth() ||
+			        (d.getMonth() == date.getMonth() &&
+			          d.getDate() < date.getDate())
+			          ? 1
+			          : 0);
+			      return age;
+			},
+			// 计算天数
+			dateDiff: function (targetDate) {
+			      let date2 = new Date(targetDate);
+			      let date1 = new Date();
+			      date1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate());
+			      date2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
+			      const diff = date1.getTime() - date2.getTime(); //目标时间减去当前时间
+			      const diffDate = diff / (24 * 60 * 60 * 1000);
+			      return diffDate;
+			},
+			createBeginDate(date){
+			        date.setMonth(date.getMonth()+3);
+			        date.toLocaleDateString()
+			        var y = date.getFullYear()
+			        var m = date.getMonth() + 1
+			        m = m < 10 ? ('0' + m) : m
+			        var d = date.getDate()
+			        d = d < 10 ? ('0' + d) : d
+			        const time = y + '-' + m + '-' + d
+			        return time;
+			},
 			formatDate(date) {
 			  var d = new Date(date),
 			    month = '' + (d.getMonth() + 1),
@@ -382,6 +419,10 @@
 					console.log(response)
 					if(response.data.success){
 						_this.emp = response.data.data
+						_this.emp.syq = _this.createBeginDate(new Date(_this.emp.entryTime))
+						_this.emp.sl = _this.getage(_this.emp.entryTime)
+						_this.emp.gl = _this.dateDiff(_this.emp.entryTime)
+						console.log(_this.emp.syq)
 						if(_this.emp.onTheJobStatus == 0){
 							_this.emp.onTheJobStatus = "实习"
 						}else{
