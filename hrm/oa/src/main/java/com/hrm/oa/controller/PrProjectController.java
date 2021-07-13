@@ -19,7 +19,6 @@ import javax.annotation.Resource;
  */
 @RestController
 @Slf4j
-@CrossOrigin
 public class PrProjectController {
     /**
      * 服务对象
@@ -33,7 +32,7 @@ public class PrProjectController {
     public Result insertpr_project(@RequestBody PrProject prProject) {
         prProject.setPId(idWorker.nextId()+"");
         PrProject prProjectNew=prProjectService.insertpr_project(prProject);
-        return new Result(ResultCode.SUCCESS,prProjectNew.getPId());
+        return new Result(ResultCode.SUCCESS,prProjectNew);
     }
 
 }

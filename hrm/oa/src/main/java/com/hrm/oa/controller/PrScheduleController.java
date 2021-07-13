@@ -2,7 +2,6 @@ package com.hrm.oa.controller;
 
 import com.hrm.oa.entity.PrSchedule;
 import com.hrm.oa.service.PrScheduleService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -28,9 +27,9 @@ public class PrScheduleController {
      * @param id 主键
      * @return 单条数据
      */
-//    @GetMapping("selectOne")
-//    public PrSchedule selectOne(String id) {
-//        return null;
-//    }
+    @GetMapping("selectOne")
+    public PrSchedule selectOne(String id) {
+        return this.prScheduleService.queryById(id);
+    }
 
 }

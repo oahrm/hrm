@@ -1,6 +1,5 @@
 package com.hrm.oa.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hrm.oa.entity.PrStage;
@@ -30,26 +29,11 @@ public class PrStageController {
     @Autowired
     private IdWorker idWorker;
 
-    @DeleteMapping("/deleteById")
-    public Result deleteById(@RequestBody String sid){
-        PrStage prStage=prStageService.deleteById(sid);
-        return new Result(ResultCode.SUCCESS,prStage);
-    }
-
-    @PostMapping("/insertprstage")
-    public Result insertCourse(@RequestBody Object obj){
-//        ObjectMapper objectMapper=new ObjectMapper();
-//        PrStage prStage=
-//                objectMapper.convertValue(obj, PrStage.class);
-        PrStage prStage=new PrStage();
-//        obj = redisUtil.get(userInfoJSON.get("openId").toString());
-//        PrStage prStage = new ObjectMapper().convertValue(obj, PrStage.class);
-        log.debug(obj.toString());
-        log.debug(prStage.toString());
-//        prStage.setSId(idWorker.nextId()+"");
-//        PrStage prStageNew=prStageService.insertpr_stage(prStage);
-//        return new Result(ResultCode.SUCCESS,prStageNew);
-        return new Result(ResultCode.SUCCESS);
+    @PostMapping("/insertpr_stage")
+    public Result insertCourse(@RequestBody PrStage prStage){
+        prStage.setSId(idWorker.nextId()+"");
+        PrStage prStageNew=prStageService.insertpr_stage(prStage);
+        return new Result(ResultCode.SUCCESS,prStageNew);
     }
 
     @GetMapping("/selectAllpr_stageInfo")
@@ -61,9 +45,8 @@ public class PrStageController {
         return new Result(ResultCode.SUCCESS,prStagePageInfo);
     }
 
-    @GetMapping("/selectAllprstage")
+    @GetMapping("/selectAllpr_stage")
     public Result selectAllpr_stage(){
-        System.out.println("测试");
         List<PrStage> entityPage =prStageService.selectAllpr_stage();
         return new Result(ResultCode.SUCCESS,entityPage);
     }

@@ -1,7 +1,7 @@
 package com.hrm.oa.controller;
 
-
 import com.hrm.oa.entity.PrDetailproject;
+import com.hrm.oa.entity.PrTask;
 import com.hrm.oa.service.PrDetailprojectService;
 import com.hrm.oa.util.IdWorker;
 import com.hrm.oa.vo.Result;
@@ -21,7 +21,6 @@ import java.util.List;
  */
 @RestController
 @Slf4j
-@CrossOrigin
 public class PrDetailprojectController {
     /**
      * 服务对象
@@ -31,8 +30,8 @@ public class PrDetailprojectController {
     @Autowired
     private IdWorker idWorker;
 
-    @PostMapping("/insertpr_detailproject")
-    public Result insertpr_detailproject(@RequestBody List<String> biglist){
+    @PostMapping("/insertpr_task")
+    public Result insertpr_task(@RequestBody List<String> biglist){
         PrDetailproject prDetailproject=new PrDetailproject();
         prDetailproject.setDId(idWorker.nextId()+"");
         prDetailproject.setPId(biglist.get(0));

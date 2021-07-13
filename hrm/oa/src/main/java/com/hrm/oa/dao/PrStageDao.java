@@ -10,8 +10,7 @@ public interface PrStageDao {
     int insertpr_stage(PrStage record);//新增项目阶段
 
     List<PrStage> selectAllpr_stage();//查询所有项目阶段
-
-    int deleteById(String sId);//删除项目阶段
+//    int deleteByPrimaryKey(String sId);
 //
 //    int insert(PrStage record);
 //

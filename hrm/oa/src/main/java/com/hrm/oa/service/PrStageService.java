@@ -10,8 +10,6 @@ import java.util.List;
  * @since 2021-07-11 20:33:44
  */
 public interface PrStageService {
-    PrStage deleteById(String sId);//删除项目阶段
-
     PrStage insertpr_stage(PrStage record);//新增项目阶段
 
     List<PrStage> selectAllpr_stage();//查询所有项目阶段
