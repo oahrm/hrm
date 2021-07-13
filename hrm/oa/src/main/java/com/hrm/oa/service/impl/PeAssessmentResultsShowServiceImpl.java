@@ -7,6 +7,7 @@ import com.hrm.oa.entity.PeAssessmentResultsShow;
 import com.hrm.oa.dao.PeAssessmentResultsShowDao;
 import com.hrm.oa.service.PeAssessmentResultsShowService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
  * @since 2021-07-11 15:00:34
  */
 @Service("peAssessmentResultsShowService")
+@Transactional
 public class PeAssessmentResultsShowServiceImpl implements PeAssessmentResultsShowService {
     @Resource
     private PeAssessmentResultsShowDao peAssessmentResultsShowDao;

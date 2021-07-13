@@ -103,9 +103,9 @@
         </template>
       </el-dialog>
     </el-tab-pane>
-    <el-tab-pane label="配置管理" name="second">基础设置</el-tab-pane>
-    <el-tab-pane label="角色管理" name="third"></el-tab-pane>
-    <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
+    <el-tab-pane label="基础设置" name="second">基础设置</el-tab-pane>
+    <el-tab-pane label="分数段设置" name="third"></el-tab-pane>
+    <el-tab-pane label="考核结果分析共享设置" name="fourth">定时任务补偿</el-tab-pane>
   </el-tabs>
 </template>
 

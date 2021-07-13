@@ -33,7 +33,7 @@
 
     <el-table-column label="操作" show-overflow-tooltip>
       <template #default="scope">
-        <el-button @click="updateExamineGrade()">编辑</el-button>
+        <el-button @click="updateExamineGrade(scope.row)">编辑</el-button>
         <el-button type="danger" @click="removePeIndexList(scope.row.scoreId)"
           >删除</el-button
         >
@@ -59,7 +59,7 @@
   </el-pagination>
 
   <el-dialog
-    title="提示"
+    title="绩效评分"
     v-model="dialogVisible"
     width="80%"
     :before-close="handleClose"
@@ -97,10 +97,14 @@
     </el-select>
     <el-table :data="peIndexList" style="width: 100%">
       <el-table-column prop="nameOfIndex" label="分类"> </el-table-column>
-      <el-table-column prop="type" label="指标类型"> </el-table-column>
+      <el-table-column prop="type" label="指标类型">
+        <template #default="scope">
+            {{scope.row.type==1?'定量':'定性'}}
+        </template>
+      </el-table-column>
       <el-table-column prop="indicatorDescription" label="指标描述">
       </el-table-column>
-      <el-table-column prop="weight" label="权重">
+      <el-table-column prop="weight" label="权重%">
 
       </el-table-column>
       <el-table-column label="目标值">
@@ -126,7 +130,7 @@
             
           </el-input>
           {{
-            scope.row.type==1?(scope.row.score =scope.row.targetValue / scope.row.completeValue || ""):''
+            scope.row.type==1?(scope.row.score =scope.row.completeValue/scope.row.targetValue*100  || ""):''
           }}
         </template>
       </el-table-column>
@@ -153,7 +157,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addIndexList">确 定</el-button>
+        <el-button type="primary" @click="addOrUpdate==true?addIndexList():updateIndexList()">确 定</el-button>
       </span>
     </template>
   </el-dialog>
@@ -207,11 +211,24 @@ export default {
       textarea: "",
       empName: "",
       deptName: "",
+      addOrUpdate:true
     };
   },
   components: {},
   methods: {
-    updateExamineGrade() {},
+    updateExamineGrade(row) {
+      var _this = this;
+      console.log(row.performanceScoringObject)
+      _this.empValue = row.performanceScoringObject
+      _this.deptValue = row.graderDepartment
+      _this.scoreId = row.scoreId
+      _this.getPeIndexListByCondition();
+      _this.getExamine(row.scoreId);
+      this.dialogVisible=true
+      _this.addOrUpdate=false;
+      
+
+    },
 
     sumTotal(val) {
       var _this = this;
@@ -299,6 +316,7 @@ export default {
         })
         .then(function (response) {
           _this.empOptions = response.data.data;
+          _this.empValue = _this.empOptions[0].empId
         })
         .catch(function (error) {
           console.log(error);
@@ -307,6 +325,7 @@ export default {
 
     getEmpId() {
       var _this = this;
+
       this.axios
         .get(this.baseUrl + "/emp/findEmp/" + _this.empValue)
         .then(function (response) {
@@ -321,16 +340,54 @@ export default {
     getPeIndexList() {
       var _this = this;
       this.axios
-        .post(this.baseUrl + "/peIndexList/findAllIndexList", {
+        .post(this.baseUrl + "/peIndexList/findAllIndexList/", {
           empId: this.empValue,
           deptId: this.deptValue,
         })
         .then(function (response) {
           _this.peIndexList = response.data.data;
+          _this.peIndexList.forEach(e=>{
+          })
         })
         .catch(function (error) {
           console.log(error);
         });
+    },
+
+    getExamine(){
+            var _this = this;
+                  var id = _this.scoreId
+            this.axios
+              .get(this.baseUrl + "/peExamineGrade/selectOne/"+id)
+              .then(function (response) {
+                _this.textarea =response.data.evaluate
+                console.log(response)
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+
+    },
+
+    getPeIndexListByCondition(){
+            var _this = this;
+            console.log("员工",_this.empValue)
+            console.log("部门",_this.deptValue)
+            console.log("分数",_this.scoreId)
+            this.axios
+              .post(this.baseUrl + "/peIndexList/findAll/", {
+                empId: this.empValue,
+                deptId: this.deptValue,
+                scoreId:this.scoreId
+              })
+              .then(function (response) {
+                _this.peIndexList = response.data.data;
+                _this.peIndexList.forEach(e=>{
+                })
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
     },
 
     removePeIndexList(id) {
@@ -366,21 +423,30 @@ export default {
         }
       });
 
+
       this.axios
         .post(this.baseUrl + "/peExamineGrade/examineGrade", {
           performanceScoringObject: _this.empValue,
           gradingState: _this.gradingStatesValue,
           graderDepartment: _this.deptValue,
-          assessmentScore: _this.sum,
+          assessmentScore: _this.scores,
           evaluate: _this.textarea,
           empName: _this.empName,
           deptName: _this.deptName,
         })
-        .then(function (response) {})
+        .then(function (response) {
+          _this.scoreId = response.data.data.data
+          console.log("scope",response)
+        })
         .catch(function (error) {
           console.log(error);
         });
 
+          _this.peIndexList.forEach(e=>{
+            e.scoreId = _this.scoreId
+            e.empId = _this.empValue
+            e.deptId = _this.deptValue
+          })
       this.axios
         .post(this.baseUrl + "/peIndexList/addIndexList", _this.peIndexList)
         .then(function (response) {
@@ -389,6 +455,57 @@ export default {
             type: "success",
           });
           _this.getScore();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+
+    updateIndexList(){
+      this.dialogVisible = false;
+      const _this = this;
+
+      _this.empOptions.forEach((e) => {
+        if (e.empId == _this.empValue) {
+          _this.empName = e.name;
+        }
+      });
+
+      _this.deptOptions.forEach((e) => {
+        if (e.deptId == _this.deptValue) {
+          _this.deptName = e.name;
+        }
+      });
+
+
+      this.axios
+        .put(this.baseUrl + "/peExamineGrade", {
+          performanceScoringObject: _this.empValue,
+          gradingState: _this.gradingStatesValue,
+          graderDepartment: _this.deptValue,
+          assessmentScore: _this.scores,
+          evaluate: _this.textarea,
+          empName: _this.empName,
+          deptName: _this.deptName,
+          scoreId:_this.scoreId
+        })
+        .then(function (response) {
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+
+      this.axios
+        .post(this.baseUrl + "/peIndexList/updateIndexList", _this.peIndexList)
+        .then(function (response) {
+          _this.$message({
+            message: "修改成功",
+            type: "success",
+          });
+          _this.getScore();
+          _this.addOrUpdate=true;
         })
         .catch(function (error) {
           console.log(error);
@@ -407,12 +524,13 @@ export default {
     //   this.getScore();
     // },
     deptValue: function () {
-      this.empValue = "";
+      // this.empValue = "";
       this.getEmps();
       // this.getEmpId();
     },
     empValue: function () {
-      this.getPeIndexList();
+      this.scoreId!=null||this.scoreId!=''? this.getPeIndexList():this.getPeIndexListByCondition();
+      // this.getPeIndexListByCondition();
     },
 
     // 监控评分状态字段
@@ -421,11 +539,11 @@ export default {
   computed: {
     sumScore() {
       return this.peIndexList
-        .map((row) => row.type==1? row.targetValue / row.completeValue*(row.weight/100):row.score*(row.weight/100))
+        .map((row) => row.score*(row.weight/100))
         .reduce((acc, cur) => cur + acc, 0);
     },
     scores: function () {
-      return this.sumScore;
+      return this.scores= this.sumScore;
     },
   },
 };

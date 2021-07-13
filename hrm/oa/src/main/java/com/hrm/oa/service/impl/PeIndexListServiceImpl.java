@@ -4,6 +4,7 @@ import com.hrm.oa.entity.PeIndexList;
 import com.hrm.oa.dao.PeIndexListDao;
 import com.hrm.oa.service.PeIndexListService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  * @since 2021-07-12 16:26:26
  */
 @Service("peIndexListService")
+@Transactional
 public class PeIndexListServiceImpl implements PeIndexListService {
     @Resource
     private PeIndexListDao peIndexListDao;

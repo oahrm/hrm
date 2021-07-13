@@ -6,6 +6,7 @@ import com.hrm.oa.entity.PeAssessmentIndicators;
 import com.hrm.oa.dao.PeAssessmentIndicatorsDao;
 import com.hrm.oa.service.PeAssessmentIndicatorsService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
  * @since 2021-07-11 14:24:41
  */
 @Service("peAssessmentIndicatorsService")
+@Transactional
 public class PeAssessmentIndicatorsServiceImpl implements PeAssessmentIndicatorsService {
     @Resource
     private PeAssessmentIndicatorsDao peAssessmentIndicatorsDao;

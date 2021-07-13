@@ -4,6 +4,7 @@ import com.hrm.oa.entity.PeCycleSetting;
 import com.hrm.oa.dao.PeCycleSettingDao;
 import com.hrm.oa.service.PeCycleSettingService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  * @since 2021-07-11 16:44:05
  */
 @Service("peCycleSettingService")
+@Transactional
 public class PeCycleSettingServiceImpl implements PeCycleSettingService {
     @Resource
     private PeCycleSettingDao peCycleSettingDao;
