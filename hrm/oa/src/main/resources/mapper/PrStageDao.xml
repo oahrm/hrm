@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.PrStageDao">
+  <resultMap id="BaseResultMap" type="com.hrm.oa.entity.PrStage">
+    <id column="s_id" jdbcType="VARCHAR" property="sId" />
+    <result column="s_name" jdbcType="VARCHAR" property="sName" />
+    <result column="s_description" jdbcType="VARCHAR" property="sDescription" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    s_id, s_name, s_description
+  </sql>
+
+  <insert id="insertpr_stage" parameterType="com.hrm.oa.entity.PrStage" useGeneratedKeys="true">
+    insert into pr_stage (s_id,s_name, s_description)
+    values (#{sId,jdbcType=VARCHAR},#{sName,jdbcType=VARCHAR}, #{sDescription,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectAllpr_stage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pr_stage
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String">
+    delete from pr_stage
+    where s_id = #{sId,jdbcType=VARCHAR}
+  </delete>
+
+<!-- -->
+
+<!--  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.oa.entity.PrStage">-->
+<!--    update pr_stage-->
+<!--    <set>-->
+<!--      <if test="sName != null">-->
+<!--        s_name = #{sName,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="sDescription != null">-->
+<!--        s_description = #{sDescription,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--    </set>-->
+<!--    where s_id = #{sId,jdbcType=VARCHAR}-->
+<!--  </update>-->
+<!--  <update id="updateByPrimaryKey" parameterType="com.hrm.oa.entity.PrStage">-->
+<!--    update pr_stage-->
+<!--    set s_name = #{sName,jdbcType=VARCHAR},-->
+<!--      s_description = #{sDescription,jdbcType=VARCHAR}-->
+<!--    where s_id = #{sId,jdbcType=VARCHAR}-->
+<!--  </update>-->
+</mapper>
