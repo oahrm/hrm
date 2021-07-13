@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.CwTypeDao">
+  <resultMap id="BaseResultMap" type="com.hrm.oa.entity.CwType">
+    <id column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="typecc" jdbcType="INTEGER" property="typecc" />
+    <result column="typegc" jdbcType="INTEGER" property="typegc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    type_id, typecc, typegc
+  </sql>
+  <select id="selectBytype" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cw_type
+
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cw_type
+    where type_id = #{typeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="type_id" keyProperty="typeId" parameterType="com.hrm.oa.entity.CwType" useGeneratedKeys="true">
+    insert into cw_type (typecc, typegc)
+    values (#{typecc,jdbcType=INTEGER}, #{typegc,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="type_id" keyProperty="typeId" parameterType="com.hrm.oa.entity.CwType" useGeneratedKeys="true">
+    insert into cw_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="typecc != null">
+        typecc,
+      </if>
+      <if test="typegc != null">
+        typegc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="typecc != null">
+        #{typecc,jdbcType=INTEGER},
+      </if>
+      <if test="typegc != null">
+        #{typegc,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.oa.entity.CwType">
+    update cw_type
+    <set>
+      <if test="typecc != null">
+        typecc = #{typecc,jdbcType=INTEGER},
+      </if>
+      <if test="typegc != null">
+        typegc = #{typegc,jdbcType=INTEGER},
+      </if>
+    </set>
+    where type_id = #{typeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateBytype" parameterType="com.hrm.oa.entity.CwType">
+    update cw_type
+    set typecc = #{typecc,jdbcType=INTEGER},
+      typegc = #{typegc,jdbcType=INTEGER}
+    where type_id = #{typeId,jdbcType=INTEGER}
+  </update>
+</mapper>

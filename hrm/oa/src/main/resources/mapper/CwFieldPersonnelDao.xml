@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.CwFieldPersonnelDao">
+  <resultMap id="BaseResultMap" type="com.hrm.oa.entity.CwFieldPersonnel">
+    <id column="field_id" jdbcType="INTEGER" property="fieldId" />
+    <result column="fielddate" jdbcType="DATE" property="fielddate" />
+    <result column="empname" jdbcType="VARCHAR" property="empname" />
+    <result column="kqtime_id" jdbcType="INTEGER" property="kqtimeId" />
+    <result column="fielddatetime" jdbcType="TIMESTAMP" property="fielddatetime" />
+    <result column="filedname" jdbcType="VARCHAR" property="filedname" />
+    <result column="fieldadrss" jdbcType="VARCHAR" property="fieldadrss" />
+    <result column="fieldCustomer" jdbcType="VARCHAR" property="fieldcustomer" />
+    <result column="filedremaeks" jdbcType="VARCHAR" property="filedremaeks" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    field_id, fielddate, empname, kqtime_id, fielddatetime, filedname, fieldadrss, fieldCustomer, 
+    filedremaeks, type_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cw_field_personnel
+    where field_id = #{fieldId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cw_field_personnel
+    where field_id = #{fieldId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="field_id" keyProperty="fieldId" parameterType="com.hrm.oa.entity.CwFieldPersonnel" useGeneratedKeys="true">
+    insert into cw_field_personnel (fielddate, empname, kqtime_id, 
+      fielddatetime, filedname, fieldadrss, 
+      fieldCustomer, filedremaeks, type_id
+      )
+    values (#{fielddate,jdbcType=DATE}, #{empname,jdbcType=VARCHAR}, #{kqtimeId,jdbcType=INTEGER}, 
+      #{fielddatetime,jdbcType=TIMESTAMP}, #{filedname,jdbcType=VARCHAR}, #{fieldadrss,jdbcType=VARCHAR}, 
+      #{fieldcustomer,jdbcType=VARCHAR}, #{filedremaeks,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="field_id" keyProperty="fieldId" parameterType="com.hrm.oa.entity.CwFieldPersonnel" useGeneratedKeys="true">
+    insert into cw_field_personnel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fielddate != null">
+        fielddate,
+      </if>
+      <if test="empname != null">
+        empname,
+      </if>
+      <if test="kqtimeId != null">
+        kqtime_id,
+      </if>
+      <if test="fielddatetime != null">
+        fielddatetime,
+      </if>
+      <if test="filedname != null">
+        filedname,
+      </if>
+      <if test="fieldadrss != null">
+        fieldadrss,
+      </if>
+      <if test="fieldcustomer != null">
+        fieldCustomer,
+      </if>
+      <if test="filedremaeks != null">
+        filedremaeks,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fielddate != null">
+        #{fielddate,jdbcType=DATE},
+      </if>
+      <if test="empname != null">
+        #{empname,jdbcType=VARCHAR},
+      </if>
+      <if test="kqtimeId != null">
+        #{kqtimeId,jdbcType=INTEGER},
+      </if>
+      <if test="fielddatetime != null">
+        #{fielddatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="filedname != null">
+        #{filedname,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldadrss != null">
+        #{fieldadrss,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldcustomer != null">
+        #{fieldcustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="filedremaeks != null">
+        #{filedremaeks,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.oa.entity.CwFieldPersonnel">
+    update cw_field_personnel
+    <set>
+      <if test="fielddate != null">
+        fielddate = #{fielddate,jdbcType=DATE},
+      </if>
+      <if test="empname != null">
+        empname = #{empname,jdbcType=VARCHAR},
+      </if>
+      <if test="kqtimeId != null">
+        kqtime_id = #{kqtimeId,jdbcType=INTEGER},
+      </if>
+      <if test="fielddatetime != null">
+        fielddatetime = #{fielddatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="filedname != null">
+        filedname = #{filedname,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldadrss != null">
+        fieldadrss = #{fieldadrss,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldcustomer != null">
+        fieldCustomer = #{fieldcustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="filedremaeks != null">
+        filedremaeks = #{filedremaeks,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where field_id = #{fieldId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrm.oa.entity.CwFieldPersonnel">
+    update cw_field_personnel
+    set fielddate = #{fielddate,jdbcType=DATE},
+      empname = #{empname,jdbcType=VARCHAR},
+      kqtime_id = #{kqtimeId,jdbcType=INTEGER},
+      fielddatetime = #{fielddatetime,jdbcType=TIMESTAMP},
+      filedname = #{filedname,jdbcType=VARCHAR},
+      fieldadrss = #{fieldadrss,jdbcType=VARCHAR},
+      fieldCustomer = #{fieldcustomer,jdbcType=VARCHAR},
+      filedremaeks = #{filedremaeks,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=INTEGER}
+    where field_id = #{fieldId,jdbcType=INTEGER}
+  </update>
+</mapper>
