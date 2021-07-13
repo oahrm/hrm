@@ -2,6 +2,7 @@ package com.hrm.oa.controller;
 
 import com.hrm.oa.entity.PrDnewspaper;
 import com.hrm.oa.service.PrDnewspaperService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -27,9 +28,9 @@ public class PrDnewspaperController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("selectOne")
-    public PrDnewspaper selectOne(String id) {
-        return this.prDnewspaperService.queryById(id);
-    }
+//    @GetMapping("selectOne")
+//    public PrDnewspaper selectOne(String id) {
+//        return this.prDnewspaperService.queryById(id);
+//    }
 
 }

@@ -22,6 +22,13 @@ public class PrStageServiceImpl implements PrStageService {
     private PrStageDao prStageDao;
 
     @Override
+    public PrStage deleteById(String sId) {
+        PrStage prStage=new PrStage();
+        int pr_sId=prStageDao.deleteById(sId);
+        return prStage;
+    }
+
+    @Override
     public PrStage insertpr_stage(PrStage record) {
         int pr_sId=prStageDao.insertpr_stage(record);
         return record;

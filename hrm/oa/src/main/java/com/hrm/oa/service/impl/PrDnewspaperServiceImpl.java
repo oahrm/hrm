@@ -29,7 +29,7 @@ public class PrDnewspaperServiceImpl implements PrDnewspaperService {
      */
     @Override
     public PrDnewspaper queryById(String dnId) {
-        return this.prDnewspaperDao.queryById(dnId);
+        return null;
     }
 
     /**
@@ -41,7 +41,7 @@ public class PrDnewspaperServiceImpl implements PrDnewspaperService {
      */
     @Override
     public List<PrDnewspaper> queryAllByLimit(int offset, int limit) {
-        return this.prDnewspaperDao.queryAllByLimit(offset, limit);
+        return null;
     }
 
     /**
@@ -52,7 +52,7 @@ public class PrDnewspaperServiceImpl implements PrDnewspaperService {
      */
     @Override
     public PrDnewspaper insert(PrDnewspaper prDnewspaper) {
-        this.prDnewspaperDao.insert(prDnewspaper);
+//        this.prDnewspaperDao.insert(prDnewspaper);
         return prDnewspaper;
     }
 
@@ -64,7 +64,7 @@ public class PrDnewspaperServiceImpl implements PrDnewspaperService {
      */
     @Override
     public PrDnewspaper update(PrDnewspaper prDnewspaper) {
-        this.prDnewspaperDao.update(prDnewspaper);
+//        this.prDnewspaperDao.update(prDnewspaper);
         return this.queryById(prDnewspaper.getDnId());
     }
 
@@ -76,6 +76,6 @@ public class PrDnewspaperServiceImpl implements PrDnewspaperService {
      */
     @Override
     public boolean deleteById(String dnId) {
-        return this.prDnewspaperDao.deleteById(dnId) > 0;
+        return true;
     }
 }

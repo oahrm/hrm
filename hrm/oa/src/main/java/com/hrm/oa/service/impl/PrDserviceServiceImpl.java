@@ -29,7 +29,7 @@ public class PrDserviceServiceImpl implements PrDserviceService {
      */
     @Override
     public PrDservice queryById(String dsId) {
-        return this.prDserviceDao.queryById(dsId);
+        return null;
     }
 
     /**
@@ -41,7 +41,7 @@ public class PrDserviceServiceImpl implements PrDserviceService {
      */
     @Override
     public List<PrDservice> queryAllByLimit(int offset, int limit) {
-        return this.prDserviceDao.queryAllByLimit(offset, limit);
+        return null;
     }
 
     /**
@@ -52,7 +52,7 @@ public class PrDserviceServiceImpl implements PrDserviceService {
      */
     @Override
     public PrDservice insert(PrDservice prDservice) {
-        this.prDserviceDao.insert(prDservice);
+//        this.prDserviceDao.insert(prDservice);
         return prDservice;
     }
 
@@ -64,7 +64,7 @@ public class PrDserviceServiceImpl implements PrDserviceService {
      */
     @Override
     public PrDservice update(PrDservice prDservice) {
-        this.prDserviceDao.update(prDservice);
+//        this.prDserviceDao.update(prDservice);
         return this.queryById(prDservice.getDsId());
     }
 
@@ -76,6 +76,6 @@ public class PrDserviceServiceImpl implements PrDserviceService {
      */
     @Override
     public boolean deleteById(String dsId) {
-        return this.prDserviceDao.deleteById(dsId) > 0;
+        return true;
     }
 }

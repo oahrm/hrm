@@ -1,7 +1,9 @@
 package com.hrm.oa.controller;
 
+
 import com.hrm.oa.entity.PrService;
 import com.hrm.oa.service.PrServiceService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -27,9 +29,9 @@ public class PrServiceController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("selectOne")
-    public PrService selectOne(String id) {
-        return this.prServiceService.queryById(id);
-    }
+//    @GetMapping("selectOne")
+//    public PrService selectOne(String id) {
+//        return this.prServiceService.queryById(id);
+//    }
 
 }

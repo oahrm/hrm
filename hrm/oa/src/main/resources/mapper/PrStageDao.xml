@@ -19,10 +19,10 @@
     <include refid="Base_Column_List" />
     from pr_stage
   </select>
-<!--  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">-->
-<!--    delete from pr_stage-->
-<!--    where s_id = #{sId,jdbcType=VARCHAR}-->
-<!--  </delete>-->
+  <delete id="deleteById" parameterType="java.lang.String">
+    delete from pr_stage
+    where s_id = #{sId,jdbcType=VARCHAR}
+  </delete>
 
 <!-- -->
 

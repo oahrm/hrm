@@ -2,6 +2,7 @@ package com.hrm.oa.controller;
 
 import com.hrm.oa.entity.PrDservice;
 import com.hrm.oa.service.PrDserviceService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -27,9 +28,9 @@ public class PrDserviceController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("selectOne")
+    /*@GetMapping("selectOne")
     public PrDservice selectOne(String id) {
         return this.prDserviceService.queryById(id);
-    }
+    }*/
 
 }
