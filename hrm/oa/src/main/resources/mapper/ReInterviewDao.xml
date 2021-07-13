@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.ReInterviewDao">
+  <resultMap id="BaseResultMap" type="com.hrm.oa.entity.ReInterviewEntity">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="person_in_charge" jdbcType="VARCHAR" property="personInCharge" />
+    <result column="urgency" jdbcType="VARCHAR" property="urgency" />
+    <result column="job" jdbcType="VARCHAR" property="job" />
+    <result column="application_time" jdbcType="TIMESTAMP" property="applicationTime" />
+    <result column="schedule_interview_date" jdbcType="TIMESTAMP" property="scheduleInterviewDate" />
+    <result column="Interview_form" jdbcType="VARCHAR" property="interviewForm" />
+    <result column="Interview_stage" jdbcType="VARCHAR" property="interviewStage" />
+    <result column="explains" jdbcType="VARCHAR" property="explains" />
+    <result column="resume_id" jdbcType="VARCHAR" property="resumeId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, person_in_charge, urgency, job, application_time, schedule_interview_date, Interview_form, 
+    Interview_stage, explains, resume_id
+  </sql>
+  <select id="findAll"  resultType="com.hrm.oa.entity.ReInterviewEntitytime">
+    select
+    a.id,a.person_in_charge as personInCharge,a.urgency,a.job,DATE_FORMAT(max(a.application_time),'%Y-%m-%d %H:%i:%s') appTime,DATE_FORMAT(max(a.schedule_interview_date),'%Y-%m-%d %H:%i:%s') scheDate,
+    a.Interview_form as interviewForm,a.Interview_stage as interviewStage,a.resume_id as resumeId,b.`name`,b.sex,DATE_FORMAT(max(b.birthday),'%Y-%m-%d %H:%i:%s') birthday,b.native_place as nativeplace,
+    b.phone,b.highest_education as highesteducation,b.email
+    from  re_interview as a left join re_resume as b on a.resume_id=b.resume_id
+    WHERE explains='显示'
+  </select>
+
+
+  <select id="tit" resultType="java.lang.Integer">
+    select
+    count(id)
+    from re_interview
+    where explains = "显示"
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from re_interview
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from re_interview
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hrm.oa.entity.ReInterviewEntity" useGeneratedKeys="true">
+    insert into re_interview (id,person_in_charge, urgency, job,
+      application_time, schedule_interview_date, 
+      Interview_form, Interview_stage, explains, 
+      resume_id)
+    values (#{id,jdbcType=VARCHAR},#{personInCharge,jdbcType=VARCHAR}, #{urgency,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR},
+      #{applicationTime,jdbcType=TIMESTAMP}, #{scheduleInterviewDate,jdbcType=TIMESTAMP}, 
+      #{interviewForm,jdbcType=VARCHAR}, #{interviewStage,jdbcType=VARCHAR}, #{explains,jdbcType=VARCHAR}, 
+      #{resumeId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hrm.oa.entity.ReInterviewEntity" useGeneratedKeys="true">
+    insert into re_interview
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="personInCharge != null">
+        person_in_charge,
+      </if>
+      <if test="urgency != null">
+        urgency,
+      </if>
+      <if test="job != null">
+        job,
+      </if>
+      <if test="applicationTime != null">
+        application_time,
+      </if>
+      <if test="scheduleInterviewDate != null">
+        schedule_interview_date,
+      </if>
+      <if test="interviewForm != null">
+        Interview_form,
+      </if>
+      <if test="interviewStage != null">
+        Interview_stage,
+      </if>
+      <if test="explains != null">
+        explains,
+      </if>
+      <if test="resumeId != null">
+        resume_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="personInCharge != null">
+        #{personInCharge,jdbcType=VARCHAR},
+      </if>
+      <if test="urgency != null">
+        #{urgency,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null">
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationTime != null">
+        #{applicationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scheduleInterviewDate != null">
+        #{scheduleInterviewDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="interviewForm != null">
+        #{interviewForm,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewStage != null">
+        #{interviewStage,jdbcType=VARCHAR},
+      </if>
+      <if test="explains != null">
+        #{explains,jdbcType=VARCHAR},
+      </if>
+      <if test="resumeId != null">
+        #{resumeId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.oa.entity.ReInterviewEntity">
+    update re_interview
+    <set>
+      <if test="personInCharge != null">
+        person_in_charge = #{personInCharge,jdbcType=VARCHAR},
+      </if>
+      <if test="urgency != null">
+        urgency = #{urgency,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null">
+        job = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationTime != null">
+        application_time = #{applicationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scheduleInterviewDate != null">
+        schedule_interview_date = #{scheduleInterviewDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="interviewForm != null">
+        Interview_form = #{interviewForm,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewStage != null">
+        Interview_stage = #{interviewStage,jdbcType=VARCHAR},
+      </if>
+      <if test="explains != null">
+        explains = #{explains,jdbcType=VARCHAR},
+      </if>
+      <if test="resumeId != null">
+        resume_id = #{resumeId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrm.oa.entity.ReInterviewEntity">
+    update re_interview
+    set person_in_charge = #{personInCharge,jdbcType=VARCHAR},
+      urgency = #{urgency,jdbcType=VARCHAR},
+      job = #{job,jdbcType=VARCHAR},
+      application_time = #{applicationTime,jdbcType=TIMESTAMP},
+      schedule_interview_date = #{scheduleInterviewDate,jdbcType=TIMESTAMP},
+      Interview_form = #{interviewForm,jdbcType=VARCHAR},
+      Interview_stage = #{interviewStage,jdbcType=VARCHAR},
+      explains = #{explains,jdbcType=VARCHAR},
+      resume_id = #{resumeId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updatetonguo" parameterType="java.lang.String">
+    update re_interview
+    set
+      urgency = '通过'
+
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

@@ -55,7 +55,7 @@ public class ReJobRequeirController {
      * 查询编制管理列表
      *
     */
-    @RequestMapping(value = "deljob" ,method = RequestMethod.DELETE)
+    @RequestMapping(value = "deljob" ,method = RequestMethod.PUT)
     public Result deljobrequ(@RequestBody ReJobRequirementsEntity reJobRequirementsEntity) throws Exception {
         //删除
         reJobRequirementService.delposi(reJobRequirementsEntity);

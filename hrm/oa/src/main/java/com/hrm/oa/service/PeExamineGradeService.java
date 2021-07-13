@@ -56,4 +56,5 @@ public interface PeExamineGradeService {
 
     PageInfo<PeExamineGrade> queryAll(PeExamineGrade peExamineGrade,int page,int pageSize);
 
+
 }
