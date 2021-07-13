@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.ReOfferDao">
+  <resultMap id="BaseResultMap" type="com.hrm.oa.entity.ReOffer">
+    <id column="offer_id" jdbcType="VARCHAR" property="offerId" />
+    <result column="offername" jdbcType="VARCHAR" property="offername" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="date_of_birth" jdbcType="TIMESTAMP" property="dateOfBirth" />
+    <result column="place" jdbcType="VARCHAR" property="place" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="marita_status" jdbcType="VARCHAR" property="maritaStatus" />
+    <result column="highest_education" jdbcType="VARCHAR" property="highestEducation" />
+    <result column="academic_degree" jdbcType="VARCHAR" property="academicDegree" />
+    <result column="mailbox" jdbcType="VARCHAR" property="mailbox" />
+    <result column="offer_status" jdbcType="INTEGER" property="offerStatus" />
+    <result column="division" jdbcType="VARCHAR" property="division" />
+    <result column="directsuperior" jdbcType="VARCHAR" property="directsuperior" />
+    <result column="station" jdbcType="VARCHAR" property="station" />
+    <result column="department" jdbcType="VARCHAR" property="department" />
+    <result column="office_location" jdbcType="VARCHAR" property="officeLocation" />
+    <result column="base_pay" jdbcType="DECIMAL" property="basePay" />
+    <result column="merit_pay" jdbcType="DECIMAL" property="meritPay" />
+    <result column="regular_salary" jdbcType="DECIMAL" property="regularSalary" />
+    <result column="probation_period" jdbcType="INTEGER" property="probationPeriod" />
+    <result column="probation_period_salary" jdbcType="DECIMAL" property="probationPeriodSalary" />
+    <result column="arrival_time" jdbcType="TIMESTAMP" property="arrivalTime" />
+
+    <association property="re_entry_applica" javaType="com.hrm.oa.entity.ReEntryApplica">
+      <id column="id" jdbcType="VARCHAR" property="id" />
+      <result column="title" jdbcType="VARCHAR" property="title" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+      <result column="offer_id" jdbcType="VARCHAR" property="offerId" />
+      <result column="post_line" jdbcType="VARCHAR" property="postLine" />
+      <result column="entrystatus" jdbcType="INTEGER" property="entrystatus" />
+      <result column="contractstatus" jdbcType="INTEGER" property="contractstatus" />
+      <result column="job_responsibilities" jdbcType="VARCHAR" property="jobResponsibilities" />
+    </association>
+
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    o.offer_id, o.offername, o.name, o.sex, o.date_of_birth, o.place, o.phone,
+    o.idcard, o.nation, o.marita_status, o.highest_education, o.academic_degree,
+    o.mailbox, o.offer_status, o.division, o.directsuperior, o.station, o.department,
+    o.office_location, o.base_pay, o.merit_pay, o.regular_salary, o.probation_period,
+    o.probation_period_salary, o.arrival_time
+  </sql>
+  <sql id="re_entry_applica">
+    a.id, a.title, a.name, a.idcard, a.offer_id, a.post_line, a.entrystatus, a.contractstatus, a.job_responsibilities
+  </sql>
+
+  <!--查询出offer状态为以同意数据到劳务合同签署界面-->
+  <select id="selectOffer_Hucontracto" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    <include refid="re_entry_applica"/>
+    from re_offer o
+    inner join re_entry_applica a on a.id=o.offer_id
+    where o.offer_status=1
+  </select>
+
+  <!--  将签署状态更改为1-->
+  <update id="updateOffer_Hucontracto">
+     update re_entry_applica set contractstatus=1
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--查询出签署状态为以1的数据到员工入职页面-->
+  <select id="selectOffer_HuPersonnelbecome" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    <include refid="re_entry_applica"/>
+    from re_offer o
+    inner join re_entry_applica a on a.id=o.offer_id
+    where a.contractstatus=1
+  </select>
+
+  <!--  将入职状态更改为1-->
+  <update id="updateOffer_HuPersonnelbecome">
+     update re_entry_applica set entrystatus=1
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from re_offer
+    where offer_id = #{offerId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from re_offer
+    where offer_id = #{offerId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="offer_id" keyProperty="offerId" parameterType="com.hrm.oa.entity.ReOffer" useGeneratedKeys="true">
+    insert into re_offer (offername, `name`, sex, 
+      date_of_birth, place, phone, 
+      idcard, nation, marita_status, 
+      highest_education, academic_degree, mailbox, 
+      offer_status, division, directsuperior, 
+      station, department, office_location, 
+      base_pay, merit_pay, regular_salary, 
+      probation_period, probation_period_salary, 
+      arrival_time)
+    values (#{offername,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{dateOfBirth,jdbcType=TIMESTAMP}, #{place,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{idcard,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, #{maritaStatus,jdbcType=VARCHAR}, 
+      #{highestEducation,jdbcType=VARCHAR}, #{academicDegree,jdbcType=VARCHAR}, #{mailbox,jdbcType=VARCHAR}, 
+      #{offerStatus,jdbcType=INTEGER}, #{division,jdbcType=VARCHAR}, #{directsuperior,jdbcType=VARCHAR}, 
+      #{station,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{officeLocation,jdbcType=VARCHAR}, 
+      #{basePay,jdbcType=DECIMAL}, #{meritPay,jdbcType=DECIMAL}, #{regularSalary,jdbcType=DECIMAL}, 
+      #{probationPeriod,jdbcType=INTEGER}, #{probationPeriodSalary,jdbcType=DECIMAL}, 
+      #{arrivalTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="offer_id" keyProperty="offerId" parameterType="com.hrm.oa.entity.ReOffer" useGeneratedKeys="true">
+    insert into re_offer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="offername != null">
+        offername,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="dateOfBirth != null">
+        date_of_birth,
+      </if>
+      <if test="place != null">
+        place,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="idcard != null">
+        idcard,
+      </if>
+      <if test="nation != null">
+        nation,
+      </if>
+      <if test="maritaStatus != null">
+        marita_status,
+      </if>
+      <if test="highestEducation != null">
+        highest_education,
+      </if>
+      <if test="academicDegree != null">
+        academic_degree,
+      </if>
+      <if test="mailbox != null">
+        mailbox,
+      </if>
+      <if test="offerStatus != null">
+        offer_status,
+      </if>
+      <if test="division != null">
+        division,
+      </if>
+      <if test="directsuperior != null">
+        directsuperior,
+      </if>
+      <if test="station != null">
+        station,
+      </if>
+      <if test="department != null">
+        department,
+      </if>
+      <if test="officeLocation != null">
+        office_location,
+      </if>
+      <if test="basePay != null">
+        base_pay,
+      </if>
+      <if test="meritPay != null">
+        merit_pay,
+      </if>
+      <if test="regularSalary != null">
+        regular_salary,
+      </if>
+      <if test="probationPeriod != null">
+        probation_period,
+      </if>
+      <if test="probationPeriodSalary != null">
+        probation_period_salary,
+      </if>
+      <if test="arrivalTime != null">
+        arrival_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="offername != null">
+        #{offername,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="dateOfBirth != null">
+        #{dateOfBirth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="place != null">
+        #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null">
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="maritaStatus != null">
+        #{maritaStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="highestEducation != null">
+        #{highestEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="academicDegree != null">
+        #{academicDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="mailbox != null">
+        #{mailbox,jdbcType=VARCHAR},
+      </if>
+      <if test="offerStatus != null">
+        #{offerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="division != null">
+        #{division,jdbcType=VARCHAR},
+      </if>
+      <if test="directsuperior != null">
+        #{directsuperior,jdbcType=VARCHAR},
+      </if>
+      <if test="station != null">
+        #{station,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="officeLocation != null">
+        #{officeLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="basePay != null">
+        #{basePay,jdbcType=DECIMAL},
+      </if>
+      <if test="meritPay != null">
+        #{meritPay,jdbcType=DECIMAL},
+      </if>
+      <if test="regularSalary != null">
+        #{regularSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="probationPeriod != null">
+        #{probationPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="probationPeriodSalary != null">
+        #{probationPeriodSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="arrivalTime != null">
+        #{arrivalTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.oa.entity.ReOffer">
+    update re_offer
+    <set>
+      <if test="offername != null">
+        offername = #{offername,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="dateOfBirth != null">
+        date_of_birth = #{dateOfBirth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="place != null">
+        place = #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null">
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="maritaStatus != null">
+        marita_status = #{maritaStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="highestEducation != null">
+        highest_education = #{highestEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="academicDegree != null">
+        academic_degree = #{academicDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="mailbox != null">
+        mailbox = #{mailbox,jdbcType=VARCHAR},
+      </if>
+      <if test="offerStatus != null">
+        offer_status = #{offerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="division != null">
+        division = #{division,jdbcType=VARCHAR},
+      </if>
+      <if test="directsuperior != null">
+        directsuperior = #{directsuperior,jdbcType=VARCHAR},
+      </if>
+      <if test="station != null">
+        station = #{station,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="officeLocation != null">
+        office_location = #{officeLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="basePay != null">
+        base_pay = #{basePay,jdbcType=DECIMAL},
+      </if>
+      <if test="meritPay != null">
+        merit_pay = #{meritPay,jdbcType=DECIMAL},
+      </if>
+      <if test="regularSalary != null">
+        regular_salary = #{regularSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="probationPeriod != null">
+        probation_period = #{probationPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="probationPeriodSalary != null">
+        probation_period_salary = #{probationPeriodSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="arrivalTime != null">
+        arrival_time = #{arrivalTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where offer_id = #{offerId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrm.oa.entity.ReOffer">
+    update re_offer
+    set offername = #{offername,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      date_of_birth = #{dateOfBirth,jdbcType=TIMESTAMP},
+      place = #{place,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      nation = #{nation,jdbcType=VARCHAR},
+      marita_status = #{maritaStatus,jdbcType=VARCHAR},
+      highest_education = #{highestEducation,jdbcType=VARCHAR},
+      academic_degree = #{academicDegree,jdbcType=VARCHAR},
+      mailbox = #{mailbox,jdbcType=VARCHAR},
+      offer_status = #{offerStatus,jdbcType=INTEGER},
+      division = #{division,jdbcType=VARCHAR},
+      directsuperior = #{directsuperior,jdbcType=VARCHAR},
+      station = #{station,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      office_location = #{officeLocation,jdbcType=VARCHAR},
+      base_pay = #{basePay,jdbcType=DECIMAL},
+      merit_pay = #{meritPay,jdbcType=DECIMAL},
+      regular_salary = #{regularSalary,jdbcType=DECIMAL},
+      probation_period = #{probationPeriod,jdbcType=INTEGER},
+      probation_period_salary = #{probationPeriodSalary,jdbcType=DECIMAL},
+      arrival_time = #{arrivalTime,jdbcType=TIMESTAMP}
+    where offer_id = #{offerId,jdbcType=VARCHAR}
+  </update>
+</mapper>

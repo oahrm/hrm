@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.HuPersonnelbecomeDao">
+  <resultMap id="BaseResultMap" type="com.hrm.oa.entity.HuPersonnelbecome">
+    <id column="become_id" jdbcType="VARCHAR" property="becomeId" />
+    <result column="become_name" jdbcType="VARCHAR" property="becomeName" />
+    <result column="become_dept" jdbcType="VARCHAR" property="becomeDept" />
+    <result column="become_leader" jdbcType="VARCHAR" property="becomeLeader" />
+    <result column="entry_status" jdbcType="TIME" property="entryStatus" />
+    <result column="apply_date" jdbcType="TIME" property="applyDate" />
+    <result column="apply_state" jdbcType="INTEGER" property="applyState" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    become_id, become_name, become_dept, become_leader, entry_status, apply_date, apply_state
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hu_personnelbecome
+    where become_id = #{becomeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from hu_personnelbecome
+    where become_id = #{becomeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="become_id" keyProperty="becomeId" parameterType="com.hrm.oa.entity.HuPersonnelbecome" useGeneratedKeys="true">
+    insert into hu_personnelbecome (become_name, become_dept, become_leader, 
+      entry_status, apply_date, apply_state
+      )
+    values (#{becomeName,jdbcType=VARCHAR}, #{becomeDept,jdbcType=VARCHAR}, #{becomeLeader,jdbcType=VARCHAR}, 
+      #{entryStatus,jdbcType=TIME}, #{applyDate,jdbcType=TIME}, #{applyState,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="become_id" keyProperty="becomeId" parameterType="com.hrm.oa.entity.HuPersonnelbecome" useGeneratedKeys="true">
+    insert into hu_personnelbecome
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="becomeName != null">
+        become_name,
+      </if>
+      <if test="becomeDept != null">
+        become_dept,
+      </if>
+      <if test="becomeLeader != null">
+        become_leader,
+      </if>
+      <if test="entryStatus != null">
+        entry_status,
+      </if>
+      <if test="applyDate != null">
+        apply_date,
+      </if>
+      <if test="applyState != null">
+        apply_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="becomeName != null">
+        #{becomeName,jdbcType=VARCHAR},
+      </if>
+      <if test="becomeDept != null">
+        #{becomeDept,jdbcType=VARCHAR},
+      </if>
+      <if test="becomeLeader != null">
+        #{becomeLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="entryStatus != null">
+        #{entryStatus,jdbcType=TIME},
+      </if>
+      <if test="applyDate != null">
+        #{applyDate,jdbcType=TIME},
+      </if>
+      <if test="applyState != null">
+        #{applyState,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.oa.entity.HuPersonnelbecome">
+    update hu_personnelbecome
+    <set>
+      <if test="becomeName != null">
+        become_name = #{becomeName,jdbcType=VARCHAR},
+      </if>
+      <if test="becomeDept != null">
+        become_dept = #{becomeDept,jdbcType=VARCHAR},
+      </if>
+      <if test="becomeLeader != null">
+        become_leader = #{becomeLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="entryStatus != null">
+        entry_status = #{entryStatus,jdbcType=TIME},
+      </if>
+      <if test="applyDate != null">
+        apply_date = #{applyDate,jdbcType=TIME},
+      </if>
+      <if test="applyState != null">
+        apply_state = #{applyState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where become_id = #{becomeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrm.oa.entity.HuPersonnelbecome">
+    update hu_personnelbecome
+    set become_name = #{becomeName,jdbcType=VARCHAR},
+      become_dept = #{becomeDept,jdbcType=VARCHAR},
+      become_leader = #{becomeLeader,jdbcType=VARCHAR},
+      entry_status = #{entryStatus,jdbcType=TIME},
+      apply_date = #{applyDate,jdbcType=TIME},
+      apply_state = #{applyState,jdbcType=INTEGER}
+    where become_id = #{becomeId,jdbcType=VARCHAR}
+  </update>
+</mapper>

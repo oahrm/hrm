@@ -13,25 +13,93 @@ public class EmpServiceImpl implements EmpService {
 
     @Autowired
     private EmpDao empDao;
-
-
-    /**
-     *查找所有在职员工
-     * @return
-     */
-    @Override
-    public List<Emp> findAllTheJobStatusEmpOn() {
-        return empDao.selectAllByOnTheJobStatus();
-    }
     /**
      *根据姓名模糊查询在职员工
      * @return
      */
     @Override
-    public List<Emp> findByName(String name) {
-        if(name!=null){
-            name = "%"+name+"%";
+    public List<Emp> findByName(Emp emp) {
+        if(emp.getName()!=null){
+            emp.setName("%"+emp.getName().trim()+"%");
         }
-        return empDao.selectByName(name);
+        return empDao.selectByName(emp);
     }
+
+    /**
+     *查找部门下与自己同级的员工
+     * @return
+     */
+    @Override
+    public List<Emp> findEmpByDeptIdAndRanks(Emp emp) {
+        Emp emp1 = empDao.selectByPrimaryKey(emp.getEmpId());
+        emp.setDeptId(emp1.getDeptId());
+        emp.setRanks(emp1.getRanks());
+        if(emp.getName()!=null){
+            emp.setName("%"+emp.getName().trim()+"%");
+        }
+        return empDao.selectByDeptIdAndRanks(emp);
+    }
+
+    /**
+     *查找下级下属
+     * @return
+     */
+    @Override
+    public List<Emp> findEmpByParenId(Emp emp) {
+        emp.setParentId(emp.getEmpId());
+        if(emp.getName()!=null){
+            emp.setName("%"+emp.getName().trim()+"%");
+        }
+        return empDao.selectEmpByParenId(emp);
+    }
+
+    /**
+     * 查询所有在职员工
+     * @return
+     */
+    @Override
+    public List<Emp> findAllEmp() {
+        return empDao.selectByOnTheJobStatus();
+    }
+
+    /**
+     * 查询某个员工
+     * @param empId
+     * @return
+     */
+    @Override
+    public Emp findEmpByEmpId(String empId) {
+        return empDao.selectByPrimaryKey(empId);
+    }
+
+    /**
+     * 统计某个员工的直接下属数量
+     * @param empId
+     * @return
+     */
+    @Override
+    public Integer countEmpByParentId(String empId) {
+        return empDao.empCount(empId);
+    }
+
+    /**
+     * 通过员工id修改员工信信息
+     * @return
+     */
+    @Override
+    public int updateEmpByEmpId(Emp emp) {
+        return empDao.updateByPrimaryKey(emp);
+    }
+
+    /**
+     * 根据部门查询员工
+     * @param deptId
+     * @return
+     */
+    @Override
+    public List<Emp> selectAllByDeptId(String deptId) {
+        return empDao.selectAllByDeptId(deptId);
+    }
+
+
 }

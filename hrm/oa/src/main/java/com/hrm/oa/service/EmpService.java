@@ -5,14 +5,22 @@ import com.hrm.oa.entity.Emp;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- *
- * @Author: Bkiller
- * @Date: 2021/07/11/14:19
- * @Description:
+ * 业务类接口
  */
 public interface EmpService {
-    List<Emp> findAllTheJobStatusEmpOn();
+    List<Emp> findByName(Emp emp);
 
-    List<Emp> findByName(String name);
+    List<Emp> findEmpByDeptIdAndRanks(Emp emp);
+
+    List<Emp> findEmpByParenId(Emp emp);
+
+    List<Emp> findAllEmp();
+
+    Emp findEmpByEmpId(String empId);
+
+    Integer countEmpByParentId(String empId);
+
+    int updateEmpByEmpId(Emp emp);
+
+    List<Emp> selectAllByDeptId(String deptId);
 }

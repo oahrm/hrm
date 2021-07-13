@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.CwTimeDao">
+  <resultMap id="BaseResultMap" type="com.hrm.oa.entity.CwTime">
+    <id column="kqtime_id" jdbcType="INTEGER" property="kqtimeId" />
+    <result column="morning_time" jdbcType="VARCHAR" property="morningTime" />
+    <result column="night_time" jdbcType="VARCHAR" property="nightTime" />
+    <result column="nights_time" jdbcType="VARCHAR" property="nightsTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    kqtime_id, morning_time, night_time, nights_time
+  </sql>
+  <select id="selectBytime" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cw_time
+
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cw_time
+    where kqtime_id = #{kqtimeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="kqtime_id" keyProperty="kqtimeId" parameterType="com.hrm.oa.entity.CwTime" useGeneratedKeys="true">
+    insert into cw_time (morning_time, night_time, nights_time
+      )
+    values (#{morningTime,jdbcType=VARCHAR}, #{nightTime,jdbcType=VARCHAR}, #{nightsTime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="kqtime_id" keyProperty="kqtimeId" parameterType="com.hrm.oa.entity.CwTime" useGeneratedKeys="true">
+    insert into cw_time
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="morningTime != null">
+        morning_time,
+      </if>
+      <if test="nightTime != null">
+        night_time,
+      </if>
+      <if test="nightsTime != null">
+        nights_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="morningTime != null">
+        #{morningTime,jdbcType=VARCHAR},
+      </if>
+      <if test="nightTime != null">
+        #{nightTime,jdbcType=VARCHAR},
+      </if>
+      <if test="nightsTime != null">
+        #{nightsTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.oa.entity.CwTime">
+    update cw_time
+    <set>
+      <if test="morningTime != null">
+        morning_time = #{morningTime,jdbcType=VARCHAR},
+      </if>
+      <if test="nightTime != null">
+        night_time = #{nightTime,jdbcType=VARCHAR},
+      </if>
+      <if test="nightsTime != null">
+        nights_time = #{nightsTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where kqtime_id = #{kqtimeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateBytime" parameterType="com.hrm.oa.entity.CwTime">
+    update cw_time
+    set morning_time = #{morningTime,jdbcType=VARCHAR},
+      night_time = #{nightTime,jdbcType=VARCHAR},
+
+    where kqtime_id = #{kqtimeId,jdbcType=INTEGER}
+  </update>
+</mapper>

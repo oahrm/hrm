@@ -6,7 +6,7 @@
         <result property="indexNumber" column="index_number" jdbcType="VARCHAR"/>
         <result property="nameOfIndex" column="name_of_index" jdbcType="VARCHAR"/>
         <result property="indicatorDescription" column="indicator_description" jdbcType="VARCHAR"/>
-        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
         <result property="initiateMode" column="initiate_mode" jdbcType="INTEGER"/>
         <result property="deptId" column="dept_id" jdbcType="VARCHAR"/>
     </resultMap>
@@ -42,7 +42,7 @@
             <if test="indicatorDescription != null and indicatorDescription != ''">
                 and indicator_description = #{indicatorDescription}
             </if>
-            <if test="type != null">
+            <if test="type != null and type != ''">
                 and type = #{type}
             </if>
             <if test="initiateMode != null">
@@ -91,7 +91,7 @@
             <if test="indicatorDescription != null and indicatorDescription != ''">
                 indicator_description = #{indicatorDescription},
             </if>
-            <if test="type != null">
+            <if test="type != null and type != ''">
                 type = #{type},
             </if>
             <if test="initiateMode != null">

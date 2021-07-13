@@ -2,6 +2,7 @@ package com.hrm.oa.service;
 
 import com.github.pagehelper.PageInfo;
 import com.hrm.oa.entity.PeAssessmentIndicators;
+import com.hrm.oa.entity.PeExamineGrade;
 
 import java.util.List;
 
@@ -54,6 +55,7 @@ public interface PeAssessmentIndicatorsService {
      */
     boolean deleteById(String indexNumber);
 
-    PageInfo<PeAssessmentIndicators> queryAll(PeAssessmentIndicators peAssessmentIndicators, int page, int pageSize);
+    List<PeAssessmentIndicators> queryAll(PeAssessmentIndicators peAssessmentIndicators);
+
 
 }

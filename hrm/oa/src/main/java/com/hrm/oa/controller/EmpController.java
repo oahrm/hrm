@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.hrm.oa.entity.Emp;
 import com.hrm.oa.service.impl.EmpServiceImpl;
 import com.hrm.oa.vo.PageParam;
-/*import com.hrm.oa.vo.PageResult;*/
+import com.hrm.oa.vo.PageResult;
 import com.hrm.oa.vo.Result;
 import com.hrm.oa.vo.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,41 +27,78 @@ public class EmpController {
 
     @Autowired
     private EmpServiceImpl empService;
-
-    /**
-     * 查询所有在职员工
-     * @return
-     */
-//    @PostMapping("/empList")
-//    public Result empList(@RequestBody PageParam pageParam){
-//        PageHelper.startPage(Integer.parseInt(pageParam.getPage()), Integer.parseInt(pageParam.getSize()));
-//        List<Emp> list = empService.findAllTheJobStatusEmpOn();
-//        PageInfo<Emp> pageInfo = new PageInfo<>(list);
-//        PageResult<Emp> pageResult = new PageResult<>(pageInfo.getTotal(),list);
-//        return new Result(ResultCode.SUCCESS,pageResult);
-//    }
-
     /**
      * 模糊查询所有在职员工
      * @return
      */
-//    @PostMapping("/empListByName")
-//    public Result empListByName(@RequestBody PageParam pageParam){
-//        PageHelper.startPage(Integer.parseInt(pageParam.getPage()), Integer.parseInt(pageParam.getSize()));
-//        List<Emp> list = empService.findByName(pageParam.getKeywords());
-//        System.out.println(list.toString());
-//        PageInfo<Emp> pageInfo = new PageInfo<>(list);
-//        PageResult<Emp> pageResult = new PageResult<>(pageInfo.getTotal(),list);
-//        return new Result(ResultCode.SUCCESS,pageResult);
-//    }
+    @PostMapping("/empListByName")
+    public Result empListByName(@RequestBody PageParam pageParam){
+        PageHelper.startPage(Integer.parseInt(pageParam.getPage()), Integer.parseInt(pageParam.getSize()));
+        List<Emp> list = empService.findByName(pageParam.getEmp());
+        PageInfo<Emp> pageInfo = new PageInfo<>(list);
+        PageResult<Emp> pageResult = new PageResult<>(pageInfo.getTotal(),list);
+        return new Result(ResultCode.SUCCESS,pageResult);
+    }
 
     /**
-     * 模糊查询所有在职员工
+     *查找部门下与自己同级的员工
      * @return
      */
-    @GetMapping("/list")
-    public Result list(){
-        List<Emp> list = empService.findAllTheJobStatusEmpOn();
-        return new Result(ResultCode.SUCCESS,list);
+    @PostMapping("/findByDeptAndRanks")
+    public Result findEmpByDeptIdAndRanks(@RequestBody PageParam pageParam) {
+        PageHelper.startPage(Integer.parseInt(pageParam.getPage()), Integer.parseInt(pageParam.getSize()));
+        List<Emp> list = empService.findEmpByDeptIdAndRanks(pageParam.getEmp());
+        PageInfo<Emp> pageInfo = new PageInfo<>(list);
+        PageResult<Emp> pageResult = new PageResult<>(pageInfo.getTotal(),list);
+        return new Result(ResultCode.SUCCESS,pageResult);
+    }
+    /**
+     *查找下属
+     * @return
+     */
+    @PostMapping("/findByParentId")
+    public Result findByParentId(@RequestBody PageParam pageParam) {
+        PageHelper.startPage(Integer.parseInt(pageParam.getPage()), Integer.parseInt(pageParam.getSize()));
+        List<Emp> list = empService.findEmpByParenId(pageParam.getEmp());
+        PageInfo<Emp> pageInfo = new PageInfo<>(list);
+        PageResult<Emp> pageResult = new PageResult<>(pageInfo.getTotal(), list);
+        return new Result(ResultCode.SUCCESS, pageResult);
+    }
+
+    /**
+     *根据员工id查找员工
+     * @return
+     */
+    @GetMapping("/findEmp/{empId}")
+    public Result findByEmpId(@PathVariable String empId) {
+        Emp emp = empService.findEmpByEmpId(empId);
+        return new Result(ResultCode.SUCCESS, emp);
+    }
+
+    /**
+     * 统计员工下属个数
+     */
+    @GetMapping("/empCount/{empId}")
+    public Result empCount(@PathVariable String empId) {
+        int i = empService.countEmpByParentId(empId);
+        return new Result(ResultCode.SUCCESS, i);
+    }
+
+    /**
+     * 修改员工
+     */
+    @PutMapping("/updateEmp")
+    public Result updateEmp(@RequestBody Emp emp) {
+        empService.updateEmpByEmpId(emp);
+        return new Result(ResultCode.SUCCESS);
+    }
+
+    /**
+     * 根据部门查询员工
+     */
+    @PostMapping("/findEmpsByDeptId")
+    public Result findEmpsByDeptId(@RequestBody Emp emp){
+        List<Emp> emps = empService.selectAllByDeptId(emp.getDeptId());
+        return  new Result(ResultCode.SUCCESS,emps);
     }
 }
