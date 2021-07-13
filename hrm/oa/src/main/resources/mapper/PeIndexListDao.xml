@@ -17,20 +17,21 @@
         <result property="deptId" column="dept_id" jdbcType="VARCHAR"/>
         <result property="scoreId" column="score_id" jdbcType="VARCHAR"/>
         <result property="pointerType" column="pointer_type" jdbcType="VARCHAR"/>
+        <result property="weight" column="weight" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="PeIndexListMap">
         select
-          index_id, name_of_index, indicator_description, type, target_value, complete_value, score, goal, initiate_mode, emp_id, in_explain, dept_id, score_id, pointer_type
+          index_id, name_of_index, indicator_description, type, target_value, complete_value, score, goal, initiate_mode, emp_id, in_explain, dept_id, score_id, pointer_type, weight
         from hrm.pe_index_list
-        where  index_id = #{indexId}
+        where  index_id= #{indexId}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="PeIndexListMap">
         select
-          index_id, name_of_index, indicator_description, type, target_value, complete_value, score, goal, initiate_mode, emp_id, in_explain, dept_id, score_id, pointer_type
+          index_id, name_of_index, indicator_description, type, target_value, complete_value, score, goal, initiate_mode, emp_id, in_explain, dept_id, score_id, pointer_type, weight
         from hrm.pe_index_list
         limit #{offset}, #{limit}
     </select>
@@ -39,7 +40,7 @@
     <select id="queryAll" resultMap="PeIndexListMap">
         select
         index_id, name_of_index, indicator_description, type, target_value, complete_value, score, goal, initiate_mode,
-        emp_id, in_explain, dept_id, score_id, pointer_type
+        emp_id, in_explain, dept_id, score_id, pointer_type, weight
         from hrm.pe_index_list
         <where>
             <if test="indexId != null and indexId != ''">
@@ -84,41 +85,46 @@
             <if test="pointerType != null and pointerType != ''">
                 and pointer_type = #{pointerType}
             </if>
+            <if test="weight != null">
+                and weight = #{weight}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="" useGeneratedKeys="true">
-        insert into hrm.pe_index_list(index_id, name_of_index, indicator_description, type, target_value, complete_value, score, goal, initiate_mode, emp_id, in_explain, dept_id, score_id, pointer_type)
-        values (#{indexId}, #{nameOfIndex}, #{indicatorDescription}, #{type}, #{targetValue}, #{completeValue}, #{score}, #{goal}, #{initiateMode}, #{empId}, #{inExplain}, #{deptId}, #{scoreId}, #{pointerType})
+        insert into hrm.pe_index_list(index_id, name_of_index, indicator_description, type, target_value, complete_value, score, goal, initiate_mode, emp_id, in_explain, dept_id, score_id, pointer_type, weight)
+        values (#{indexId}, #{nameOfIndex}, #{indicatorDescription}, #{type}, #{targetValue}, #{completeValue}, #{score}, #{goal}, #{initiateMode}, #{empId}, #{inExplain}, #{deptId}, #{scoreId}, #{pointerType}, #{weight})
     </insert>
 
     <insert id="insertBatch" keyProperty="" useGeneratedKeys="true">
         insert into hrm.pe_index_list(index_id, name_of_index, indicator_description, type, target_value,
-        complete_value, score, goal, initiate_mode, emp_id, in_explain, dept_id, score_id, pointer_type)
+        complete_value, score, goal, initiate_mode, emp_id, in_explain, dept_id, score_id, pointer_type, weight)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.indexId}, #{entity.nameOfIndex}, #{entity.indicatorDescription}, #{entity.type},
             #{entity.targetValue}, #{entity.completeValue}, #{entity.score}, #{entity.goal}, #{entity.initiateMode},
-            #{entity.empId}, #{entity.inExplain}, #{entity.deptId}, #{entity.scoreId}, #{entity.pointerType})
+            #{entity.empId}, #{entity.inExplain}, #{entity.deptId}, #{entity.scoreId}, #{entity.pointerType},
+            #{entity.weight})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="" useGeneratedKeys="true">
         insert into hrm.pe_index_list(index_id, name_of_index, indicator_description, type, target_value,
-        complete_value, score, goal, initiate_mode, emp_id, in_explain, dept_id, score_id, pointer_type)
+        complete_value, score, goal, initiate_mode, emp_id, in_explain, dept_id, score_id, pointer_type, weight)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.indexId}, #{entity.nameOfIndex}, #{entity.indicatorDescription}, #{entity.type},
             #{entity.targetValue}, #{entity.completeValue}, #{entity.score}, #{entity.goal}, #{entity.initiateMode},
-            #{entity.empId}, #{entity.inExplain}, #{entity.deptId}, #{entity.scoreId}, #{entity.pointerType})
+            #{entity.empId}, #{entity.inExplain}, #{entity.deptId}, #{entity.scoreId}, #{entity.pointerType},
+            #{entity.weight})
         </foreach>
         on duplicate key update
         index_id = values(index_id) , name_of_index = values(name_of_index) , indicator_description =
         values(indicator_description) , type = values(type) , target_value = values(target_value) , complete_value =
         values(complete_value) , score = values(score) , goal = values(goal) , initiate_mode = values(initiate_mode) ,
         emp_id = values(emp_id) , in_explain = values(in_explain) , dept_id = values(dept_id) , score_id =
-        values(score_id) , pointer_type = values(pointer_type)
+        values(score_id) , pointer_type = values(pointer_type) , weight = values(weight)
     </insert>
 
     <!--通过主键修改数据-->
@@ -167,12 +173,15 @@
             <if test="pointerType != null and pointerType != ''">
                 pointer_type = #{pointerType},
             </if>
+            <if test="weight != null">
+                weight = #{weight},
+            </if>
         </set>
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from hrm.pe_index_list where  index_id= #{indexId}
+        delete from hrm.pe_index_list where  = index_id#{indexId}
     </delete>
 
 </mapper>

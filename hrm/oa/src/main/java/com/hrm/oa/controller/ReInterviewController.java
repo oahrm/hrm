@@ -1,7 +1,9 @@
 package com.hrm.oa.controller;
 
+import com.hrm.oa.entity.ReInterviewEntity;
 import com.hrm.oa.entity.ReInterviewEntitytime;
 import com.hrm.oa.entity.ReJobRequirementsEntity;
+import com.hrm.oa.entity.ReResumeEntity;
 import com.hrm.oa.service.ReInterviewService;
 import com.hrm.oa.vo.PageVo;
 import com.hrm.oa.vo.Result;
@@ -45,9 +47,9 @@ public class ReInterviewController {
      * 添加
      */
     /* *
-     * 添加岗位需求*/
+     * 添加面试申请*/
 
-    @RequestMapping(value = "addjob" ,method = RequestMethod.PUT)
+    @RequestMapping(value = "addinter" ,method = RequestMethod.PUT)
     public Result addjobrequ(@RequestBody ReInterviewEntitytime reInterviewEntitytime) throws Exception {
         //获取列表
         reInterviewService.save(reInterviewEntitytime);
@@ -61,5 +63,35 @@ public class ReInterviewController {
     public Result modify(@RequestBody ReInterviewEntitytime reInterviewEntitytime) throws Exception {
         reInterviewService.modifytonguo(reInterviewEntitytime);
         return new Result(ResultCode.SUCCESS);
+    }
+
+
+    /**
+     * 关闭
+     */
+    @RequestMapping(value = "modifygaunbi" ,method = RequestMethod.PUT)
+    public Result modifyguanbi(@RequestBody ReInterviewEntitytime reInterviewEntitytime) throws Exception {
+        reInterviewService.modifyguanbi(reInterviewEntitytime);
+        return new Result(ResultCode.SUCCESS);
+    }
+
+    /**
+     * 录用
+     */
+    @RequestMapping(value = "modifyluyong" ,method = RequestMethod.PUT)
+    public Result modifyluyong(@RequestBody ReInterviewEntitytime reInterviewEntitytime) throws Exception {
+        reInterviewEntitytime.setInterviewStage("终试");
+        reInterviewService.modifytonguo(reInterviewEntitytime);
+        return new Result(ResultCode.SUCCESS);
+    }
+
+    /**
+     * 查看简历
+     */
+
+    @RequestMapping(value = "idjianli" ,method = RequestMethod.POST)
+    public Result findjianli(@RequestBody ReInterviewEntitytime reInterviewEntitytime) throws Exception {
+        ReResumeEntity findjianli = reInterviewService.findjianli(reInterviewEntitytime.getResumeId());
+        return new Result(ResultCode.SUCCESS,findjianli);
     }
 }

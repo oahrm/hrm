@@ -37,28 +37,33 @@ public class PeAssessmentIndicatorsController {
     /**
      * 通过主键查询单条数据
      *
-     * @param id 主键
+     * @param
      * @return 单条数据
      */
-    @GetMapping("/selectOne")
-    public PeAssessmentIndicators selectOne(String id) {
-        return this.peAssessmentIndicatorsService.queryById(id);
+    @PostMapping("/selectOne/{indexNumber}")
+    public Result selectOne(@PathVariable  String indexNumber) {
+        PeAssessmentIndicators peAssessmentIndicators = this.peAssessmentIndicatorsService.queryById(indexNumber);
+        return new Result(ResultCode.SUCCESS,peAssessmentIndicators);
     }
 
     @PutMapping
     public Result updateIndicator(@RequestBody PeAssessmentIndicators peAssessmentIndicators){
+        System.out.println("weight"+peAssessmentIndicators.getWeight());
         peAssessmentIndicatorsService.update(peAssessmentIndicators);
         return new Result(ResultCode.SUCCESS);
     }
 
-    @DeleteMapping
-    public Result deleteIndicatorById(String id){
+    @DeleteMapping("/{id}")
+    public Result deleteIndicatorById(@PathVariable String id){
         boolean statu =  peAssessmentIndicatorsService.deleteById(id);
         return new Result(ResultCode.SUCCESS,statu);
     }
 
     @PostMapping("/findAllDicators")
     public Result findAllDicators(@RequestBody PeAssessmentIndicators assessmentIndicators){
+        if(assessmentIndicators.getDeptId().equals("")){
+            return new Result(ResultCode.SUCCESS);
+        }
         List<PeAssessmentIndicators> list =  peAssessmentIndicatorsService.queryAll(assessmentIndicators);
 //        Map<String,Object> map  =new HashMap<>();
 //        map.put("peAssessmentIndicators",list);

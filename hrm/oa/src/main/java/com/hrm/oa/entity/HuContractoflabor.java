@@ -31,6 +31,12 @@ public class HuContractoflabor implements Serializable {
 
     private String id;
 
+    private Date jssignerTime;
+
+    private String contract;
+
+    private String contractName;
+
     private static final long serialVersionUID = 1L;
 
     private ReEntryApplica re_entry_applica;

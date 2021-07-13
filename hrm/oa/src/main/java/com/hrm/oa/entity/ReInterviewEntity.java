@@ -14,7 +14,7 @@ public class ReInterviewEntity implements Serializable {
 
     private String personInCharge;//面试负责人
 
-    private String urgency;//紧急层度
+    private String urgency;//面试状态
 
     private String job;//岗位
 
@@ -30,19 +30,8 @@ public class ReInterviewEntity implements Serializable {
 
     private String resumeId;//候选人简历
 
-    public ReInterviewEntity(ReInterviewEntitytime reInterviewEntitytime) {
-        this.personInCharge = reInterviewEntitytime.getPersonInCharge();
-        this.urgency = reInterviewEntitytime.getUrgency();
-        this.job = reInterviewEntitytime.getJob();
-        this.interviewForm = reInterviewEntitytime.getInterviewForm();
-        this.interviewStage = reInterviewEntitytime.getInterviewStage();
-        this.explains = reInterviewEntitytime.getExplains();
 
-    }
 
-    public ReInterviewEntity() {
-
-    }
 
     private static final long serialVersionUID = 1L;
 }

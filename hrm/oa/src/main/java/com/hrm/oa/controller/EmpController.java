@@ -3,11 +3,14 @@ package com.hrm.oa.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hrm.oa.entity.Emp;
+import com.hrm.oa.entity.HuContractoflabor;
+import com.hrm.oa.entity.ReOffer;
 import com.hrm.oa.service.impl.EmpServiceImpl;
 import com.hrm.oa.vo.PageParam;
 import com.hrm.oa.vo.PageResult;
 import com.hrm.oa.vo.Result;
 import com.hrm.oa.vo.ResultCode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +26,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/emp")
+@Slf4j
 public class EmpController {
 
     @Autowired
@@ -38,6 +42,14 @@ public class EmpController {
         PageInfo<Emp> pageInfo = new PageInfo<>(list);
         PageResult<Emp> pageResult = new PageResult<>(pageInfo.getTotal(),list);
         return new Result(ResultCode.SUCCESS,pageResult);
+    }
+
+    //员工入职将offer表数据新增到emp表
+    @PostMapping("/AddEmpOffer")
+    public Emp insert(@RequestBody Emp emp){
+        log.debug(emp.toString());
+        emp=empService.insertEmp_ReOffer(emp);
+        return emp;
     }
 
     /**
@@ -64,6 +76,31 @@ public class EmpController {
         PageResult<Emp> pageResult = new PageResult<>(pageInfo.getTotal(), list);
         return new Result(ResultCode.SUCCESS, pageResult);
     }
+
+
+    //查询员工表为实习期的员工到转正页面
+    @GetMapping("/findEmpOersZz")
+    public Result findEmpOersZz(){
+        log.debug("查询员工表为实习期的员工到转正页面");
+        List<Emp> EmpOersZz=empService.findEmpOersZz();
+        return new Result(ResultCode.SUCCESS,EmpOersZz);
+    }
+
+    //查询员工表已转正的员工到已转正页面
+    @GetMapping("/findEmpOersYZz")
+    public Result findEmpOersYZz(){
+        log.debug("查询员工表已转正的员工到已转正页面");
+        List<Emp> EmpOersYZz=empService.findEmpOersYZz();
+        return new Result(ResultCode.SUCCESS,EmpOersYZz);
+    }
+
+
+    //将转正状态更改为1
+    @PutMapping("/updateEmpOersZz/{empId}")
+    public int updateEmpOersZz(@PathVariable("empId") String empId){
+        return  empService.updateEmpOersZz(empId);
+    }
+
 
     /**
      *根据员工id查找员工

@@ -46,26 +46,7 @@ public class ReResumeEntity implements Serializable {
 
     private Integer expYear;
 
-    public ReResumeEntity(ReInterviewEntitytime reInterviewEntitytime) {
 
-        this.name = reInterviewEntitytime.getName();
-        this.sex = reInterviewEntitytime.getSex();
-
-        this.nativePlace = reInterviewEntitytime.getNativeplace();
-        this.placeOfAbode = "";
-        this.politicsStatus = "";
-        this.phone = reInterviewEntitytime.getPhone();
-        this.email = reInterviewEntitytime.getEmail();
-        this.educationExperience = "";
-        this.honorsAndAwards = "";
-        this.workExperience = "";
-        this.professionalSkill = "";
-        this.selfAssessment = "";
-        this.highestEducation = reInterviewEntitytime.getHighesteducation();
-        this.appliedPosition = "";
-        this.channel = "";
-        this.expYear = 1;
-    }
 
     private static final long serialVersionUID = 1L;
 }

@@ -17,6 +17,7 @@ import StaffTransfer from '../components/guanxi/StaffTransfer.vue'
 import EmployeeAccount from '../components/dangan/EmployeeAccount.vue'
 import MyCard from '../components/dangan/MyCard.vue'
 import MySubordinates from '../components/dangan/MySubordinates.vue'
+import MySubSubordinates from '../components/dangan/MySubSubordinates.vue'
 //考勤
 import AttendanceReport from '../components/kaoqing/AttendanceReport.vue'
 import AttendanceTime from '../components/kaoqing/AttendanceTime.vue'
@@ -39,6 +40,7 @@ import TaskExecution from '../components/xiangmu/TaskExecution.vue'
 const routes=[
 	//定义每个路径，对应的每个组件
 	// {path:'/main',component:Mainview}
+	{path:'/MySubSubordinates',component:MySubSubordinates},
 	// 招聘
 	{path:'/PostManagement',component:PostManagement},
 	{path:'/JobRequirements',component:JobRequirements},

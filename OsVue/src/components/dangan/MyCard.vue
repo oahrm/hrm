@@ -1,208 +1,213 @@
 <template>
-	<el-tabs v-model="activeName" @tab-click="handleClick">
-	    <el-tab-pane label="基本信息" name="a">
-			<el-collapse v-model="activeNames" @change="handleChange">
-			  <el-collapse-item title="基本信息" name="1" class="item">
-			    <el-form :model="emp" :label-position="right"  label-width="120px" :inline="true">
-					<el-form-item label="岗位:">
-					    <el-input v-model="emp.post" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="职级:">
-					    <el-input v-model="emp.ranks" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="职责描述:">
-					    <el-input v-model="emp.jobDescription" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="办公地点:">
-					    <el-input v-model="emp.officeLocation" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="状态:">
-					    <el-input v-model="emp.onTheJobStatus" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="直接上级:">
-					    <el-input v-model="emp.parentId" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="下属人数:">
-					    <el-input v-model="empCount" disabled></el-input>
-					</el-form-item>
-				</el-form>
-			  </el-collapse-item>
-			  <el-collapse-item title="通讯信息" name="2">
-				<el-form  ref="emp" :model="emp" :label-position="right" label-width="120px" :inline="true" :rules="rules">
-					<el-form-item label="移动电话:" prop="mobile">
-					    <el-input v-model="emp.mobile" :disabled="flag"></el-input>
-					</el-form-item>
-					<el-form-item label="紧急联系人:">
-					    <el-input v-model="emp.emergencyContact" :disabled="flag"></el-input>
-					</el-form-item>
-					<el-form-item label="紧急联系人电话:" prop="emergencyContactNumber">
-					    <el-input v-model="emp.emergencyContactNumber" :disabled="flag"></el-input>
-					</el-form-item>
-					<el-form-item label="电子邮箱:" prop="mailbox">
-					    <el-input v-model="emp.mailbox" :disabled="flag"></el-input>
-					</el-form-item>
-				</el-form>
-			  </el-collapse-item>
-			</el-collapse>
-			<el-button type="primary" v-show="isShow1" @click="update">编辑</el-button>
-			<el-button type="primary" v-show="isShow2" @click="add">保存</el-button>
-			<el-button type="primary" v-show="isShow2" @click="qx">取消</el-button>
-		</el-tab-pane>
-	    <!-- <el-tab-pane label="工作历程" name="b">
-			
-		</el-tab-pane> -->
-	    <el-tab-pane label="个人信息" name="c">
-			<el-collapse v-model="activeNames3" @change="handleChange">
-			  <el-collapse-item title="个人信息" name="11" class="item">
-			    <el-form :model="myInfo" :label-position="right"  label-width="200px" :inline="true">
-					<el-form-item label="出生日期:">
-					    <el-input v-model="myInfo.dateOfBirth" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="民族:">
-					    <el-input v-model="myInfo.nation" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="籍贯:">
-					    <el-input v-model="myInfo.nativePlace" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="政治面貌:">
-					    <el-input v-model="myInfo.politicalOutlook" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="身份证:">
-					    <el-input v-model="myInfo.idCard" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="入党日期:">
-					    <el-input v-model="myInfo.dateOfJoiningTheParty" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="学历:">
-					    <el-input v-model="myInfo.education" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="学位:">
-					    <el-input v-model="myInfo.academicDegree" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="现住地:">
-					    <el-input v-model="myInfo.currentResidence" disabled></el-input>
-					</el-form-item>
-				</el-form>
-			  </el-collapse-item>
-			  <el-tag style="left: auto;">家庭信息</el-tag>
-			  <el-table
-				  	ref="multipleTable"
-				  	:data="familyList"
-				  	tooltip-effect="dark"
-				  	style="width: 100%">
-				  	<el-table-column prop="member" label="成员" show-overflow-tooltip></el-table-column>
-				  	<el-table-column prop="member" label="称谓" show-overflow-tooltip></el-table-column>
-				  	<el-table-column prop="workUnit" label="工作单位" show-overflow-tooltip></el-table-column>
-				  	<el-table-column prop="post" label="职务" show-overflow-tooltip></el-table-column>
-				  	<el-table-column prop="address" label="地址" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="phone" label="手机号" show-overflow-tooltip></el-table-column>
-			  </el-table>
-			</el-collapse>
-		</el-tab-pane>
-		<el-tab-pane label="工作信息" name="d">
-			<el-collapse v-model="activeNames4" @change="handleChange">
-			  <el-collapse-item title="工作信息" name="111" class="item">
-			    <el-form :model="emp" :label-position="right"  label-width="120px" :inline="true">
-					<el-form-item label="用工性质:">
-					    <el-input v-model="emp.name" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="入职日期:">
-					    <el-input v-model="emp.name" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="合同开始日期:">
-					    <el-input v-model="emp.name" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="试用期结束日期:">
-					    <el-input v-model="emp.name" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="合同结束日期:">
-					    <el-input v-model="emp.name" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="参加工作日期:">
-					    <el-input v-model="emp.name" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="工龄:">
-					    <el-input v-model="emp.name" disabled></el-input>
-					</el-form-item>
-					<el-form-item label="司龄:">
-					    <el-input v-model="emp.name" disabled></el-input>
-					</el-form-item>
-				</el-form>
-			  </el-collapse-item>
-			</el-collapse>
-			<el-tabs type="border-card">
-			  <el-tab-pane label="相关合同">
+	<el-row>
+		<div style="width: 100%;">
+			<span style="float: left;margin-top: -25px;margin-bottom: -30px;"><h3>{{$store.state.employee.empName}}</h3></span>
+			<span style="float: right;margin-top: -13px;margin-bottom: -30px;">
+				<el-button type="primary" v-show="isShow1" @click="update">编辑</el-button>
+				<el-button type="primary" v-show="isShow2" @click="add">保存</el-button>
+				<el-button type="primary" v-show="isShow2" @click="qx">取消</el-button>
+			</span>
+		</div>
+	</el-row>
+	<el-row>
+		<el-tabs v-model="activeName" @tab-click="handleClick">
+		    <el-tab-pane label="基本信息" name="a">
+				<el-collapse v-model="activeNames" @change="handleChange">
+				  <el-collapse-item title="基本信息" name="1" class="item">
+				    <el-form :model="emp" :label-position="right"  label-width="120px" :inline="true">
+						<el-form-item label="岗位:">
+						    <el-input v-model="emp.post" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="职级:">
+						    <el-input v-model="emp.ranks" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="职责描述:">
+						    <el-input v-model="emp.jobDescription" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="办公地点:">
+						    <el-input v-model="emp.officeLocation" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="状态:">
+						    <el-input v-model="emp.onTheJobStatus" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="直接上级:">
+						    <el-input v-model="emp.parentId" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="下属人数:">
+						    <el-input v-model="empCount" disabled></el-input>
+						</el-form-item>
+					</el-form>
+				  </el-collapse-item>
+				  <el-collapse-item title="通讯信息" name="2">
+					<el-form  ref="emp" :model="emp" :label-position="right" label-width="120px" :inline="true" :rules="rules">
+						<el-form-item label="移动电话:" prop="mobile">
+						    <el-input v-model="emp.mobile" :disabled="flag"></el-input>
+						</el-form-item>
+						<el-form-item label="紧急联系人:">
+						    <el-input v-model="emp.emergencyContact" :disabled="flag"></el-input>
+						</el-form-item>
+						<el-form-item label="紧急联系电话:" prop="emergencyContactNumber">
+						    <el-input v-model="emp.emergencyContactNumber" :disabled="flag"></el-input>
+						</el-form-item>
+						<el-form-item label="电子邮箱:" prop="mailbox">
+						    <el-input v-model="emp.mailbox" :disabled="flag"></el-input>
+						</el-form-item>
+					</el-form>
+				  </el-collapse-item>
+				</el-collapse>
+			</el-tab-pane>
+		    <el-tab-pane label="个人信息" name="c">
+				<el-collapse v-model="activeNames3" @change="handleChange">
+				  <el-collapse-item title="个人信息" name="11" class="item">
+				    <el-form :model="myInfo" :label-position="right"  label-width="200px" :inline="true">
+						<el-form-item label="出生日期:">
+						    <el-input v-model="myInfo.dateOfBirth" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="民族:">
+						    <el-input v-model="myInfo.nation" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="籍贯:">
+						    <el-input v-model="myInfo.nativePlace" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="政治面貌:">
+						    <el-input v-model="myInfo.politicalOutlook" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="身份证:">
+						    <el-input v-model="myInfo.idCard" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="入党日期:">
+						    <el-input v-model="myInfo.dateOfJoiningTheParty" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="学历:">
+						    <el-input v-model="myInfo.education" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="学位:">
+						    <el-input v-model="myInfo.academicDegree" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="现住地:">
+						    <el-input v-model="myInfo.currentResidence" disabled></el-input>
+						</el-form-item>
+					</el-form>
+				  </el-collapse-item>
+				  <el-tag style="float: left;">家庭信息</el-tag>
 				  <el-table
-				  	ref="multipleTable"
-				  	:data="ht"
-				  	tooltip-effect="dark"
-				  	style="width: 100%">
-				  	<el-table-column prop="member" label="合同" show-overflow-tooltip></el-table-column>
-				  	<el-table-column prop="member" label="合同类型" show-overflow-tooltip></el-table-column>
-				  	<el-table-column prop="workUnit" label="合同开始日期" show-overflow-tooltip></el-table-column>
-				  	<el-table-column prop="post" label="合同结束日期" show-overflow-tooltip></el-table-column>
+					  	ref="multipleTable"
+					  	:data="familyList"
+					  	tooltip-effect="dark"
+					  	style="width: 100%">
+					  	<el-table-column prop="member" label="成员" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="member" label="称谓" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="workUnit" label="工作单位" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="post" label="职务" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="address" label="地址" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="phone" label="手机号" show-overflow-tooltip></el-table-column>
 				  </el-table>
-			  </el-tab-pane>
-			  <el-tab-pane label="工作记录"><el-table
-				  	ref="multipleTable"
-				  	:data="jl"
-				  	tooltip-effect="dark"
-				  	style="width: 100%">
-				  	<el-table-column prop="member" label="变动类型" show-overflow-tooltip></el-table-column>
-				  	<el-table-column prop="member" label="岗位" show-overflow-tooltip></el-table-column>
-				  	<el-table-column prop="workUnit" label="日期" show-overflow-tooltip></el-table-column>
-				  	<el-table-column prop="post" label="变动原因" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="post" label="操作人" show-overflow-tooltip></el-table-column>
-				  </el-table></el-tab-pane>
-			  <el-tab-pane label="教育背景"><el-table
-				  	ref="multipleTable"
-				  	:data="jybj"
-				  	tooltip-effect="dark"
-				  	style="width: 100%">
-				  	<el-table-column prop="member" label="学校名称" show-overflow-tooltip></el-table-column>
-				  	<el-table-column prop="member" label="专业" show-overflow-tooltip></el-table-column>
-				  	<el-table-column prop="workUnit" label="开始日期" show-overflow-tooltip></el-table-column>
-				  	<el-table-column prop="post" label="结束日期" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="post" label="学历" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="post" label="详细描述" show-overflow-tooltip></el-table-column>
-					
-				  </el-table></el-tab-pane>
-			  <el-tab-pane label="工作经历">
-				  <el-table
-				  	ref="multipleTable"
-				  	:data="gzjl"
-				  	tooltip-effect="dark"
-				  	style="width: 100%">
-				  	<el-table-column prop="member" label="公司名称" show-overflow-tooltip></el-table-column>
-				  	<el-table-column prop="member" label="开始日期" show-overflow-tooltip></el-table-column>
-				  	<el-table-column prop="workUnit" label="结束日期" show-overflow-tooltip></el-table-column>
-				  	<el-table-column prop="post" label="职务" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="post" label="工作描述" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="post" label="离开原因" show-overflow-tooltip></el-table-column>
-				  </el-table>
-				</el-tab-pane>
-			</el-tabs>
-		</el-tab-pane>
-		<el-tab-pane label="资产信息" name="e">
-			<el-table
-				ref="multipleTable"
-				:data="asss"
-				tooltip-effect="dark"
-				style="width: 100%">
-				<el-table-column prop="id" label="编号" width="120"></el-table-column>
-				<el-table-column prop="name" label="名称" width="100"></el-table-column>
-				<el-table-column prop="useDeptId" label="使用部门" show-overflow-tooltip></el-table-column>
-				<el-table-column label="使用人" show-overflow-tooltip>{{$store.state.employee.empName}}</el-table-column>
-				<el-table-column prop="specification" label="规格型号" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="assetGroup" label="资产组" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="status" label="状态" show-overflow-tooltip></el-table-column>
-		    </el-table>
-		</el-tab-pane>
-		<el-tab-pane label="考勤情况" name="f">
-			
-		</el-tab-pane>
+				</el-collapse>
+			</el-tab-pane>
+			<el-tab-pane label="工作信息" name="d">
+				<el-collapse v-model="activeNames4" @change="handleChange">
+				  <el-collapse-item title="工作信息" name="111" class="item">
+				    <el-form :model="emp" :label-position="right"  label-width="120px" :inline="true">
+						<el-form-item label="用工性质:">
+						    <el-input v-model="emp.onTheJobStatus" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="入职日期:">
+						    <el-input v-model="emp.entryTime" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="合同开始日期:">
+						    <el-input v-model="emp.name" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="试用期结束日期:">
+						    <el-input v-model="emp.name" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="合同结束日期:">
+						    <el-input v-model="emp.name" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="参加工作日期:">
+						    <el-input v-model="emp.name" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="工龄:">
+						    <el-input v-model="emp.name" disabled></el-input>
+						</el-form-item>
+						<el-form-item label="司龄:">
+						    <el-input v-model="emp.name" disabled></el-input>
+						</el-form-item>
+					</el-form>
+				  </el-collapse-item>
+				</el-collapse>
+				<el-tabs type="border-card">
+				  <el-tab-pane label="相关合同">
+					  <el-table
+					  	ref="multipleTable"
+					  	:data="ht"
+					  	tooltip-effect="dark"
+					  	style="width: 100%">
+					  	<el-table-column prop="member" label="合同" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="member" label="合同类型" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="workUnit" label="合同开始日期" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="post" label="合同结束日期" show-overflow-tooltip></el-table-column>
+					  </el-table>
+				  </el-tab-pane>
+				  <el-tab-pane label="工作记录">
+					  <el-table
+					  	ref="multipleTable"
+					  	:data="tgList"
+					  	tooltip-effect="dark"
+					  	style="width: 100%">
+					  	<el-table-column prop="primaryDept" label="原部门" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="newDept" label="新部门" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="primaryStation" label="原岗位" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="newStation" label="新岗位" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="transferData" label="调岗时间" show-overflow-tooltip></el-table-column>
+					  </el-table>
+					  </el-tab-pane>
+				  <el-tab-pane label="教育背景">
+					  <el-table
+					  	:data="jybj"
+					  	tooltip-effect="dark"
+					  	style="width: 100%">
+					  	<el-table-column prop="schoolName" label="学校名称" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="major" label="专业" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="beginTime" label="开始日期" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="endTime" label="结束日期" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="education" label="学历" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="describes" label="详细描述" show-overflow-tooltip></el-table-column>
+					  </el-table></el-tab-pane>
+				  <el-tab-pane label="工作经历">
+					  <el-table
+					  	ref="multipleTable"
+					  	:data="gzjl"
+					  	tooltip-effect="dark"
+					  	style="width: 100%">
+					  	<el-table-column prop="coName" label="公司名称" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="beginTime" label="开始日期" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="endTime" label="结束日期" show-overflow-tooltip></el-table-column>
+					  	<el-table-column prop="post" label="职务" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="miaoshu" label="工作描述" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="reasonsForLeaving" label="离开原因" show-overflow-tooltip></el-table-column>
+					  </el-table>
+					</el-tab-pane>
+				</el-tabs>
+			</el-tab-pane>
+			<el-tab-pane label="资产信息" name="e">
+				<el-table
+					:data="asss"
+					tooltip-effect="dark"
+					style="width: 1400px">
+					<el-table-column prop="id" label="编号" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="name" label="名称" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="useDeptId" label="使用部门" show-overflow-tooltip></el-table-column>
+					<el-table-column label="使用人" show-overflow-tooltip>{{$store.state.employee.empName}}</el-table-column>
+					<el-table-column prop="specification" label="规格型号" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="assetGroup" label="资产组" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="status" label="状态" show-overflow-tooltip></el-table-column>
+			    </el-table>
+			</el-tab-pane>
+			<!-- <el-tab-pane label="考勤情况" name="f">
 				
-	</el-tabs>
+			</el-tab-pane>	 -->
+		</el-tabs>
+	</el-row>
 </template>
 
 <script>
@@ -229,6 +234,7 @@
 			    }
 			  };
 	      return {
+			contractoflabor: {},
 	        activeName: 'a',
 			activeNames3: '11',
 			activeNames4: '111',
@@ -242,7 +248,7 @@
 			empCount: '',
 			familyList: [],
 			ht: [],
-			jl: [],
+			tgList: [],
 			gzjl: [],
 			jybj: [],
 			rules: {
@@ -277,19 +283,22 @@
 			},
 			handleClick(tab, event) {
 				if(tab.index == 0){
+					this.isShow1 = true
 					this.countEmp()
 					this.findEmployee()
 				}else if(tab.index == 1){
-					
-				}else if(tab.index == 2){
 					this.selectOne()
 					this.findFamilyList()
+					this.isShow1 = false
+				}else if(tab.index == 2){
+					//this.findContractoflabor()
+					this.findWorkList()
+					this.findEmpEdu()
+					this.postList()
+					this.isShow1 = false
 				}else if(tab.index == 3){
-					
-				}else if(tab.index == 4){
 					this.findAllAss()
-				}else{
-					
+					this.isShow1 = false
 				}
 			},
 			update(){
@@ -378,6 +387,7 @@
 						}else{
 							_this.emp.onTheJobStatus = "正式"
 						}
+						_this.emp.entryTime = _this.formatDate(_this.emp.entryTime)
 						
 					}else{
 						_this.$message.error(response.data.message)
@@ -409,6 +419,77 @@
 					console.log(response)
 					if(response.data.success){
 						_this.familyList = response.data.data
+					}else{
+						_this.$message.error(response.data.message)
+					}
+				}).catch(function(error){
+					console.log(error)
+				})
+			},
+			findWorkList(){
+				var id = this.$store.state.employee.empId
+				var _this=this
+				this.axios.get("http://localhost:8088/empWorkExperience/workList/"+id)
+				.then(function(response){
+					console.log(response)
+					if(response.data.success){
+						_this.gzjl = response.data.data
+						for(var i=0;i<_this.gzjl.length;i++){
+							_this.gzjl[i].beginTime = _this.formatDate(_this.gzjl[i].beginTime)
+							_this.gzjl[i].endTime = _this.formatDate(_this.gzjl[i].endTime)
+						}
+					}else{
+						_this.$message.error(response.data.message)
+					}
+				}).catch(function(error){
+					console.log(error)
+				})
+			},
+			findEmpEdu(){
+				var id = this.$store.state.employee.empId
+				var _this=this
+				this.axios.get("http://localhost:8088/edu/empEduList/"+id)
+				.then(function(response){
+					console.log(response)
+					if(response.data.success){
+						_this.jybj = response.data.data
+						for(var i=0;i<_this.jybj.length;i++){
+							_this.jybj[i].beginTime = _this.formatDate(_this.jybj[i].beginTime)
+							_this.jybj[i].endTime = _this.formatDate(_this.jybj[i].endTime)
+						}
+					}else{
+						_this.$message.error(response.data.message)
+					}
+				}).catch(function(error){
+					console.log(error)
+				})
+			},
+			findContractoflabor(){
+				var id = this.emp.sigerId
+				var _this=this
+				this.axios.get("http://localhost:8088/contractoflaborList/"+id)
+				.then(function(response){
+					console.log(response)
+					if(response.data.success){
+						_this.contractoflabor = response.data.data			
+					}else{
+						_this.$message.error(response.data.message)
+					}
+				}).catch(function(error){
+					console.log(error)
+				})
+			},
+			postList(){
+				var id = this.$store.state.employee.empId
+				var _this=this
+				this.axios.get("http://localhost:8088/huPosttransfer/postList/"+id)
+				.then(function(response){
+					console.log(response)
+					if(response.data.success){
+						_this.tgList = response.data.data
+						for(var i=0;i<_this.tgList.length;i++){
+							_this.tgList[i].transferData = _this.formatDate(_this.tgList[i].transferData)
+						}
 					}else{
 						_this.$message.error(response.data.message)
 					}

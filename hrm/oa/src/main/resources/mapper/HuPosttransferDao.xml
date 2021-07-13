@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.HuPosttransferDao">
+
+    <resultMap type="com.hrm.oa.entity.HuPosttransfer" id="HuPosttransferMap">
+        <result property="transferId" column="transfer_id" jdbcType="VARCHAR"/>
+        <result property="transferName" column="transfer_name" jdbcType="VARCHAR"/>
+        <result property="primaryDept" column="primary_dept" jdbcType="VARCHAR"/>
+        <result property="primaryStation" column="primary_station" jdbcType="VARCHAR"/>
+        <result property="newDept" column="new_dept" jdbcType="VARCHAR"/>
+        <result property="newStation" column="new_station" jdbcType="VARCHAR"/>
+        <result property="transferData" column="transfer_data" jdbcType="TIMESTAMP"/>
+        <result property="transferState" column="transfer_state" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询员工的调岗数据-->
+    <select id="queryByEmpId" resultMap="HuPosttransferMap">
+        select
+          transfer_id, transfer_name, primary_dept, primary_station, new_dept, new_station, transfer_data, transfer_state
+        from hrm.hu_posttransfer
+        where transfer_name = #{transferName} and transfer_state = 1
+    </select>
+
+
+
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="transferId" useGeneratedKeys="true">
+        insert into hrm.hu_posttransfer(transfer_name, primary_dept, primary_station, new_dept, new_station, transfer_data, transfer_state)
+        values (#{transferName}, #{primaryDept}, #{primaryStation}, #{newDept}, #{newStation}, #{transferData}, #{transferState})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="transferId" useGeneratedKeys="true">
+        insert into hrm.hu_posttransfer(transfer_name, primary_dept, primary_station, new_dept, new_station,
+        transfer_data, transfer_state)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.transferName}, #{entity.primaryDept}, #{entity.primaryStation}, #{entity.newDept},
+            #{entity.newStation}, #{entity.transferData}, #{entity.transferState})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="transferId" useGeneratedKeys="true">
+        insert into hrm.hu_posttransfer(transfer_name, primary_dept, primary_station, new_dept, new_station,
+        transfer_data, transfer_state)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.transferName}, #{entity.primaryDept}, #{entity.primaryStation}, #{entity.newDept},
+            #{entity.newStation}, #{entity.transferData}, #{entity.transferState})
+        </foreach>
+        on duplicate key update
+        transfer_name = values(transfer_name) , primary_dept = values(primary_dept) , primary_station =
+        values(primary_station) , new_dept = values(new_dept) , new_station = values(new_station) , transfer_data =
+        values(transfer_data) , transfer_state = values(transfer_state)
+    </insert>
+
+</mapper>
+

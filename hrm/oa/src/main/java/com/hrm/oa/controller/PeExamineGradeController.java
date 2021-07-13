@@ -15,6 +15,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +52,6 @@ public class PeExamineGradeController {
 
     @PostMapping("/findAllDicators")
     public Result findAllGrades(@RequestBody Pagination pagination){
-        System.out.println("进入了这里");
         PageInfo<PeExamineGrade> pageInfo =  peExamineGradeService.queryAll(new PeExamineGrade(),pagination.getPage(),pagination.getPageSize());
         Map<String,Object> map  =new HashMap<>();
         map.put("peAssessmentIndicators",pageInfo.getList());
@@ -61,7 +61,9 @@ public class PeExamineGradeController {
 
     @PostMapping("examineGrade")
     public Result addExamineGrades(@RequestBody PeExamineGrade peExamineGrade){
+        System.out.println("进入了这个地方");
         peExamineGrade.setScoreId(String.valueOf(idWorker.nextId()));
+        peExamineGrade.setScoreDate(new Date());
         int i = peExamineGradeService.insert(peExamineGrade);
         return new Result(ResultCode.SUCCESS,i);
     }

@@ -3,6 +3,7 @@ package com.hrm.oa.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -46,8 +47,13 @@ public class Emp implements Serializable {
     //紧急联系人电话
     private String emergencyContactNumber;
     //入职时间
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date entryTime;
+    //转正日期
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date becomeTime;
     //离职时间
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date leavedate;
     //邮箱
     private String mailbox;

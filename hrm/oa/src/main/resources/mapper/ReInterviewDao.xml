@@ -13,16 +13,45 @@
     <result column="explains" jdbcType="VARCHAR" property="explains" />
     <result column="resume_id" jdbcType="VARCHAR" property="resumeId" />
   </resultMap>
+
+
+  <resultMap id="InMap" type="com.hrm.oa.entity.ReInterviewEntitytime">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="person_in_charge" jdbcType="VARCHAR" property="personInCharge" />
+    <result column="urgency" jdbcType="VARCHAR" property="urgency" />
+    <result column="job" jdbcType="VARCHAR" property="job" />
+    <result column="application_time" jdbcType="TIMESTAMP" property="appTime" />
+    <result column="schedule_interview_date" jdbcType="TIMESTAMP" property="scheDate" />
+    <result column="Interview_form" jdbcType="VARCHAR" property="interviewForm" />
+    <result column="Interview_stage" jdbcType="VARCHAR" property="interviewStage" />
+    <result column="explains" jdbcType="VARCHAR" property="explains" />
+    <result column="resume_id" jdbcType="VARCHAR" property="resumeId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+    <result column="native_place" jdbcType="VARCHAR" property="nativeplace" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="highest_education" jdbcType="VARCHAR" property="highesteducation" />
+
+  </resultMap>
+
   <sql id="Base_Column_List">
     id, person_in_charge, urgency, job, application_time, schedule_interview_date, Interview_form, 
     Interview_stage, explains, resume_id
   </sql>
-  <select id="findAll"  resultType="com.hrm.oa.entity.ReInterviewEntitytime">
-    select
-    a.id,a.person_in_charge as personInCharge,a.urgency,a.job,DATE_FORMAT(max(a.application_time),'%Y-%m-%d %H:%i:%s') appTime,DATE_FORMAT(max(a.schedule_interview_date),'%Y-%m-%d %H:%i:%s') scheDate,
-    a.Interview_form as interviewForm,a.Interview_stage as interviewStage,a.resume_id as resumeId,b.`name`,b.sex,DATE_FORMAT(max(b.birthday),'%Y-%m-%d %H:%i:%s') birthday,b.native_place as nativeplace,
-    b.phone,b.highest_education as highesteducation,b.email
-    from  re_interview as a left join re_resume as b on a.resume_id=b.resume_id
+
+  <sql id="In_List">
+    id, person_in_charge, urgency, job, application_time, schedule_interview_date, Interview_form,
+    Interview_stage, explains, a.resume_id,name,sex,birthday,native_place,phone,email,highest_education
+  </sql>
+
+  <select id="findAll"  resultMap="InMap">
+  select
+    <include refid="In_List" />
+    from  re_interview as a
+    left join re_resume as b
+    on a.resume_id=b.resume_id
     WHERE explains='显示'
   </select>
 
@@ -31,7 +60,7 @@
     select
     count(id)
     from re_interview
-    where explains = "显示"
+    where explains = '显示'
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
@@ -43,7 +72,7 @@
     delete from re_interview
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hrm.oa.entity.ReInterviewEntity" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hrm.oa.entity.ReInterviewEntity">
     insert into re_interview (id,person_in_charge, urgency, job,
       application_time, schedule_interview_date, 
       Interview_form, Interview_stage, explains, 
@@ -169,4 +198,20 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
 
+
+
+  <update id="updataguanbi" parameterType="java.lang.String">
+    update re_interview
+    set
+      explains = '关闭'
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+  <update id="updataruyong" parameterType="java.lang.String">
+    update re_interview
+    set
+      explains = '关闭',Interview_stage='录用'
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
 </mapper>

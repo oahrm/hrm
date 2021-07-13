@@ -1,4 +1,7 @@
 <template>
+	<div style="float: left;margin-top: -20px;">
+		<h3>{{$store.state.employee.empName}}的下属</h3>
+	</div>
 	<el-input
 	   placeholder="请输入姓名"
 	   prefix-icon="el-icon-search"
@@ -12,7 +15,12 @@
 	   style="width: 100%"
 			@selection-change="handleSelectionChange">
 			<el-table-column type="selection" width="55"></el-table-column>
-			<el-table-column prop="isItOnline" label="是否在线" width="120"></el-table-column>
+			<el-table-column prop="isItOnline" label="是否在线" width="100" show-overflow-tooltip>
+				<template v-slot="scope">
+					<p v-if="scope.row.isItOnline==0">不在线</p>
+					<p v-if="scope.row.isItOnline==1" style="color: blue;"><el-tag type="success">在线</el-tag></p>
+				</template>
+			</el-table-column>
 			<el-table-column prop="name" label="姓名" width="100"></el-table-column>
 			<el-table-column prop="sex" label="性别" show-overflow-tooltip></el-table-column>
 			<el-table-column prop="post" label="岗位" show-overflow-tooltip></el-table-column>
@@ -20,14 +28,18 @@
 			<el-table-column prop="mobile" label="电话" show-overflow-tooltip></el-table-column>
 			<el-table-column prop="mobile" label="办公室电话" show-overflow-tooltip></el-table-column>
 			<el-table-column prop="mailbox" label="邮箱" show-overflow-tooltip></el-table-column>
-			<el-table-column prop="emergencyContactNumber" label="紧急联系人电话" show-overflow-tooltip></el-table-column>
+			<el-table-column prop="emergencyContactNumber" label="紧急联系电话" show-overflow-tooltip></el-table-column>
 			<el-table-column
 			      fixed="right"
 			      label="操作"
 			      width="100">
 			      <template #default="scope">
 			        <el-button @click="handleSend(scope.row)" type="text" size="small">发消息</el-button>
-					<el-button @click="handleSend(scope.row)" type="text" size="small">下属</el-button>
+					<router-link target="_blank" :to="{path:'/MySubSubordinates',query: {id:scope.row.empId}}">
+						<el-button type="text" size="small">
+							下属
+						</el-button>
+					</router-link>
 			      </template>
 			    </el-table-column>
 		</el-table>
@@ -81,8 +93,6 @@
 	    },
 	    methods: {
 			byName(){
-				this.empListByName()
-				this.empListByDeptAndRanks()
 				this.empListByParentId()
 			},
 			handleSelectionChange(val) {
