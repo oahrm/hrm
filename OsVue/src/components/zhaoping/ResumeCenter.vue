@@ -1,5 +1,5 @@
 <template>
-	<p>面试管理</p>
+	<p>简历中心</p>
 </template>
 
 <script>

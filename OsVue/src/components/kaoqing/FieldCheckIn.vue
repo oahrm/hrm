@@ -1,5 +1,5 @@
 <template>
-	<p>面试管理</p>
+	<p>外勤签到</p>
 </template>
 
 <script>

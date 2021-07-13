@@ -10,7 +10,7 @@
 				<el-table-column type="selection" width="55"></el-table-column>
 				<el-table-column prop="isItOnline" label="是否在线" width="120"></el-table-column>
 				<el-table-column prop="name" label="姓名" width="120"></el-table-column>
-				<el-table-column prop="deptName" label="部门" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="deptId" label="部门" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="mobile" label="电话" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="mobile" label="办公室电话" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="mailbox" label="邮箱" show-overflow-tooltip></el-table-column>
@@ -18,13 +18,11 @@
 			</el-table>
 			<div class="block">
 			    <el-pagination
-				@size-change="handleSizeChange"
-				@current-change="handleCurrentChange"
 			      :current-page="1"
 			      :page-sizes="[5, 10, 15]"
 			      :page-size="5"
 			      layout="total, prev, pager, next, sizes, jumper"
-			      :total="num">
+			      :total="5">
 			    </el-pagination>
 			</div>
 		</el-tab-pane>
@@ -38,7 +36,7 @@
 				<el-table-column type="selection" width="55"></el-table-column>
 				<el-table-column prop="isItOnline" label="是否在线" width="120"></el-table-column>
 				<el-table-column prop="name" label="姓名" width="120"></el-table-column>
-				<el-table-column prop="deptName" label="部门" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="deptId" label="部门" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="mobile" label="电话" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="mobile" label="办公室电话" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="mailbox" label="邮箱" show-overflow-tooltip></el-table-column>
@@ -46,11 +44,9 @@
 			</el-table>
 			<div class="block">
 			    <el-pagination
-				  @size-change="handleSizeChange"
-				  @current-change="handleCurrentChange"
-			      :current-page="pageParam.page"
+			      :current-page="1"
 			      :page-sizes="[5, 10, 15]"
-			      :page-size="pageParam.size"
+			      :page-size="5"
 			      layout="total, prev, pager, next, sizes, jumper"
 			      :total="5">
 			    </el-pagination>
@@ -66,7 +62,7 @@
 				<el-table-column type="selection" width="55"></el-table-column>
 				<el-table-column prop="isItOnline" label="是否在线" width="120"></el-table-column>
 				<el-table-column prop="name" label="姓名" width="120"></el-table-column>
-				<el-table-column prop="deptName" label="部门" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="deptId" label="部门" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="mobile" label="电话" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="mobile" label="办公室电话" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="mailbox" label="邮箱" show-overflow-tooltip></el-table-column>
@@ -82,8 +78,7 @@
 			      layout="total, prev, pager, next, sizes, jumper"
 			      :total="5">
 			    </el-pagination>
-			</div>
-		</el-tab-pane>
+			</div></el-tab-pane>
 	</el-tabs>
 </template>
 
@@ -91,28 +86,24 @@
 	export default {
 	    data() {
 	      return {
-	        activeName: 'first',
+	        activeName: 'second',
 			empList: [],
 			multipleSelection: [],
 			pageParam: {
 				size: 5,
 				page: 1,
-				//keywords: ''
-			},
-			num: '',
+				keywords: ''
+			}
 	      }
 	    },
 	    methods: {
 		  handleSizeChange(val) {
 			console.log(`每页 ${val} 条`);
 			this.pageParam.size = val;
-			this.empListByName()
-			
 		  },
 		  handleCurrentChange(val) {
 			console.log(`当前页: ${val}`);
 			this.pageParam.page = val;
-			this.empListByName()
 		  },
 	      handleClick(tab, event) {
 	        console.log(tab, event);
@@ -122,14 +113,13 @@
 		  },
 		  empListByName(){
 			  var _this=this
-			  this.axios.post("http://localhost:8088/emp/empListByName",this.pageParam)//list
+			  this.axios.get("http://localhost:8088/emp/empListByName"+this.pageParam)
 			  .then(function(response){
-				  console.log(response)
 			  	if(response.data.success){
-			  		_this.empList = response.data.data.rows
-					_this.num = response.data.data.total
+			  		_this.empList = response.data.data
+					_this.message.success(response.data.message);
 			  	}else{
-					
+					_this.message.success(response.data.message);
 				}
 			  }).catch(function(error){
 			  	console.log(error)

@@ -1,5 +1,5 @@
 <template>
-	<p>面试管理</p>
+	<p>项目验收</p>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-	<p>面试管理</p>
+	<p>岗位需求</p>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-	<p>面试管理</p>
+	<p>入职通知</p>
 </template>
 
 <script>

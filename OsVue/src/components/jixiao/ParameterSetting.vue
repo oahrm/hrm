@@ -1,5 +1,5 @@
 <template>
-	<p>面试管理</p>
+	<p>参数设置</p>
 </template>
 
 <script>

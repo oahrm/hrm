@@ -1,5 +1,5 @@
 <template>
-	<p>面试管理</p>
+	<p>我的项目</p>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-	<p>面试管理</p>
+	<p>考勤时间</p>
 </template>
 
 <script>
