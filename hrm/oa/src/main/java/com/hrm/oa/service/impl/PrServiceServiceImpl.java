@@ -27,10 +27,10 @@ public class PrServiceServiceImpl implements PrServiceService {
      * @param seId 主键
      * @return 实例对象
      */
-    @Override
-    public PrService queryById(String seId) {
-        return this.prServiceDao.queryById(seId);
-    }
+//    @Override
+//    public PrService queryById(String seId) {
+//        return this.prServiceDao.queryById(seId);
+//    }
 
     /**
      * 查询多条数据
@@ -39,9 +39,19 @@ public class PrServiceServiceImpl implements PrServiceService {
      * @param limit 查询条数
      * @return 对象列表
      */
+//    @Override
+//    public List<PrService> queryAllByLimit(int offset, int limit) {
+//        return this.prServiceDao.queryAllByLimit(offset, limit);
+//    }
+
+    @Override
+    public PrService queryById(String seId) {
+        return null;
+    }
+
     @Override
     public List<PrService> queryAllByLimit(int offset, int limit) {
-        return this.prServiceDao.queryAllByLimit(offset, limit);
+        return null;
     }
 
     /**
@@ -56,17 +66,27 @@ public class PrServiceServiceImpl implements PrServiceService {
         return prService;
     }
 
+    @Override
+    public PrService update(PrService prService) {
+        return null;
+    }
+
+    @Override
+    public boolean deleteById(String seId) {
+        return false;
+    }
+
     /**
      * 修改数据
      *
      * @param prService 实例对象
      * @return 实例对象
      */
-    @Override
-    public PrService update(PrService prService) {
-        this.prServiceDao.update(prService);
-        return this.queryById(prService.getSeId());
-    }
+//    @Override
+//    public PrService update(PrService prService) {
+//        this.prServiceDao.update(prService);
+//        return this.queryById(prService.getSeId());
+//    }
 
     /**
      * 通过主键删除数据
@@ -74,8 +94,8 @@ public class PrServiceServiceImpl implements PrServiceService {
      * @param seId 主键
      * @return 是否成功
      */
-    @Override
-    public boolean deleteById(String seId) {
-        return this.prServiceDao.deleteById(seId) > 0;
-    }
+//    @Override
+//    public boolean deleteById(String seId) {
+//        return this.prServiceDao.deleteById(seId) > 0;
+//    }
 }

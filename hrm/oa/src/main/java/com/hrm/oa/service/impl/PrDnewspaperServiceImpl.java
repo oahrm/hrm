@@ -27,10 +27,10 @@ public class PrDnewspaperServiceImpl implements PrDnewspaperService {
      * @param dnId 主键
      * @return 实例对象
      */
-    @Override
-    public PrDnewspaper queryById(String dnId) {
-        return this.prDnewspaperDao.queryById(dnId);
-    }
+//    @Override
+//    public PrDnewspaper queryById(String dnId) {
+//        return this.prDnewspaperDao.queryById(dnId);
+//    }
 
     /**
      * 查询多条数据
@@ -39,9 +39,19 @@ public class PrDnewspaperServiceImpl implements PrDnewspaperService {
      * @param limit 查询条数
      * @return 对象列表
      */
+//    @Override
+//    public List<PrDnewspaper> queryAllByLimit(int offset, int limit) {
+//        return this.prDnewspaperDao.queryAllByLimit(offset, limit);
+//    }
+
+    @Override
+    public PrDnewspaper queryById(String dnId) {
+        return null;
+    }
+
     @Override
     public List<PrDnewspaper> queryAllByLimit(int offset, int limit) {
-        return this.prDnewspaperDao.queryAllByLimit(offset, limit);
+        return null;
     }
 
     /**
@@ -56,17 +66,27 @@ public class PrDnewspaperServiceImpl implements PrDnewspaperService {
         return prDnewspaper;
     }
 
+    @Override
+    public PrDnewspaper update(PrDnewspaper prDnewspaper) {
+        return null;
+    }
+
+    @Override
+    public boolean deleteById(String dnId) {
+        return false;
+    }
+
     /**
      * 修改数据
      *
      * @param prDnewspaper 实例对象
      * @return 实例对象
      */
-    @Override
-    public PrDnewspaper update(PrDnewspaper prDnewspaper) {
-        this.prDnewspaperDao.update(prDnewspaper);
-        return this.queryById(prDnewspaper.getDnId());
-    }
+//    @Override
+//    public PrDnewspaper update(PrDnewspaper prDnewspaper) {
+//        this.prDnewspaperDao.update(prDnewspaper);
+//        return this.queryById(prDnewspaper.getDnId());
+//    }
 
     /**
      * 通过主键删除数据
@@ -74,8 +94,8 @@ public class PrDnewspaperServiceImpl implements PrDnewspaperService {
      * @param dnId 主键
      * @return 是否成功
      */
-    @Override
-    public boolean deleteById(String dnId) {
-        return this.prDnewspaperDao.deleteById(dnId) > 0;
-    }
+//    @Override
+//    public boolean deleteById(String dnId) {
+//        return this.prDnewspaperDao.deleteById(dnId) > 0;
+//    }
 }

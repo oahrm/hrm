@@ -13,7 +13,6 @@ import javax.annotation.Resource;
  * @since 2021-07-11 20:33:00
  */
 @RestController
-@Slf4j
 public class PrDnewspaperController {
     /**
      * 服务对象
@@ -27,7 +26,7 @@ public class PrDnewspaperController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("selectOne")
+    @GetMapping
     public PrDnewspaper selectOne(String id) {
         return this.prDnewspaperService.queryById(id);
     }

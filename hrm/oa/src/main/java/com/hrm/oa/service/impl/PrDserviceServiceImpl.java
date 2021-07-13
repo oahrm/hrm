@@ -27,10 +27,10 @@ public class PrDserviceServiceImpl implements PrDserviceService {
      * @param dsId 主键
      * @return 实例对象
      */
-    @Override
-    public PrDservice queryById(String dsId) {
-        return this.prDserviceDao.queryById(dsId);
-    }
+//    @Override
+//    public PrDservice queryById(String dsId) {
+//        return this.prDserviceDao.queryById(dsId);
+//    }
 
     /**
      * 查询多条数据
@@ -39,9 +39,19 @@ public class PrDserviceServiceImpl implements PrDserviceService {
      * @param limit 查询条数
      * @return 对象列表
      */
+//    @Override
+//    public List<PrDservice> queryAllByLimit(int offset, int limit) {
+//        return this.prDserviceDao.queryAllByLimit(offset, limit);
+//    }
+
+    @Override
+    public PrDservice queryById(String dsId) {
+        return null;
+    }
+
     @Override
     public List<PrDservice> queryAllByLimit(int offset, int limit) {
-        return this.prDserviceDao.queryAllByLimit(offset, limit);
+        return null;
     }
 
     /**
@@ -56,26 +66,36 @@ public class PrDserviceServiceImpl implements PrDserviceService {
         return prDservice;
     }
 
+    @Override
+    public PrDservice update(PrDservice prDservice) {
+        return null;
+    }
+
+    @Override
+    public boolean deleteById(String dsId) {
+        return false;
+    }
+
     /**
      * 修改数据
      *
      * @param prDservice 实例对象
      * @return 实例对象
      */
-    @Override
-    public PrDservice update(PrDservice prDservice) {
-        this.prDserviceDao.update(prDservice);
-        return this.queryById(prDservice.getDsId());
-    }
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param dsId 主键
-     * @return 是否成功
-     */
-    @Override
-    public boolean deleteById(String dsId) {
-        return this.prDserviceDao.deleteById(dsId) > 0;
-    }
+//    @Override
+//    public PrDservice update(PrDservice prDservice) {
+//        this.prDserviceDao.update(prDservice);
+//        return this.queryById(prDservice.getDsId());
+//    }
+//
+//    /**
+//     * 通过主键删除数据
+//     *
+//     * @param dsId 主键
+//     * @return 是否成功
+//     */
+//    @Override
+//    public boolean deleteById(String dsId) {
+//        return this.prDserviceDao.deleteById(dsId) > 0;
+//    }
 }

@@ -13,7 +13,7 @@ import javax.annotation.Resource;
  * @since 2021-07-11 20:33:28
  */
 @RestController
-@Slf4j
+@RequestMapping("PrSchedule")
 public class PrScheduleController {
     /**
      * 服务对象
@@ -27,9 +27,9 @@ public class PrScheduleController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("selectOne")
-    public PrSchedule selectOne(String id) {
-        return this.prScheduleService.queryById(id);
-    }
+//    @GetMapping("selectOne")
+//    public PrSchedule selectOne(String id) {
+//        return this.prScheduleService.queryById(id);
+//    }
 
 }

@@ -22,6 +22,7 @@ import java.util.List;
  */
 @RestController
 @Slf4j
+@RequestMapping("PrStage")
 public class PrStageController {
 
     @Autowired

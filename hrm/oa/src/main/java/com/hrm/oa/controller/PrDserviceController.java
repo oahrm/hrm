@@ -13,7 +13,7 @@ import javax.annotation.Resource;
  * @since 2021-07-11 20:33:10
  */
 @RestController
-@Slf4j
+@RequestMapping("/dservice")
 public class PrDserviceController {
     /**
      * 服务对象
@@ -27,7 +27,7 @@ public class PrDserviceController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("selectOne")
+    @GetMapping
     public PrDservice selectOne(String id) {
         return this.prDserviceService.queryById(id);
     }

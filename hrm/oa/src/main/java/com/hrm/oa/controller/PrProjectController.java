@@ -19,6 +19,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @Slf4j
+@RequestMapping("pro")
 public class PrProjectController {
     /**
      * 服务对象

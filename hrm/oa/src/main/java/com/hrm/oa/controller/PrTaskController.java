@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @Slf4j
+@RequestMapping("PrTask")
 public class PrTaskController {
     /**
      * 服务对象
