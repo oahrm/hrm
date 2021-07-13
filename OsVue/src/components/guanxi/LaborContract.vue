@@ -80,6 +80,8 @@
 				OfferHuContractoflaborData: [],
 				dialogFormVisible: false,
 				form: {
+					re_entry_applica:{
+					},
 					id: '',
 					name: '',
 					station: '',
@@ -91,12 +93,14 @@
 					deptName:'',
 					signerName:'',
 					signerPhone:'',
-					signerPost:''
+					signerPost:'',
+					signerState:''
 				}
 			}
 		},
 		methods: {
 			showEdit(row) {
+				console.log("row");
 				console.log(row);
 				this.form.id = row.re_entry_applica.id;
 				this.form.name = row.name;
@@ -106,10 +110,12 @@
 				this.form.signerName = row.name;
 				this.form.signerPhone = row.phone;
 				this.form.signerPost = row.station;
+				this.form.signerState = row.re_entry_applica.contractstatus;
 				this.form.mailbox = row.mailbox;
 				this.form.sex = row.sex;
 				this.form.arrivalTime = row.arrivalTime;
-				this.form.contractstatus = row.contractstatus;
+				this.form.contractstatus = row.re_entry_applica.contractstatus;
+				
 				this.dialogFormVisible = true
 			},
 			// updateOffer_Hu(id) {
@@ -152,6 +158,7 @@
 									delete _this.form[key];
 									console.log("111")
 								}
+								
 								console.log("7777777777777777777777")
 								
 							}).catch(function(error) {
@@ -170,7 +177,9 @@
 							message: '取消提交'
 						});
 					})
-			}
+			},
+			
+			
 		},
 	
 		created() {
