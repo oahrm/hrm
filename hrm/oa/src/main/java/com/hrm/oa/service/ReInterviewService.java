@@ -6,6 +6,7 @@ import com.hrm.oa.entity.ReResumeEntity;
 import com.hrm.oa.vo.PageVo;
 
 import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
 
 public interface ReInterviewService {
@@ -17,4 +18,6 @@ public interface ReInterviewService {
     void modifyguanbi(ReInterviewEntitytime reInterviewEntitytime);
 
     ReResumeEntity findjianli(String resumeId);
+
+    List<ReInterviewEntitytime> selectruqu();
 }

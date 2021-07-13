@@ -86,6 +86,7 @@
 </template>
 
 <script>
+	 import { ElMessage } from 'element-plus'
 	/* import qs from "qs"
 		import {
 			defineComponent,
@@ -130,6 +131,10 @@
 					}).catch(function(error) {
 						console.log(error)
 					})
+					ElMessage.success({
+					          message: '操作成功',
+					          type: 'success'
+					        });
 					_this.init();
 					
 					 
@@ -145,7 +150,14 @@
 					}).catch(function(error) {
 						console.log(error)
 					})
+					
+					ElMessage.success({
+					          message: '操作成功',
+					          type: 'success'
+					        });
+					
 					_this.init();
+					
 				}
 				,
 				a(num){

@@ -121,6 +121,7 @@
 </template>
 
 <script>
+	import { ElMessage } from 'element-plus'
 	/* import qs from "qs"
 		import {
 			defineComponent,
@@ -151,11 +152,18 @@
 					
 					const _this = this
 					this.axios.put("http://localhost:8088/job/modifyjob",index)
-					.then(function(response) {						
+					.then(function(response) {	
+						ElMessage.success({
+						          message: '操作成功',
+						          type: 'success'
+						        });
 						console.log(response)
 					}).catch(function(error) {
 						console.log(error)
 					})
+					
+					
+					
 					_this.init()
 					
 				},
@@ -165,11 +173,18 @@
 					
 					const _this = this
 					this.axios.put("http://localhost:8088/job/modifyjob",index)
-					.then(function(response) {						
+					.then(function(response) {
+						ElMessage.success({
+						          message: '操作成功',
+						          type: 'success'
+						        });
 						console.log(response)
 					}).catch(function(error) {
 						console.log(error)
 					})
+					
+				
+					
 					_this.init()
 					
 				},
@@ -187,11 +202,20 @@
 					
 					const _this = this
 					this.axios.put("http://localhost:8088/job/deljob",this.rePosi)
-					.then(function(response) {						
+					.then(function(response) {	
+						ElMessage.success({
+						          message: '操作成功',
+						          type: 'success'
+						        });
 						console.log(response)
 					}).catch(function(error) {
 						console.log(error)
 					})
+					ElMessage.success({
+					          message: '操作成功',
+					          type: 'success'
+					        });
+					
 					_this.init()				
 					 
 				
@@ -202,10 +226,15 @@
 					const _this = this
 					this.axios.put("http://localhost:8088/job/addjob",this.form)
 					.then(function(response) {					
-						
+						ElMessage.success({
+						          message: '操作成功',
+						          type: 'success'
+						        });
 					}).catch(function(error) {
 						console.log(error)
 					})
+					
+					
 					_this.init()
 				}
 				,

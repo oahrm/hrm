@@ -1,7 +1,11 @@
 package com.hrm.oa.controller;
 
+import com.hrm.oa.entity.PeDepartment;
+import com.hrm.oa.entity.ReInterviewEntity;
 import com.hrm.oa.entity.ReInterviewEntitytime;
 import com.hrm.oa.entity.RwruzhitonghiEntity;
+import com.hrm.oa.service.PeDepartmentService;
+import com.hrm.oa.service.ReInterviewService;
 import com.hrm.oa.service.ReNoticeService;
 import com.hrm.oa.vo.PageVo;
 import com.hrm.oa.vo.Result;
@@ -9,6 +13,9 @@ import com.hrm.oa.vo.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,6 +28,11 @@ public class ReentryController {
 
     @Autowired
     ReNoticeService reNoticeService;
+    @Resource
+    private PeDepartmentService peDepartmentService;
+
+    @Autowired
+    ReInterviewService reInterviewService;
 
     /**
      * 初始化  获取所需数据
@@ -48,10 +60,20 @@ public class ReentryController {
         //获取列表
         reNoticeService.save(reInterviewEntitytime);
         return new Result(ResultCode.SUCCESS);
+    }
 
-
-
-
+    /**
+     * 获取部门及面试通过的人
+     */
+    @RequestMapping(value = "fande" ,method = RequestMethod.GET)
+    public Result getinter() throws Exception {
+        //获取列表
+        List<PeDepartment> list = this.peDepartmentService.findAllDept();
+        List<ReInterviewEntitytime> listluyong = reInterviewService.selectruqu();
+        Map<String,Object> map=new HashMap<>();
+        map.put("dept",list);
+        map.put("name",listluyong);
+        return new Result(ResultCode.SUCCESS,map);
     }
 
 

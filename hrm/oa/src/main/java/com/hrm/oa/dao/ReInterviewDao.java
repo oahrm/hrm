@@ -27,4 +27,6 @@ public interface ReInterviewDao {
     void updataguanbi(String id);
 
     void updataruyong(String id);
+
+    List<ReInterviewEntitytime> selectruqu();
 }

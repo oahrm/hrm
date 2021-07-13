@@ -20,16 +20,13 @@
 				<el-table-column prop="arrivalTime"  label="到岗时间" width="">					
 				</el-table-column>							
 				<el-table-column prop="mailbox"  label="邮箱" width="">					
-				</el-table-column>
-				
+				</el-table-column>				
 				<el-table-column fixed="right" label="操作" width="">
 					<template #default="scope">
 						<el-button @click.prevent="chakRow(scope.row, tableData);dialogFormVisible = true" type="text" size="small">
 							查看
 						</el-button>	
-						<el-button @click.prevent="madeayRow(scope.row, tableData)" type="text" size="small">
-							确认
-						</el-button>						
+											
 					</template>
 				</el-table-column>
 			</el-table>
@@ -49,16 +46,28 @@
 		 
 		
 		<!-- Form -->
-		<el-button type="text" @click="dialogFormVisible = true ">发出offer</el-button>
+		<el-button type="text" @click="huoqu();dialogFormVisible = true;">发出offer</el-button>
 		
 		<el-dialog title="offer" v-model="dialogFormVisible">
 		  <el-form :model="form">
 		    <el-form-item label="offer名称" :label-width="formLabelWidth">
 		      <el-input v-model="form.offername" autocomplete="off"></el-input>
 		    </el-form-item>	
-		   <el-form-item label="候选人姓名" :label-width="formLabelWidth">
-		     <el-input v-model="form.name" autocomplete="off"></el-input>
+		  
+		   
+		   <el-form-item label="候选人姓名" prop="name">
+		      <el-select v-model="form.name" placeholder="请选择">
+		                <el-option
+		                  v-for="item in namelist"
+		                  :key="item.value"
+		                  :label="item.name"
+		                  :value="item.name"
+		                >
+		                </el-option>
+		              </el-select>
 		   </el-form-item>
+		   
+		   
 		   <el-form-item label="性别" :label-width="formLabelWidth">
 		     <el-input v-model="form.sex" autocomplete="off"></el-input>
 		   </el-form-item>		  
@@ -94,12 +103,28 @@
 			 <el-form-item label="offer状态" :label-width="formLabelWidth">
 			   <el-input v-model="form.offerStatus" autocomplete="off"></el-input>
 			 </el-form-item>
-			 <el-form-item label="所属部门" :label-width="formLabelWidth">
-			   <el-input v-model="form.department" autocomplete="off"></el-input>
-			 </el-form-item>
+			 
+			 
+			   <el-form-item label="所属部门" prop="name">
+			      <el-select v-model="form.department" placeholder="请选择">
+			                <el-option
+			                  v-for="item in deptlist"
+			                  :key="item.value"
+			                  :label="item.name"
+			                  :value="item.name"
+			                >
+			                </el-option>
+			              </el-select>
+			   </el-form-item>
+			 
+			
 			 <el-form-item label="直接上级" :label-width="formLabelWidth">
 			   <el-input v-model="form.directsuperior" autocomplete="off"></el-input>
 			 </el-form-item>
+			 
+			 
+			 
+			 
 			 <el-form-item label="岗位" :label-width="formLabelWidth">
 			   <el-input v-model="form.station" autocomplete="off"></el-input>
 			 </el-form-item>
@@ -122,7 +147,7 @@
 			 <el-form-item label="试用期工资" :label-width="formLabelWidth">
 			   <el-input v-model="form.probationPeriodSalary" autocomplete="off"></el-input>
 			 </el-form-item>
-			<el-form-item label="出生年月">
+			<el-form-item label="">
 			   <el-col :span="11">
 			     <el-date-picker type="date" placeholder="选择日期" v-model="form.arrivalTime" style="width: 100%;"></el-date-picker>
 			   </el-col>		      
@@ -206,6 +231,7 @@
 </template>
 
 <script>
+	import { ElMessage } from 'element-plus'
 	/* import qs from "qs"
 		import {
 			defineComponent,
@@ -214,7 +240,20 @@
 		export default {
 			
 			methods: {
-				
+				//获取基本信息面试通过的人 与部门名及其负责人
+				huoqu(){
+					const _this = this
+					this.axios.get("http://localhost:8088/reentry/fande")
+					.then(function(response) {						
+						console.log(response)
+						_this.deptlist=response.data.data.dept
+						_this.namelist=response.data.data.name
+					}).catch(function(error) {
+						console.log(error)
+					})
+					
+					
+				},
 				handleSizeChange(val) {
 				   console.log(`每页 ${val} 条`);
 				   this.formData.pagesize=val;
@@ -239,8 +278,13 @@
 					}).catch(function(error) {
 						console.log(error)
 					})
-					_this.init()
 					
+					ElMessage.success({
+					          message: '操作成功',
+					          type: 'success'
+					        });
+					
+					_this.init()		
 					
 				}
 				,
@@ -254,6 +298,12 @@
 					}).catch(function(error) {
 						console.log(error)
 					})
+					
+					
+					ElMessage.success({
+					          message: '操作成功',
+					          type: 'success'
+					        });
 					_this.init()
 					
 				},
@@ -287,6 +337,12 @@
 					}).catch(function(error) {
 						console.log(error)
 					})
+					
+					
+					ElMessage.success({
+					          message: '操作成功',
+					          type: 'success'
+					        });
 					_this.init()
 					
 				},
@@ -309,6 +365,13 @@
 					}).catch(function(error) {
 						console.log(error)
 					})
+					
+					
+					
+					ElMessage.success({
+					          message: '操作成功',
+					          type: 'success'
+					        });
 					_this.init()				
 					 
 				
@@ -323,6 +386,13 @@
 					}).catch(function(error) {
 						console.log(error)
 					})
+					
+					
+					
+					ElMessage.success({
+					          message: '操作成功',
+					          type: 'success'
+					        });
 					_this.init()
 				}
 				,
@@ -355,6 +425,10 @@
 					  pagesize: 10				 
 					},
 					rePosi:[],
+					deptlist:[]
+					,
+					namelist:[]
+					,
 					dialogFormVisible: false,
 				        form: {
 						  title:'',

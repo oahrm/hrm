@@ -161,6 +161,7 @@
 </template>
 
 <script>
+	 import { ElMessage } from 'element-plus'
 	/* import qs from "qs"
 		import {
 			defineComponent,
@@ -189,7 +190,11 @@
 				madeayruyong(index, rows){
 					const _this = this
 					this.axios.put("http://localhost:8088/inter/modifyluyong",index)
-					.then(function(response) {						
+					.then(function(response) {	
+						ElMessage.success({
+						          message: '操作成功',
+						          type: 'success'
+						        });
 						console.log(response)
 					}).catch(function(error) {
 						console.log(error)
@@ -204,7 +209,11 @@
 					
 					const _this = this
 					this.axios.put("http://localhost:8088/inter/modifytonguo",index)
-					.then(function(response) {						
+					.then(function(response) {	
+						  ElMessage.success({
+						            message: '操作成功',
+						            type: 'success'
+						          });
 						console.log(response)
 					}).catch(function(error) {
 						console.log(error)
@@ -222,6 +231,7 @@
 						_this.jianlirData= response.data.data					
 						//_this.form2=response.data.data.posinmenlist		
 						_this.form2=_this.jianlirData
+						
 					}).catch(function(error) {
 						console.log(error)
 					})					
@@ -237,7 +247,11 @@
 					
 					const _this = this
 					this.axios.put("http://localhost:8088/inter/modifygaunbi",index)
-					.then(function(response) {						
+					.then(function(response) {	
+						ElMessage.success({
+						          message: '操作成功',
+						          type: 'success'
+						        });
 						console.log(response)
 					}).catch(function(error) {
 						console.log(error)
@@ -259,7 +273,11 @@
 					
 					const _this = this
 					this.axios.put("http://localhost:8088/job/deljob",this.rePosi)
-					.then(function(response) {						
+					.then(function(response) {	
+						ElMessage.success({
+						          message: '操作成功',
+						          type: 'success'
+						        });
 						console.log(response)
 					}).catch(function(error) {
 						console.log(error)
