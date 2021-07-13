@@ -27,20 +27,64 @@
     <result column="probation_period" jdbcType="INTEGER" property="probationPeriod" />
     <result column="probation_period_salary" jdbcType="DECIMAL" property="probationPeriodSalary" />
     <result column="arrival_time" jdbcType="TIMESTAMP" property="arrivalTime" />
+
+    <association property="re_entry_applica" javaType="com.hrm.oa.entity.ReEntryApplica">
+      <id column="id" jdbcType="VARCHAR" property="id" />
+      <result column="title" jdbcType="VARCHAR" property="title" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+      <result column="offer_id" jdbcType="VARCHAR" property="offerId" />
+      <result column="post_line" jdbcType="VARCHAR" property="postLine" />
+      <result column="entrystatus" jdbcType="INTEGER" property="entrystatus" />
+      <result column="contractstatus" jdbcType="INTEGER" property="contractstatus" />
+      <result column="job_responsibilities" jdbcType="VARCHAR" property="jobResponsibilities" />
+    </association>
+
+
   </resultMap>
   <sql id="Base_Column_List">
-    offer_id, offername, `name`, sex, date_of_birth, place, phone, idcard, nation, marita_status, 
-    highest_education, academic_degree, mailbox, offer_status, division, directsuperior, 
-    station, department, office_location, base_pay, merit_pay, regular_salary, probation_period, 
-    probation_period_salary, arrival_time
+    o.offer_id, o.offername, o.name, o.sex, o.date_of_birth, o.place, o.phone,
+    o.idcard, o.nation, o.marita_status, o.highest_education, o.academic_degree,
+    o.mailbox, o.offer_status, o.division, o.directsuperior, o.station, o.department,
+    o.office_location, o.base_pay, o.merit_pay, o.regular_salary, o.probation_period,
+    o.probation_period_salary, o.arrival_time
   </sql>
+  <sql id="re_entry_applica">
+    a.id, a.title, a.name, a.idcard, a.offer_id, a.post_line, a.entrystatus, a.contractstatus, a.job_responsibilities
+  </sql>
+
   <!--查询出offer状态为以同意数据到劳务合同签署界面-->
   <select id="selectOffer_Hucontracto" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List" />
-    from re_offer
-    where offer_status=1
+    <include refid="Base_Column_List" />,
+    <include refid="re_entry_applica"/>
+    from re_offer o
+    inner join re_entry_applica a on a.id=o.offer_id
+    where o.offer_status=1
   </select>
+
+  <!--  将签署状态更改为1-->
+  <update id="updateOffer_Hucontracto">
+     update re_entry_applica set contractstatus=1
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--查询出签署状态为以1的数据到员工入职页面-->
+  <select id="selectOffer_HuPersonnelbecome" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    <include refid="re_entry_applica"/>
+    from re_offer o
+    inner join re_entry_applica a on a.id=o.offer_id
+    where a.contractstatus=1
+  </select>
+
+  <!--  将入职状态更改为1-->
+  <update id="updateOffer_HuPersonnelbecome">
+     update re_entry_applica set entrystatus=1
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

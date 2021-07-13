@@ -24,4 +24,5 @@ public interface RePosimanDao {
 
     int staffnum();
     int actualnum();
+    int tit();
 }

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.ReEntryApplicaDao">
+  <resultMap id="BaseResultMap" type="com.hrm.oa.entity.ReEntryApplica">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="offer_id" jdbcType="VARCHAR" property="offerId" />
+    <result column="post_line" jdbcType="VARCHAR" property="postLine" />
+    <result column="entrystatus" jdbcType="INTEGER" property="entrystatus" />
+    <result column="contractstatus" jdbcType="INTEGER" property="contractstatus" />
+    <result column="job_responsibilities" jdbcType="VARCHAR" property="jobResponsibilities" />
+    <result column="contract_id" jdbcType="VARCHAR" property="contractId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, `name`, idcard, offer_id, post_line, entrystatus, contractstatus, job_responsibilities, contract_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from re_entry_applica
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from re_entry_applica
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hrm.oa.entity.ReEntryApplica" useGeneratedKeys="true">
+    insert into re_entry_applica (title, `name`, idcard, 
+      offer_id, post_line, entrystatus, 
+      contractstatus, job_responsibilities)
+    values (#{title,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, 
+      #{offerId,jdbcType=VARCHAR}, #{postLine,jdbcType=VARCHAR}, #{entrystatus,jdbcType=INTEGER}, 
+      #{contractstatus,jdbcType=INTEGER}, #{jobResponsibilities,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hrm.oa.entity.ReEntryApplica" useGeneratedKeys="true">
+    insert into re_entry_applica
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="idcard != null">
+        idcard,
+      </if>
+      <if test="offerId != null">
+        offer_id,
+      </if>
+      <if test="postLine != null">
+        post_line,
+      </if>
+      <if test="entrystatus != null">
+        entrystatus,
+      </if>
+      <if test="contractstatus != null">
+        contractstatus,
+      </if>
+      <if test="jobResponsibilities != null">
+        job_responsibilities,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="offerId != null">
+        #{offerId,jdbcType=VARCHAR},
+      </if>
+      <if test="postLine != null">
+        #{postLine,jdbcType=VARCHAR},
+      </if>
+      <if test="entrystatus != null">
+        #{entrystatus,jdbcType=INTEGER},
+      </if>
+      <if test="contractstatus != null">
+        #{contractstatus,jdbcType=INTEGER},
+      </if>
+      <if test="jobResponsibilities != null">
+        #{jobResponsibilities,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.oa.entity.ReEntryApplica">
+    update re_entry_applica
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="offerId != null">
+        offer_id = #{offerId,jdbcType=VARCHAR},
+      </if>
+      <if test="postLine != null">
+        post_line = #{postLine,jdbcType=VARCHAR},
+      </if>
+      <if test="entrystatus != null">
+        entrystatus = #{entrystatus,jdbcType=INTEGER},
+      </if>
+      <if test="contractstatus != null">
+        contractstatus = #{contractstatus,jdbcType=INTEGER},
+      </if>
+      <if test="jobResponsibilities != null">
+        job_responsibilities = #{jobResponsibilities,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrm.oa.entity.ReEntryApplica">
+    update re_entry_applica
+    set title = #{title,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      offer_id = #{offerId,jdbcType=VARCHAR},
+      post_line = #{postLine,jdbcType=VARCHAR},
+      entrystatus = #{entrystatus,jdbcType=INTEGER},
+      contractstatus = #{contractstatus,jdbcType=INTEGER},
+      job_responsibilities = #{jobResponsibilities,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

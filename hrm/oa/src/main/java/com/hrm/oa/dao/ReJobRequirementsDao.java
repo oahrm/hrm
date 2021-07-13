@@ -23,7 +23,7 @@ public interface ReJobRequirementsDao {
 
     int updateByPrimaryKey(ReJobRequirementsEntity record);
 
-    List<RePosimanEntity> findAll();
+    List<ReJobRequirementsEntity> findAll();
     //岗位需求人数
     int demandNumsum();
     int sumdemand();

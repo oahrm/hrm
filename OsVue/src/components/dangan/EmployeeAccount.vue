@@ -1,110 +1,135 @@
 <template>
-	 <el-tabs v-model="activeName" @tab-click="handleClick">
-		  <el-input
-		     placeholder="请输入姓名"
-		     prefix-icon="el-icon-search"
-		     v-model="pageParam.emp.name"
-			 @change="byName">
-		   </el-input>
-	    <el-tab-pane label="全部员工" name="first">
-			<el-table
-				ref="multipleTable"
-				:data="empList"
-				tooltip-effect="dark"
-				style="width: 100%"
-				@selection-change="handleSelectionChange">
-				<el-table-column type="selection" width="55"></el-table-column>
-				<el-table-column prop="isItOnline" label="是否在线" width="120"></el-table-column>
-				<el-table-column prop="name" label="姓名" width="100"></el-table-column>
-				<el-table-column prop="sex" label="性别" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="post" label="岗位" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="deptName" label="部门" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="mobile" label="电话" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="mobile" label="办公室电话" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="mailbox" label="邮箱" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="emergencyContactNumber" label="紧急联系人电话" show-overflow-tooltip></el-table-column>
-				<el-table-column
-				      fixed="right"
-				      label="操作"
-				      width="100">
-				      <template #default="scope">
-				        <el-button @click="handleSend(scope.row)" type="text" size="small">发消息</el-button>
-				      </template>
-				    </el-table-column>
-			</el-table>
-			<div class="block">
-			    <el-pagination
-				@size-change="handleSizeChange"
-				@current-change="handleCurrentChange"
-			      :current-page="1"
-			      :page-sizes="[5, 10, 15]"
-			      :page-size="5"
-			      layout="total, prev, pager, next, sizes, jumper"
-			      :total="num">
-			    </el-pagination>
-			</div>
-		</el-tab-pane>
-	    <el-tab-pane label="同部门" name="second">
-			<el-table
-				ref="multipleTable"
-				:data="empList2"
-				tooltip-effect="dark"
-				style="width: 100%"
-				@selection-change="handleSelectionChange">
-				<el-table-column type="selection" width="55"></el-table-column>
-				<el-table-column prop="isItOnline" label="是否在线" width="120"></el-table-column>
-				<el-table-column prop="name" label="姓名" width="100"></el-table-column>
-				<el-table-column prop="sex" label="性别" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="post" label="岗位" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="deptName" label="部门" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="mobile" label="电话" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="mobile" label="办公室电话" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="mailbox" label="邮箱" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="emergencyContactNumber" label="紧急联系人电话" show-overflow-tooltip></el-table-column>
-			</el-table>
-			<div class="block">
-			    <el-pagination
-				  @size-change="handleSizeChange"
-				  @current-change="handleCurrentChange"
-			      :current-page="pageParam.page"
-			      :page-sizes="[5, 10, 15]"
-			      :page-size="pageParam.size"
-			      layout="total, prev, pager, next, sizes, jumper"
-			      :total="num2">
-			    </el-pagination>
-			</div>
-		</el-tab-pane>
-	    <el-tab-pane label="我的下属" name="third">
-			<el-table
-				ref="multipleTable"
-				:data="empList3"
-				tooltip-effect="dark"
-				style="width: 100%"
-				@selection-change="handleSelectionChange">
-				<el-table-column type="selection" width="55"></el-table-column>
-				<el-table-column prop="isItOnline" label="是否在线" width="120"></el-table-column>
-				<el-table-column prop="name" label="姓名" width="100"></el-table-column>
-				<el-table-column prop="sex" label="性别" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="post" label="岗位" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="deptName" label="部门" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="mobile" label="电话" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="mobile" label="办公室电话" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="mailbox" label="邮箱" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="emergencyContactNumber" label="紧急联系人电话" show-overflow-tooltip></el-table-column>
-			</el-table>
-			<div class="block">
-			    <el-pagination
-				  @size-change="handleSizeChange"
-				  @current-change="handleCurrentChange"
-			      :current-page="pageParam.page"
-			      :page-sizes="[5, 10, 15]"
-			      :page-size="pageParam.size"
-			      layout="total, prev, pager, next, sizes, jumper"
-			      :total="num3">
-			    </el-pagination>
-			</div>
-		</el-tab-pane>
-	</el-tabs>
+	<el-row class="tac">
+		<el-col :span="5">
+			<el-tree :data="depts" :indent="20">
+			  <!--
+			    node:是否展开，是否叶子节点
+			    data:部门对象
+			      id,name
+			  -->
+			   <div class="generalClass" slot-scope="{node,data}" style="width:99%">
+			      <span>
+			         <span>
+			            <span>
+			               <i v-if="node.isLeaf" class="fa fa-male"></i>
+			               <i v-else :class="node.expanded ? 'fa fa-minus-square-o':'fa fa-plus-square-o'"></i>
+			               <span><strong>{{ data.name }}</strong></span>
+			            </span>           
+			         </span>          
+			      </span>
+			     </div>
+			</el-tree>
+		</el-col>
+		<!-- <el-divider direction="vertical"></el-divider> -->
+		<el-col :span="19">
+			<el-tabs v-model="activeName" @tab-click="handleClick">
+				  <el-input
+				     placeholder="请输入姓名"
+				     prefix-icon="el-icon-search"
+				     v-model="pageParam.emp.name"
+					 @change="byName">
+				   </el-input>
+			    <el-tab-pane label="全部员工" name="first">
+					<el-table
+						ref="multipleTable"
+						:data="empList"
+						tooltip-effect="dark"
+						style="width: 100%"
+						@selection-change="handleSelectionChange">
+						<el-table-column type="selection" width="55"></el-table-column>
+						<el-table-column prop="isItOnline" label="是否在线" width="120"></el-table-column>
+						<el-table-column prop="name" label="姓名" width="100"></el-table-column>
+						<el-table-column prop="sex" label="性别" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="post" label="岗位" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="deptName" label="部门" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="mobile" label="电话" show-overflow-tooltip></el-table-column>
+						<!-- <el-table-column prop="mobile" label="办公室电话" show-overflow-tooltip></el-table-column> -->
+						<el-table-column prop="mailbox" label="邮箱" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="emergencyContactNumber" label="紧急联系人电话" show-overflow-tooltip></el-table-column>
+						<el-table-column
+						      fixed="right"
+						      label="操作"
+						      width="100">
+						      <template #default="scope">
+						        <el-button @click="handleSend(scope.row)" type="text" size="small">发消息</el-button>
+						      </template>
+						    </el-table-column>
+					</el-table>
+					<div class="block">
+					    <el-pagination
+						@size-change="handleSizeChange"
+						@current-change="handleCurrentChange"
+					      :current-page="pageParam.page"
+					      :page-sizes="[5, 10, 15]"
+					      :page-size="pageParam.size"
+					      layout="total, prev, pager, next, sizes, jumper"
+					      :total="num">
+					    </el-pagination>
+					</div>
+				</el-tab-pane>
+			    <el-tab-pane label="同部门" name="second">
+					<el-table
+						ref="multipleTable"
+						:data="empList2"
+						tooltip-effect="dark"
+						style="width: 100%"
+						@selection-change="handleSelectionChange">
+						<el-table-column type="selection" width="55"></el-table-column>
+						<el-table-column prop="isItOnline" label="是否在线" width="120"></el-table-column>
+						<el-table-column prop="name" label="姓名" width="100"></el-table-column>
+						<el-table-column prop="sex" label="性别" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="post" label="岗位" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="deptName" label="部门" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="mobile" label="电话" show-overflow-tooltip></el-table-column>
+						<!-- <el-table-column prop="mobile" label="办公室电话" show-overflow-tooltip></el-table-column> -->
+						<el-table-column prop="mailbox" label="邮箱" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="emergencyContactNumber" label="紧急联系人电话" show-overflow-tooltip></el-table-column>
+					</el-table>
+					<div class="block">
+					    <el-pagination
+						  @size-change="handleSizeChange"
+						  @current-change="handleCurrentChange"
+					      :current-page="pageParam.page"
+					      :page-sizes="[5, 10, 15]"
+					      :page-size="pageParam.size"
+					      layout="total, prev, pager, next, sizes, jumper"
+					      :total="num2">
+					    </el-pagination>
+					</div>
+				</el-tab-pane>
+			    <el-tab-pane label="我的下属" name="third">
+					<el-table
+						ref="multipleTable"
+						:data="empList3"
+						tooltip-effect="dark"
+						style="width: 100%"
+						@selection-change="handleSelectionChange">
+						<el-table-column type="selection" width="55"></el-table-column>
+						<el-table-column prop="isItOnline" label="是否在线" width="120"></el-table-column>
+						<el-table-column prop="name" label="姓名" width="100"></el-table-column>
+						<el-table-column prop="sex" label="性别" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="post" label="岗位" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="deptName" label="部门" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="mobile" label="电话" show-overflow-tooltip></el-table-column>
+						<!-- <el-table-column prop="mobile" label="办公室电话" show-overflow-tooltip></el-table-column> -->
+						<el-table-column prop="mailbox" label="邮箱" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="emergencyContactNumber" label="紧急联系人电话" show-overflow-tooltip></el-table-column>
+					</el-table>
+					<div class="block">
+					    <el-pagination
+						  @size-change="handleSizeChange"
+						  @current-change="handleCurrentChange"
+					      :current-page="pageParam.page"
+					      :page-sizes="[5, 10, 15]"
+					      :page-size="pageParam.size"
+					      layout="total, prev, pager, next, sizes, jumper"
+					      :total="num3">
+					    </el-pagination>
+					</div>
+				</el-tab-pane>
+			</el-tabs>
+		</el-col>
+	</el-row>
 	<el-dialog
 	  title="提示"
 	  v-model="centerDialogVisible"
@@ -145,7 +170,46 @@
 			message: {},
 			centerDialogVisible: false,
 			form: {},
-			msg: ''
+			msg: '',
+			data: [{
+			          label: '一级 1',
+			          children: [{
+			            label: '二级 1-1',
+			            children: [{
+			              label: '三级 1-1-1'
+			            }]
+			          }]
+			        }, {
+			          label: '一级 2',
+			          children: [{
+			            label: '二级 2-1',
+			            children: [{
+			              label: '三级 2-1-1'
+			            }]
+			          }, {
+			            label: '二级 2-2',
+			            children: [{
+			              label: '三级 2-2-1'
+			            }]
+			          }]
+			        }, {
+			          label: '一级 3',
+			          children: [{
+			            label: '二级 3-1',
+			            children: [{
+			              label: '三级 3-1-1'
+			            }]
+			          }, {
+			            label: '二级 3-2',
+			            children: [{
+			              label: '三级 3-2-1'
+			            }]
+			          }]
+			        }],
+			        defaultProps: {
+			          children: 'children',
+			          label: 'label'
+			        }
 	      }
 	    },
 	    methods: {
@@ -163,8 +227,7 @@
 			  //console.log(row.name+"你好")
 			  this.centerDialogVisible = true
 			  this.message.takeId = row.empId
-			  this.message.sendId = 1
-			  
+			  this.message.sendId = this.$store.state.employee.empId
 		  },
 		  sendMessage(){
 			  this.message.message = this.form.msg
@@ -218,6 +281,7 @@
 			  })
 		  },
 		  empListByDeptAndRanks(){
+			this.pageParam.emp.empId = this.$store.state.employee.empId
 		  	var _this=this
 		  	this.axios.post("http://localhost:8088/emp/findByDeptAndRanks",this.pageParam)//list
 		  	.then(function(response){
@@ -233,6 +297,7 @@
 		  	})
 		  },
 		  empListByParentId(){
+			this.pageParam.emp.empId = this.$store.state.employee.empId
 		  	var _this=this
 		  	this.axios.post("http://localhost:8088/emp/findByParentId",this.pageParam)//list
 		  	.then(function(response){

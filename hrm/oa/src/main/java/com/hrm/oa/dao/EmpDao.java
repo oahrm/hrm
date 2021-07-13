@@ -17,8 +17,6 @@ public interface EmpDao {
 
     int updateByPrimaryKeySelective(Emp record);
 
-    int updateByPrimaryKey(Emp record);
-
 
     /**
      * 通过姓名模糊查询员工
@@ -38,7 +36,21 @@ public interface EmpDao {
      */
     List<Emp> selectEmpByParenId(Emp emp);
 
+    /**
+     * 查询所有在职员工
+     * @return
+     */
     List<Emp> selectByOnTheJobStatus();
+
+    /**
+     * 查询每个员工的直接下属数量
+     */
+    Integer empCount(String parentId);
+
+    /**
+     * 查询每个员工的直接下属数量
+     */
+    int updateByPrimaryKey(Emp emp);
 
     List<Emp> selectAllByDeptId(String deptId);
 }

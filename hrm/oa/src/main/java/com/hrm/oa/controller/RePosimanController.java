@@ -1,14 +1,19 @@
 package com.hrm.oa.controller;
 
+import com.hrm.oa.entity.ReOfferlinEntity;
 import com.hrm.oa.entity.RePosimanEntity;
+import com.hrm.oa.entity.ReResumeEntity;
 import com.hrm.oa.service.ReJobRequirementService;
+import com.hrm.oa.service.ReLinOfferService;
 import com.hrm.oa.service.RePosimanService;
+import com.hrm.oa.service.ReResumeService;
 import com.hrm.oa.vo.PageVo;
 import com.hrm.oa.vo.Result;
 import com.hrm.oa.vo.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,7 +29,8 @@ public class RePosimanController {
     RePosimanService rePosimanService;
 
 
-
+    @Autowired
+    ReResumeService reResumeService;//简历service
 
     /**
      * 查询编制管理列表
@@ -49,21 +55,37 @@ public class RePosimanController {
      */
     @RequestMapping(value = "add" ,method = RequestMethod.PUT)
     public Result addjihua(@RequestBody RePosimanEntity rePosimanEntity) throws Exception {
-        //获取列表
+        //
         rePosimanService.save(rePosimanEntity);
         return new Result(ResultCode.SUCCESS);
     }
 
     /**
-     * 查询编制管理列表
+     * 删除
      *
      */
-    @RequestMapping(value = "del" ,method = RequestMethod.DELETE)
+    @RequestMapping(value = "del" ,method = RequestMethod.PUT)
     public Result deljihua(@RequestBody RePosimanEntity rePosimanEntity) throws Exception {
         //删除
         rePosimanService.delposi(rePosimanEntity);
         return new Result(ResultCode.SUCCESS);
     }
 
+
+    /**
+     * 简历查询
+     */
+    @RequestMapping(value = "jianli" ,method = RequestMethod.POST)
+    public Result findjianli(@RequestBody PageVo pageVo) throws Exception {
+        if (pageVo.getPage() == null) {
+            pageVo.setPage(1);
+        }
+        if (pageVo.getPagesize() == null) {
+            pageVo.setPagesize(10);
+        }
+        //获取列表
+        Map<String, Object> list= reResumeService.findAll(pageVo);
+        return new Result(ResultCode.SUCCESS,list);
+    }
 
 }

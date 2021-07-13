@@ -28,6 +28,11 @@
     parent_id, job_description, office_location, emergency_contact, emergency_contact_number, 
     entry_time, leavedate, mailbox, siger_id
   </sql>
+  <select id="selectAllByDeptId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from emp where dept_id = #{dept,jdbcType=VARCHAR} and on_the_job_status = 1
+  </select>
   <select id="selectByDeptIdAndRanks" parameterType="com.hrm.oa.entity.Emp" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -63,13 +68,11 @@
     <include refid="Base_Column_List" />
     from emp
   </select>
-
-  <select id="selectAllByDeptId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="empCount" parameterType="java.lang.String" resultType="java.lang.Integer">
     select
-    <include refid="Base_Column_List" />
-    from emp where dept_id = #{dept,jdbcType=VARCHAR}
+    count(*)
+    from emp where on_the_job_status = 1 and parent_id = #{parentId,jdbcType=VARCHAR}
   </select>
-
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from emp
     where emp_id = #{empId,jdbcType=VARCHAR}

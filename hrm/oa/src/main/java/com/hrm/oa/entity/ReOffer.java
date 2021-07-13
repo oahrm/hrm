@@ -2,6 +2,8 @@ package com.hrm.oa.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 /**
@@ -18,6 +20,7 @@ public class ReOffer implements Serializable {
 
     private String sex;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
 
     private String place;
@@ -58,7 +61,10 @@ public class ReOffer implements Serializable {
 
     private Long probationPeriodSalary;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date arrivalTime;
 
     private static final long serialVersionUID = 1L;
+
+    private ReEntryApplica re_entry_applica;
 }

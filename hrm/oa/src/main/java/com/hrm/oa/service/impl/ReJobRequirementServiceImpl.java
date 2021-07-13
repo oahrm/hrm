@@ -24,23 +24,26 @@ public class ReJobRequirementServiceImpl implements ReJobRequirementService {
     @Override
     public Map<String, Object> list(PageVo pageVo) {
         PageHelper.startPage(pageVo.getPage(), pageVo.getPagesize());
-        List<RePosimanEntity> list = reJobRequirementsDao.findAll();
+        List<ReJobRequirementsEntity> list = reJobRequirementsDao.findAll();
         Map<String,Object> map=new HashMap<>();
         map.put("posinmenlist",list);
         //岗位数
         map.put("sumdemand",reJobRequirementsDao.sumdemand());
         //岗位需求人数
         map.put("demandNumsum",reJobRequirementsDao.demandNumsum());
+        //岗位数
+        map.put("tit",reJobRequirementsDao.sumdemand());
         return map;
 
     }
 
     @Override
     public int save(ReJobRequirementsEntity reJobRequirementsEntity) {
-        reJobRequirementsEntity.setJobId(idWorker.nextId()+"");
-        reJobRequirementsEntity.setApplicationTime(new Date());
-        reJobRequirementsEntity.setStats(0);
-        return reJobRequirementsDao.insert(reJobRequirementsEntity);
+
+            reJobRequirementsEntity.setJobId(idWorker.nextId() + "");
+            reJobRequirementsEntity.setApplicationTime(new Date());
+            reJobRequirementsEntity.setStats(0);
+            return reJobRequirementsDao.insert(reJobRequirementsEntity);
 
     }
 
@@ -55,6 +58,11 @@ public class ReJobRequirementServiceImpl implements ReJobRequirementService {
      */
     @Override
     public int modifyjob(ReJobRequirementsEntity reJobRequirementsEntity) {
+        if(reJobRequirementsEntity.getStats()==0) {
+            reJobRequirementsEntity.setStats(1);
+        }else{
+            reJobRequirementsEntity.setStats(0);
+        }
         return reJobRequirementsDao.updateByPrimaryKeySelective(reJobRequirementsEntity);
 
     }
