@@ -1,6 +1,6 @@
 <template>	
 	<el-row>
-	  <el-col :span="24"><div class="grid-content bg-purple-dark">岗位需求</div></el-col>	  
+	  <el-col :span="24"><div class="grid-content bg-purple-dark">简历</div></el-col>	  
 	</el-row>
 
 	
