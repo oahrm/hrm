@@ -126,7 +126,7 @@
             
           </el-input>
           {{
-            scope.row.type==1?(scope.row.score =scope.row.targetValue / scope.row.completeValue || ""):''
+            scope.row.type==1?(scope.row.score =scope.row.completeValue/scope.row.targetValue*100  || ""):''
           }}
         </template>
       </el-table-column>
