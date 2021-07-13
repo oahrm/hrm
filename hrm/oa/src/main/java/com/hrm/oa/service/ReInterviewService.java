@@ -1,6 +1,8 @@
 package com.hrm.oa.service;
 
+import com.hrm.oa.entity.ReInterviewEntity;
 import com.hrm.oa.entity.ReInterviewEntitytime;
+import com.hrm.oa.entity.ReResumeEntity;
 import com.hrm.oa.vo.PageVo;
 
 import java.text.ParseException;
@@ -12,4 +14,7 @@ public interface ReInterviewService {
     void save(ReInterviewEntitytime reInterviewEntitytime) throws ParseException;
 
     void modifytonguo(ReInterviewEntitytime reInterviewEntitytime);
+    void modifyguanbi(ReInterviewEntitytime reInterviewEntitytime);
+
+    ReResumeEntity findjianli(String resumeId);
 }

@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,10 +36,8 @@ public class ReInterviewServiceImpl implements ReInterviewService {
     @Override
     public Map<String, Object> list(PageVo pageVo) {
         PageHelper.startPage(pageVo.getPage(), pageVo.getPagesize());
-        List<ReInterviewEntity> list = reInterviewDao.findAll();
         Map<String,Object> map=new HashMap<>();
-        map.put("posinmenlist",list);
-
+        map.put("posinmenlist",reInterviewDao.findAll());
         map.put("tit",reInterviewDao.tit());
         return map;
     }
@@ -50,19 +49,20 @@ public class ReInterviewServiceImpl implements ReInterviewService {
     @Override
     @Transactional
     public void save(ReInterviewEntitytime reInterviewEntitytime) throws ParseException {
-        //添加简历表
-        ReResumeEntity reResumeEntity=new ReResumeEntity(reInterviewEntitytime);
-        reResumeEntity.setResumeId(idWorker.nextId()+"");
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //添加生日
-        reResumeEntity.setBirthday(sdf.parse(reInterviewEntitytime.getBirthday()));
-        reResumeDao.insert(reResumeEntity);
 
-        ReInterviewEntity interviewEntity=new ReInterviewEntity(reInterviewEntitytime);
+        ReInterviewEntity interviewEntity=new ReInterviewEntity();
         interviewEntity.setId(idWorker.nextId()+"");
-        interviewEntity.setApplicationTime(sdf.parse(reInterviewEntitytime.getAppTime()));
+        interviewEntity.setApplicationTime(new Date());
         interviewEntity.setScheduleInterviewDate(sdf.parse(reInterviewEntitytime.getScheDate()));
-        interviewEntity.setResumeId(reResumeEntity.getResumeId());
+        interviewEntity.setResumeId(reInterviewEntitytime.getResumeId());
+        interviewEntity.setUrgency("待通过");
+        interviewEntity.setExplains("显示");
+        interviewEntity.setInterviewForm(reInterviewEntitytime.getInterviewForm());
+        interviewEntity.setInterviewStage(reInterviewEntitytime.getInterviewStage());
+        interviewEntity.setJob(reInterviewEntitytime.getJob());
+        interviewEntity.setPersonInCharge(reInterviewEntitytime.getPersonInCharge());
+        System.out.println(interviewEntity.toString());
         reInterviewDao.insert(interviewEntity);
     }
 
@@ -72,9 +72,22 @@ public class ReInterviewServiceImpl implements ReInterviewService {
      */
     public void modifytonguo(ReInterviewEntitytime reInterviewEntitytime) {
 
-        System.out.println(reInterviewEntitytime.getId());
-        reInterviewDao.updatetonguo(reInterviewEntitytime.getId());
+        if(reInterviewEntitytime.getInterviewStage().equals("终试")){
+            reInterviewDao.updataruyong(reInterviewEntitytime.getId());
+        }
+        else {
+            reInterviewDao.updatetonguo(reInterviewEntitytime.getId());
+        }
 
+    }
 
+    @Override
+    public void modifyguanbi(ReInterviewEntitytime reInterviewEntitytime) {
+        reInterviewDao.updataguanbi(reInterviewEntitytime.getId());
+    }
+
+    @Override
+    public ReResumeEntity findjianli(String resumeId) {
+        return reResumeDao.selectByPrimaryKey(resumeId);
     }
 }

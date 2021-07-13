@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.oa.dao.ReEntryApplicalinDao">
+  <resultMap id="BaseResultMap" type="com.hrm.oa.entity.ReEntryApplicalinEntity">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="offer_id" jdbcType="VARCHAR" property="offerId" />
+    <result column="post_line" jdbcType="VARCHAR" property="postLine" />
+    <result column="entrystatus" jdbcType="INTEGER" property="entrystatus" />
+    <result column="contractstatus" jdbcType="INTEGER" property="contractstatus" />
+    <result column="job_responsibilities" jdbcType="VARCHAR" property="jobResponsibilities" />
+  </resultMap>
+
+  <resultMap id="QuanbuMap" type="com.hrm.oa.entity.RwruzhitonghiEntity">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="offer_id" jdbcType="VARCHAR" property="offerId" />
+    <result column="post_line" jdbcType="VARCHAR" property="postLine" />
+    <result column="entrystatus" jdbcType="INTEGER" property="entrystatus" />
+    <result column="contractstatus" jdbcType="INTEGER" property="contractstatus" />
+    <result column="job_responsibilities" jdbcType="VARCHAR" property="jobResponsibilities" />
+    <result column="offername" jdbcType="VARCHAR" property="offername" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="date_of_birth" jdbcType="TIMESTAMP" property="dateOfBirth" />
+    <result column="place" jdbcType="VARCHAR" property="place" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="marita_status" jdbcType="VARCHAR" property="maritaStatus" />
+    <result column="highest_education" jdbcType="VARCHAR" property="highestEducation" />
+    <result column="academic_degree" jdbcType="VARCHAR" property="academicDegree" />
+    <result column="mailbox" jdbcType="VARCHAR" property="mailbox" />
+    <result column="offer_status" jdbcType="INTEGER" property="offerStatus" />
+    <result column="directsuperior" jdbcType="VARCHAR" property="directsuperior" />
+    <result column="station" jdbcType="VARCHAR" property="station" />
+    <result column="department" jdbcType="VARCHAR" property="department" />
+    <result column="office_location" jdbcType="VARCHAR" property="officeLocation" />
+    <result column="base_pay" jdbcType="DECIMAL" property="basePay" />
+    <result column="merit_pay" jdbcType="DECIMAL" property="meritPay" />
+    <result column="regular_salary" jdbcType="DECIMAL" property="regularSalary" />
+    <result column="probation_period" jdbcType="INTEGER" property="probationPeriod" />
+    <result column="probation_period_salary" jdbcType="DECIMAL" property="probationPeriodSalary" />
+    <result column="arrival_time" jdbcType="TIMESTAMP" property="arrivalTime" />
+
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, title, `name`,idcard, offer_id, post_line, entrystatus, contractstatus, job_responsibilities
+  </sql>
+  <sql id="In_List">
+    id, title, a.`name`,a.idcard, a.offer_id, post_line, entrystatus, contractstatus, job_responsibilities,offername,sex,date_of_birth,
+    place,phone,nation,marita_status,highest_education,academic_degree,mailbox,offer_status,directsuperior,station,department,
+    office_location,base_pay,merit_pay,regular_salary,probation_period,probation_period_salary,arrival_time
+ </sql>
+
+
+  <select id="findAll"  resultMap="QuanbuMap">
+    select
+    <include refid="In_List" />
+    from  re_entry_applica as a
+    left join re_offer as b
+    on a.offer_id=b.offer_id
+  </select>
+
+  <select id="tit"  resultType="java.lang.Integer">
+    select
+    count(*)
+    from re_entry_applica
+  </select>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from re_entry_applica
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from re_entry_applica
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hrm.oa.entity.ReEntryApplicalinEntity">
+    insert into re_entry_applica (id,title, `name`, idcard,
+      offer_id, entrystatus,
+      contractstatus, job_responsibilities)
+    values (#{id,jdbcType=VARCHAR},#{title,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR},
+      #{offerId,jdbcType=VARCHAR}, #{entrystatus,jdbcType=INTEGER},
+      #{contractstatus,jdbcType=INTEGER}, #{jobResponsibilities,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hrm.oa.entity.ReEntryApplicalinEntity" useGeneratedKeys="true">
+    insert into re_entry_applica
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="idcard != null">
+        idcard,
+      </if>
+      <if test="offerId != null">
+        offer_id,
+      </if>
+      <if test="postLine != null">
+        post_line,
+      </if>
+      <if test="entrystatus != null">
+        entrystatus,
+      </if>
+      <if test="contractstatus != null">
+        contractstatus,
+      </if>
+      <if test="jobResponsibilities != null">
+        job_responsibilities,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="offerId != null">
+        #{offerId,jdbcType=VARCHAR},
+      </if>
+      <if test="postLine != null">
+        #{postLine,jdbcType=VARCHAR},
+      </if>
+      <if test="entrystatus != null">
+        #{entrystatus,jdbcType=INTEGER},
+      </if>
+      <if test="contractstatus != null">
+        #{contractstatus,jdbcType=INTEGER},
+      </if>
+      <if test="jobResponsibilities != null">
+        #{jobResponsibilities,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrm.oa.entity.ReEntryApplicalinEntity">
+    update re_entry_applica
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="offerId != null">
+        offer_id = #{offerId,jdbcType=VARCHAR},
+      </if>
+      <if test="postLine != null">
+        post_line = #{postLine,jdbcType=VARCHAR},
+      </if>
+      <if test="entrystatus != null">
+        entrystatus = #{entrystatus,jdbcType=INTEGER},
+      </if>
+      <if test="contractstatus != null">
+        contractstatus = #{contractstatus,jdbcType=INTEGER},
+      </if>
+      <if test="jobResponsibilities != null">
+        job_responsibilities = #{jobResponsibilities,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrm.oa.entity.ReEntryApplicalinEntity">
+    update re_entry_applica
+    set title = #{title,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      offer_id = #{offerId,jdbcType=VARCHAR},
+      post_line = #{postLine,jdbcType=VARCHAR},
+      entrystatus = #{entrystatus,jdbcType=INTEGER},
+      contractstatus = #{contractstatus,jdbcType=INTEGER},
+      job_responsibilities = #{jobResponsibilities,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

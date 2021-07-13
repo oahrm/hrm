@@ -1,6 +1,7 @@
 package com.hrm.oa.dao;
 
 import com.hrm.oa.entity.ReInterviewEntity;
+import com.hrm.oa.entity.ReInterviewEntitytime;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -22,4 +23,8 @@ public interface ReInterviewDao {
     List<ReInterviewEntity> findAll();
     int updatetonguo(String id);
     int tit();
+
+    void updataguanbi(String id);
+
+    void updataruyong(String id);
 }
