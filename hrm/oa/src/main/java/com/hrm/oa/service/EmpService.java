@@ -30,6 +30,24 @@ public interface EmpService {
     //将转正状态更改为1
     int updateEmpOersZz(String empId);
 
+    int updateEmp_HuPosttransfer(String empId);
+
+    //查询未离职
+    List<Emp> selectEmpHuLiZhi();
+
+    //查询已离职
+    List<Emp> selectEmpHuYLiZhi();
+
+
+    int updateEmp_HuLiZhi(String empId);
+
+    //未调岗人员查询
+    List<Emp> findEmpOersWdg();
+
+    //未调岗人员查询
+    List<Emp> findEmpOersYdg();
+
+    int updateEmp_Deptname(String empId);
 
     Emp findEmpByEmpId(String empId);
 

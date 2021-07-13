@@ -1,9 +1,189 @@
 <template>
-	<p>员工调岗</p>
+	<el-tabs v-model="activeName" @tab-click="handleClick">
+		<el-tab-pane label="员工调岗" name="first">
+			<el-table :data="EmpOersWdgData" style="width: 100%" max-height="550">
+				<el-table-column fixed prop="name" label="公司人员" width="">
+				</el-table-column>
+				<el-table-column prop="deptName" label="人员所属部门" width="">
+				</el-table-column>
+				<el-table-column prop="mobile" label="联系电话" width="">
+				</el-table-column>
+				<el-table-column prop="entryTime" label="入职日期" width="">
+				</el-table-column>
+				<el-table-column prop="becomeTime" label="转正日期" width="">
+				</el-table-column>
+				<el-table-column prop="posttransferStatus" label="状态" width="" show-overflow-tooltip>
+					<template v-slot="scope">
+						<p v-if="scope.row.posttransferStatus==0">未调岗</p>
+						<p v-if="scope.row.posttransferStatus==1">已调岗</p>
+					</template>
+				</el-table-column>
+				<el-table-column fixed="right" label="操作" width="">
+					<template #default="scope">
+						<el-button type="text" @click="showEdit(scope.row)">进行调岗</el-button>
+					</template>
+				</el-table-column>
+
+			</el-table>
+		</el-tab-pane>
+		<el-tab-pane label="已调岗人员" name="second">
+			<el-table :data="EmpOersYdgData" style="width: 100%" max-height="550">
+				<el-table-column fixed prop="name" label="公司人员" width="">
+				</el-table-column>
+				<el-table-column prop="deptName" label="人员现所属部门" width="">
+				</el-table-column>
+				<el-table-column prop="mobile" label="联系电话" width="">
+				</el-table-column>
+				<el-table-column prop="entryTime" label="入职日期" width="">
+				</el-table-column>
+				<el-table-column prop="becomeTime" label="转正日期" width="">
+				</el-table-column>
+				<el-table-column prop="posttransferStatus" label="状态" width="" show-overflow-tooltip>
+					<template v-slot="scope">
+						<p v-if="scope.row.posttransferStatus==0">未调岗</p>
+						<p v-if="scope.row.posttransferStatus==1">已调岗</p>
+					</template>
+				</el-table-column>
+			</el-table>
+
+		</el-tab-pane>
+
+	</el-tabs>
+	<el-dialog v-model="dialogFormVisible" title="员工调岗信息" :before-close="cls" destroy-on-close>
+		<el-form :inline="true" :model="form" ref="ruleForm" class="demo-ruleForm">
+			<div style="display: flex; justify-content: space-between;">
+				<el-form-item label="转正人员 :" prop="zxr">
+					<el-input disabled v-model="form.name" style="width:150px"></el-input>
+				</el-form-item>
+
+				<el-form-item label="调岗部门 :" prop="zxr">
+					<el-input v-model="form.deptName" style="width:150px"></el-input>
+				</el-form-item>
+			</div>
+			<div style="display: flex; justify-content: space-between;">
+				<el-form-item label="联系电话 :" prop="lxdh">
+					<el-input disabled v-model="form.mobile" style="width:150px"></el-input>
+				</el-form-item>
+				<el-form-item label="入职日期 :" prop="lxdh">
+					<el-input disabled v-model="form.entryTime" style="width:150px"></el-input>
+				</el-form-item>
+				<el-form-item label="转正日期 :" prop="lxdh">
+					<el-input disabled v-model="form.becomeTime" style="width:150px"></el-input>
+				</el-form-item>
+			</div>
+		</el-form>
+		<template #footer>
+			<span class="dialog-footer">
+				<el-button type="primary" @click="updateEmp_HuPosttransfer(form.empId)">提交</el-button>
+				<el-button>取 消</el-button>
+			</span>
+		</template>
+	</el-dialog>
 </template>
 
 <script>
-</script>
+	export default {
+		data() {
+			return {
+				activeName: 'first',
+				EmpOersWdgData: [],
+				emp: {},
+				EmpOersYdgData: [],
+				dialogFormVisible: false,
+				form: {
+					empId: '',
+					name: '',
+					station: '',
+					deptName: '',
+					mobile: '',
+					entryTime: '',
+					becomeTime: ''
+				}
+			};
+		},
+		methods: {
+			handleClick(tab, event) {
+				console.log(tab, event);
+			},
+			showEdit(row) {
+				console.log(row);
+				this.form.empId = row.empId;
+				this.form.name = row.name;
+				this.form.deptName = row.deptName;
+				this.form.entryTime = row.entryTime;
+				this.form.becomeTime = row.becomeTime;
+				this.form.signerPost = row.station;
 
-<style>
-</style>
+				this.dialogFormVisible = true
+			},
+			updateEmp_HuPosttransfer(empId) {
+				const _this = this
+				this.$confirm('确定提交员工合同吗', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					console.log(empId)
+					console.log("-=-=--=-=-=")
+					this.axios.put("http://localhost:8088/emp/updateEmp_HuPosttransfer/" + empId)
+						.then(function(response) {
+							_this.axios.put("http://localhost:8088/emp/updateEmp_Deptname/" + empId)
+								.then(function(response) {
+									_this.EmpOersWdgData = response.data.data
+								}).catch(function(error) {
+									console.log(error)
+								})
+							_this.axios.get("http://localhost:8088/emp/findEmpOersWdg")
+								.then(function(response) {
+									_this.EmpOersWdgData = response.data.data
+									console.log(response)
+								}).catch(function(error) {
+									console.log(error)
+								})
+							_this.axios.get("http://localhost:8088/emp/findEmpOersYdg")
+								.then(function(response) {
+									_this.EmpOersYdgData = response.data.data
+									console.log(response)
+								}).catch(function(error) {
+									console.log(error)
+								})
+							
+
+							_this.dialogFormVisible = false
+						}).catch(function(error) {
+							console.log(error)
+						})
+				}).catch(function() {
+					this.$message({
+						type: 'error',
+						message: '取消提交'
+					});
+				})
+			}
+
+		},
+		created() {
+			console.log("-----------")
+			const _this = this
+
+
+			this.axios.get("http://localhost:8088/emp/findEmpOersWdg")
+				.then(function(response) {
+					_this.EmpOersWdgData = response.data.data
+					console.log(response)
+				}).catch(function(error) {
+					console.log(error)
+				})
+
+			this.axios.get("http://localhost:8088/emp/findEmpOersYdg")
+				.then(function(response) {
+					_this.EmpOersYdgData = response.data.data
+					console.log(response)
+				}).catch(function(error) {
+					console.log(error)
+				})
+
+
+		}
+	};
+</script>

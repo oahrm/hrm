@@ -94,12 +94,65 @@ public class EmpController {
         return new Result(ResultCode.SUCCESS,EmpOersYZz);
     }
 
+    //查询未离职员工
+    @GetMapping("/findEmpHuLiZhi")
+    public Result findEmpHuLiZhi(){
+        log.debug("查询已离职员工");
+        List<Emp> EmpOersLIZhi=empService.selectEmpHuLiZhi();
+        return new Result(ResultCode.SUCCESS,EmpOersLIZhi);
+    }
+
+    //查询已离职员工
+    @GetMapping("/findEmpHuYLiZhi")
+    public Result findEmpHuYLiZhi(){
+        log.debug("查询已离职员工");
+        List<Emp> EmpOersYLIZhi=empService.selectEmpHuYLiZhi();
+        return new Result(ResultCode.SUCCESS,EmpOersYLIZhi);
+    }
+
+
 
     //将转正状态更改为1
     @PutMapping("/updateEmpOersZz/{empId}")
     public int updateEmpOersZz(@PathVariable("empId") String empId){
         return  empService.updateEmpOersZz(empId);
     }
+
+    //将转正状态更改为1
+    @PutMapping("/updateEmp_HuPosttransfer/{empId}")
+    public int updateEmp_HuPosttransfer(@PathVariable("empId") String empId){
+        return  empService.updateEmp_HuPosttransfer(empId);
+    }
+
+
+    @PutMapping("/updateEmp_HuLiZhi/{empId}")
+    public int updateEmp_HuLiZhi(@PathVariable("empId") String empId){
+        return  empService.updateEmp_HuLiZhi(empId);
+    }
+
+
+    //未调岗人员查询
+    @GetMapping("/findEmpOersWdg")
+    public Result findEmpOersWdg(){
+        log.debug("查询员工表已转正的员工到已转正页面");
+        List<Emp> EmpOersWdg=empService.findEmpOersWdg();
+        return new Result(ResultCode.SUCCESS,EmpOersWdg);
+    }
+
+    //未调岗人员查询
+    @GetMapping("/findEmpOersYdg")
+    public Result findEmpOersYdg(){
+        log.debug("查询员工表已转正的员工到已转正页面");
+        List<Emp> EmpOersYdg=empService.findEmpOersYdg();
+        return new Result(ResultCode.SUCCESS,EmpOersYdg);
+    }
+
+    @PutMapping("/updateEmp_Deptname/{empId}")
+    public Result updateEmp_Deptname(@PathVariable("empId") String empId){
+        empService.updateEmp_Deptname(empId);
+        return new Result(ResultCode.SUCCESS);
+    }
+
 
 
     /**

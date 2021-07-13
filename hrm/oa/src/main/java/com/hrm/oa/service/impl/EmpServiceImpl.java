@@ -101,6 +101,50 @@ public class EmpServiceImpl implements EmpService {
         return empDao.updateEmpOersZz(empId);
     }
 
+    //将调岗状态更改为1
+    @Override
+    public int updateEmp_HuPosttransfer(String empId) {
+        return empDao.updateEmp_HuPosttransfer(empId);
+    }
+
+
+    //查询未离职员工
+    @Override
+    public List<Emp> selectEmpHuLiZhi() {
+        return empDao.selectEmpHuLiZhi();
+    }
+
+    //查询已离职员工
+    @Override
+    public List<Emp> selectEmpHuYLiZhi() {
+        return empDao.selectEmpHuYLiZhi();
+    }
+
+
+    @Override
+    public int updateEmp_HuLiZhi(String empId) {
+        return empDao.updateEmp_HuLiZhi(empId);
+    }
+
+
+    //未调岗人员查询
+    @Override
+    public List<Emp> findEmpOersWdg() {
+        return empDao.selectEmpOersWdg();
+    }
+
+    //已调岗人员
+    @Override
+    public List<Emp> findEmpOersYdg() {
+        return empDao.selectEmpOersYdg();
+    }
+
+    //修改部门dept_name
+    @Override
+    public int updateEmp_Deptname(String empId) {
+        return empDao.updateEmp_Deptname(empId);
+    }
+
     /**
      * 查询某个员工
      * @param empId

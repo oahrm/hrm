@@ -54,6 +54,24 @@ public interface EmpDao {
     //员工转正将状态改为1正式人员
     int updateEmpOersZz(String empId);
 
+    //未调岗人员
+    List<Emp> selectEmpOersWdg();
+
+    //已调岗人员
+    List<Emp> selectEmpOersYdg();
+
+
+    int updateEmp_HuPosttransfer(String empId);
+
+
+    int updateEmp_HuLiZhi(String empId);
+
+    List<Emp> selectEmpHuLiZhi();
+
+    List<Emp> selectEmpHuYLiZhi();
+    //修改deptname部门
+    int updateEmp_Deptname(String empId);
+
     /**
      * 查询每个员工的直接下属数量
      */
