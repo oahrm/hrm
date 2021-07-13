@@ -7,10 +7,14 @@
     <result column="signer_name" jdbcType="VARCHAR" property="signerName" />
     <result column="signer_post" jdbcType="VARCHAR" property="signerPost" />
     <result column="signer_phone" jdbcType="VARCHAR" property="signerPhone" />
-    <result column="signer_time" jdbcType="TIME" property="signerTime" />
+    <result column="signer_time" jdbcType="TIMESTAMP" property="signerTime" />
     <result column="signer_state" jdbcType="INTEGER" property="signerState" />
     <result column="engageform" jdbcType="INTEGER" property="engageform" />
+    <result column="contract" jdbcType="VARCHAR" property="id" />
     <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="jssigner_time" jdbcType="TIMESTAMP" property="jssignerTime" />
+    <result column="contract" jdbcType="VARCHAR" property="contract" />
+    <result column="contract_name" jdbcType="VARCHAR" property="contractName" />
 
     <collection property="re_entry_applica" ofType="com.hrm.oa.entity.ReEntryApplica">
       <id column="id" jdbcType="VARCHAR" property="id" />
@@ -49,9 +53,10 @@
 <!--  劳务合同记录表添加-->
   <insert id="insert" keyColumn="contract_id" keyProperty="contractId" parameterType="com.hrm.oa.entity.HuContractoflabor" useGeneratedKeys="true">
     insert into hu_contractoflabor (contract_id,dept_name, signer_name, signer_post,
-      signer_phone, signer_time, id)
+      signer_phone, signer_time,signer_state, id, jssigner_time, contract, contract_name)
     values (#{contractId,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, #{signerName,jdbcType=VARCHAR}, #{signerPost,jdbcType=VARCHAR},
-      #{signerPhone,jdbcType=VARCHAR}, #{signerTime,jdbcType=TIME}, #{id,jdbcType=VARCHAR})
+      #{signerPhone,jdbcType=VARCHAR}, #{signerTime,jdbcType=TIMESTAMP}, #{signerState,jdbcType=INTEGER}, #{id,jdbcType=VARCHAR}, #{jssignerTime,jdbcType=TIMESTAMP},
+     #{contract,jdbcType=VARCHAR}, #{contractName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="contract_id" keyProperty="contractId" parameterType="com.hrm.oa.entity.HuContractoflabor" useGeneratedKeys="true">
     insert into hu_contractoflabor

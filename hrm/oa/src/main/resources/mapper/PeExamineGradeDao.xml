@@ -8,7 +8,7 @@
         <result property="scoreDate" column="score_date" jdbcType="TIMESTAMP"/>
         <result property="gradingState" column="grading_state" jdbcType="INTEGER"/>
         <result property="graderDepartment" column="grader_department" jdbcType="VARCHAR"/>
-        <result property="assessmentScore" column="assessment_score" jdbcType="VARCHAR"/>
+        <result property="assessmentScore" column="assessment_score" jdbcType="INTEGER"/>
         <result property="evaluate" column="evaluate" jdbcType="VARCHAR"/>
         <result property="empName" column="emp_name" jdbcType="VARCHAR"/>
         <result property="deptName" column="dept_name" jdbcType="VARCHAR"/>
@@ -69,8 +69,8 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="scoreId" useGeneratedKeys="true">
-        insert into hrm.pe_examine_grade(performance_scoring_object, score_date, grading_state, grader_department, assessment_score, evaluate, emp_name, dept_name)
-        values (#{performanceScoringObject}, #{scoreDate}, #{gradingState}, #{graderDepartment}, #{assessmentScore}, #{evaluate}, #{empName}, #{deptName})
+        insert into hrm.pe_examine_grade(score_id,performance_scoring_object, score_date, grading_state, grader_department, assessment_score, evaluate, emp_name, dept_name)
+        values (#{scoreId},#{performanceScoringObject}, #{scoreDate}, #{gradingState}, #{graderDepartment}, #{assessmentScore}, #{evaluate}, #{empName}, #{deptName})
     </insert>
 
     <insert id="insertBatch" keyProperty="scoreId" useGeneratedKeys="true">

@@ -6,10 +6,10 @@ import java.io.Serializable;
  * 考核指标项表(PeAssessmentIndicators)实体类
  *
  * @author makejava
- * @since 2021-07-12 18:48:33
+ * @since 2021-07-13 16:50:44
  */
 public class PeAssessmentIndicators implements Serializable {
-    private static final long serialVersionUID = 374679298336012817L;
+    private static final long serialVersionUID = 354671237632846502L;
 
     private String indexNumber;
 
@@ -22,6 +22,8 @@ public class PeAssessmentIndicators implements Serializable {
     private Integer initiateMode;
 
     private String deptId;
+
+    private Integer weight;
 
 
     public String getIndexNumber() {
@@ -70,6 +72,14 @@ public class PeAssessmentIndicators implements Serializable {
 
     public void setDeptId(String deptId) {
         this.deptId = deptId;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
 
 }
