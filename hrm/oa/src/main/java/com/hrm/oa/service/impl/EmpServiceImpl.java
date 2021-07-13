@@ -2,15 +2,21 @@ package com.hrm.oa.service.impl;
 
 import com.hrm.oa.dao.EmpDao;
 import com.hrm.oa.entity.Emp;
+import com.hrm.oa.entity.HuContractoflabor;
+import com.hrm.oa.entity.ReOffer;
 import com.hrm.oa.service.EmpService;
+import com.hrm.oa.util.IdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class EmpServiceImpl implements EmpService {
-
+    @Autowired
+    private IdWorker idWorker;
     @Autowired
     private EmpDao empDao;
     /**
@@ -24,6 +30,20 @@ public class EmpServiceImpl implements EmpService {
         }
         return empDao.selectByName(emp);
     }
+
+    //员工入职将offer表数据新增到emp表
+    @Override
+    public Emp insertEmp_ReOffer(Emp emp) {
+        emp.setEmpId(idWorker.nextId()+"");
+
+        emp.setPassword("123456");
+        emp.setRanks(3);
+        emp.setIsItOnline(0);
+        emp.setJobDescription("0");
+        empDao.insertEmp_ReOffer(emp);
+        return emp;
+    }
+
 
     /**
      *查找部门下与自己同级的员工
@@ -61,6 +81,13 @@ public class EmpServiceImpl implements EmpService {
     public List<Emp> findAllEmp() {
         return empDao.selectByOnTheJobStatus();
     }
+
+    //查询员工表为实习期的员工到转正页面
+    @Override
+    public List<Emp> findEmpOersZz() {
+        return empDao.selectEmpOersZz();
+    }
+
 
     /**
      * 查询某个员工

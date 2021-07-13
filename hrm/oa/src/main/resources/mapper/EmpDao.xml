@@ -28,55 +28,85 @@
     parent_id, job_description, office_location, emergency_contact, emergency_contact_number, 
     entry_time, leavedate, mailbox, siger_id
   </sql>
+
   <select id="selectAllByDeptId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from emp where dept_id = #{dept,jdbcType=VARCHAR} and on_the_job_status = 1
+    from emp where dept_id = #{dept,jdbcType=VARCHAR}
   </select>
+
   <select id="selectByDeptIdAndRanks" parameterType="com.hrm.oa.entity.Emp" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from emp
-    where on_the_job_status = 1 and dept_id = #{deptId,jdbcType=VARCHAR} and ranks = #{ranks,jdbcType=INTEGER} <if test="name != null"> and name like  #{name,jdbcType=VARCHAR} </if>
+    where  dept_id = #{deptId,jdbcType=VARCHAR} and ranks = #{ranks,jdbcType=INTEGER} <if test="name != null"> and name like  #{name,jdbcType=VARCHAR} </if>
   </select>
+
   <select id="selectEmpByParenId" parameterType="com.hrm.oa.entity.Emp" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from emp
-    where on_the_job_status = 1 and parent_id = #{parentId,jdbcType=VARCHAR} <if test="name != null"> and name like  #{name,jdbcType=VARCHAR} </if>
+    where  parent_id = #{parentId,jdbcType=VARCHAR} <if test="name != null"> and name like  #{name,jdbcType=VARCHAR} </if>
   </select>
+
   <select id="selectByName" parameterType="com.hrm.oa.entity.Emp" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from emp
-    where on_the_job_status = 1  <if test="name != null"> and name like  #{name,jdbcType=VARCHAR} </if><if test="deptId != null"> and dept_id = #{deptId,jdbcType=VARCHAR} </if>
+    where 1 = 1  <if test="name != null"> and name like  #{name,jdbcType=VARCHAR} </if><if test="deptId != null"> and dept_id = #{deptId,jdbcType=VARCHAR} </if>
   </select>
+
   <select id="selectByOnTheJobStatus" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from emp
-    where on_the_job_status = 1
   </select>
+
+  <select id="selectEmpOersZz" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from emp
+    where on_the_job_status =0
+  </select>
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from emp
     where emp_id = #{empId,jdbcType=VARCHAR}
   </select>
-  <select id="selectAllEmp" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from emp
-  </select>
+
+
   <select id="empCount" parameterType="java.lang.String" resultType="java.lang.Integer">
     select
     count(*)
     from emp where on_the_job_status = 1 and parent_id = #{parentId,jdbcType=VARCHAR}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from emp
     where emp_id = #{empId,jdbcType=VARCHAR}
   </delete>
+
+
+<!--  员工入职将offer表数据新增到emp表-->
+  <insert id="insertEmp_ReOffer" keyColumn="id" keyProperty="id" parameterType="com.hrm.oa.entity.Emp" useGeneratedKeys="true">
+    insert into emp (emp_id, mobile, `password`, `name`,
+      sex, post, ranks, dept_id, dept_name,
+      on_the_job_status, is_it_online, parent_id,
+      job_description, office_location, emergency_contact,
+      emergency_contact_number, entry_time, leavedate,
+      mailbox, siger_id)
+    values (#{empId,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{sex,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{ranks,jdbcType=INTEGER}, #{deptId,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR},
+      #{onTheJobStatus,jdbcType=INTEGER}, #{isItOnline,jdbcType=INTEGER}, #{parentId,jdbcType=VARCHAR},
+      #{jobDescription,jdbcType=VARCHAR}, #{officeLocation,jdbcType=VARCHAR}, #{emergencyContact,jdbcType=VARCHAR},
+      #{emergencyContactNumber,jdbcType=VARCHAR}, #{entryTime,jdbcType=TIMESTAMP}, #{leavedate,jdbcType=TIMESTAMP},
+      #{mailbox,jdbcType=VARCHAR}, #{sigerId,jdbcType=VARCHAR})
+  </insert>
+
+
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hrm.oa.entity.Emp" useGeneratedKeys="true">
     insert into emp (mobile, `password`, `name`, 
       sex, post, ranks, dept_id, dept_name,

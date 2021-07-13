@@ -9,6 +9,9 @@ import java.util.List;
 public interface EmpDao {
     int deleteByPrimaryKey(String id);
 
+//    员工入职将offer表数据新增到emp表
+    int insertEmp_ReOffer(Emp record);
+
     int insert(Emp record);
 
     int insertSelective(Emp record);
@@ -41,6 +44,10 @@ public interface EmpDao {
      * @return
      */
     List<Emp> selectByOnTheJobStatus();
+
+    //查询员工表为实习期的员工到转正页面
+
+    List<Emp> selectEmpOersZz();
 
     /**
      * 查询每个员工的直接下属数量

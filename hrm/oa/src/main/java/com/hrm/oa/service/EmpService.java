@@ -1,6 +1,8 @@
 package com.hrm.oa.service;
 
 import com.hrm.oa.entity.Emp;
+import com.hrm.oa.entity.HuContractoflabor;
+import com.hrm.oa.entity.ReOffer;
 
 import java.util.List;
 
@@ -10,11 +12,17 @@ import java.util.List;
 public interface EmpService {
     List<Emp> findByName(Emp emp);
 
+    //员工入职将offer表数据新增到emp表
+    Emp insertEmp_ReOffer(Emp emp);
+
     List<Emp> findEmpByDeptIdAndRanks(Emp emp);
 
     List<Emp> findEmpByParenId(Emp emp);
 
     List<Emp> findAllEmp();
+
+    //查询员工表为实习期的员工到转正页面
+    List<Emp> findEmpOersZz();
 
     Emp findEmpByEmpId(String empId);
 
