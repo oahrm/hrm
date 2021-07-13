@@ -90,4 +90,9 @@ public class ReInterviewServiceImpl implements ReInterviewService {
     public ReResumeEntity findjianli(String resumeId) {
         return reResumeDao.selectByPrimaryKey(resumeId);
     }
+
+    @Override
+    public List<ReInterviewEntitytime> selectruqu() {
+        return reInterviewDao.selectruqu();
+    }
 }

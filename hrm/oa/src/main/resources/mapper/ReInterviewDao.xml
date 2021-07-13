@@ -68,6 +68,20 @@
     from re_interview
     where id = #{id,jdbcType=VARCHAR}
   </select>
+
+
+
+
+  <select id="selectruqu"  resultMap="InMap">
+    select
+    <include refid="In_List" />
+    from  re_interview as a
+    left join re_resume as b
+    on a.resume_id=b.resume_id
+    WHERE Interview_stage='录用'
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from re_interview
     where id = #{id,jdbcType=VARCHAR}
