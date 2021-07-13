@@ -1,6 +1,19 @@
 <template>
 	<el-row class="tac">
 		<el-col :span="5">
+			<h3 style="float: left;">通讯录</h3>
+		</el-col>
+		<el-col :span="19">
+			<el-input
+			   placeholder="请输入姓名"
+			   prefix-icon="el-icon-search"
+			   v-model="pageParam.emp.name"
+			   @change="byName">
+			</el-input>
+		</el-col>
+	</el-row>
+	<el-row class="tac">
+		<el-col :span="5">
 			<el-tree :data="depts" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
 			<!-- <el-tree :data="depts" :indent="20">
 			   <div class="generalClass" slot-scope="{node,data}" style="width:99%">
@@ -19,12 +32,6 @@
 		<!-- <el-divider direction="vertical"></el-divider> -->
 		<el-col :span="19">
 			<el-tabs v-model="activeName" @tab-click="handleClick">
-				  <el-input
-				     placeholder="请输入姓名"
-				     prefix-icon="el-icon-search"
-				     v-model="pageParam.emp.name"
-					 @change="byName">
-				   </el-input>
 			    <el-tab-pane label="全部员工" name="first">
 					<el-table
 						ref="multipleTable"
@@ -33,15 +40,19 @@
 						style="width: 100%"
 						@selection-change="handleSelectionChange">
 						<el-table-column type="selection" width="55"></el-table-column>
-						<el-table-column prop="isItOnline" label="是否在线" width="120"></el-table-column>
+						<el-table-column prop="isItOnline" label="是否在线" width="100" show-overflow-tooltip>
+							<template v-slot="scope">
+								<p v-if="scope.row.isItOnline==0">不在线</p>
+								<p v-if="scope.row.isItOnline==1" style="color: blue;"><el-tag type="success">在线</el-tag></p>
+							</template>
+						</el-table-column>
 						<el-table-column prop="name" label="姓名" width="100"></el-table-column>
 						<el-table-column prop="sex" label="性别" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="post" label="岗位" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="deptName" label="部门" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="mobile" label="电话" show-overflow-tooltip></el-table-column>
-						<!-- <el-table-column prop="mobile" label="办公室电话" show-overflow-tooltip></el-table-column> -->
 						<el-table-column prop="mailbox" label="邮箱" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="emergencyContactNumber" label="紧急联系人电话" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="emergencyContactNumber" label="紧急联系电话" width="120px"></el-table-column>
 						<el-table-column
 						      fixed="right"
 						      label="操作"
@@ -49,7 +60,7 @@
 						      <template #default="scope">
 						        <el-button @click="handleSend(scope.row)" type="text" size="small">发消息</el-button>
 						      </template>
-						    </el-table-column>
+						</el-table-column>
 					</el-table>
 					<div class="block">
 					    <el-pagination
@@ -71,7 +82,12 @@
 						style="width: 100%"
 						@selection-change="handleSelectionChange">
 						<el-table-column type="selection" width="55"></el-table-column>
-						<el-table-column prop="isItOnline" label="是否在线" width="120"></el-table-column>
+						<el-table-column prop="isItOnline" label="是否在线" width="100" show-overflow-tooltip>
+							<template v-slot="scope">
+								<p v-if="scope.row.isItOnline==0">不在线</p>
+								<p v-if="scope.row.isItOnline==1" style="color: blue;"><el-tag type="success">在线</el-tag></p>
+							</template>
+						</el-table-column>
 						<el-table-column prop="name" label="姓名" width="100"></el-table-column>
 						<el-table-column prop="sex" label="性别" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="post" label="岗位" show-overflow-tooltip></el-table-column>
@@ -79,7 +95,15 @@
 						<el-table-column prop="mobile" label="电话" show-overflow-tooltip></el-table-column>
 						<!-- <el-table-column prop="mobile" label="办公室电话" show-overflow-tooltip></el-table-column> -->
 						<el-table-column prop="mailbox" label="邮箱" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="emergencyContactNumber" label="紧急联系人电话" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="emergencyContactNumber" label="紧急联系电话" show-overflow-tooltip></el-table-column>
+						<el-table-column
+						      fixed="right"
+						      label="操作"
+						      width="100">
+						      <template #default="scope">
+						        <el-button @click="handleSend(scope.row)" type="text" size="small">发消息</el-button>
+						      </template>
+						</el-table-column>
 					</el-table>
 					<div class="block">
 					    <el-pagination
@@ -101,7 +125,12 @@
 						style="width: 100%"
 						@selection-change="handleSelectionChange">
 						<el-table-column type="selection" width="55"></el-table-column>
-						<el-table-column prop="isItOnline" label="是否在线" width="120"></el-table-column>
+						<el-table-column prop="isItOnline" label="是否在线" width="100" show-overflow-tooltip>
+							<template v-slot="scope">
+								<p v-if="scope.row.isItOnline==0">不在线</p>
+								<p v-if="scope.row.isItOnline==1" style="color: blue;"><el-tag type="success">在线</el-tag></p>
+							</template>
+						</el-table-column>
 						<el-table-column prop="name" label="姓名" width="100"></el-table-column>
 						<el-table-column prop="sex" label="性别" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="post" label="岗位" show-overflow-tooltip></el-table-column>
@@ -109,7 +138,15 @@
 						<el-table-column prop="mobile" label="电话" show-overflow-tooltip></el-table-column>
 						<!-- <el-table-column prop="mobile" label="办公室电话" show-overflow-tooltip></el-table-column> -->
 						<el-table-column prop="mailbox" label="邮箱" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="emergencyContactNumber" label="紧急联系人电话" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="emergencyContactNumber" label="紧急联系电话" show-overflow-tooltip></el-table-column>
+						<el-table-column
+						      fixed="right"
+						      label="操作"
+						      width="100">
+						      <template #default="scope">
+						        <el-button @click="handleSend(scope.row)" type="text" size="small">发消息</el-button>
+						      </template>
+						</el-table-column>
 					</el-table>
 					<div class="block">
 					    <el-pagination
@@ -125,7 +162,7 @@
 				</el-tab-pane>
 			</el-tabs>
 		</el-col>
-	</el-row>
+	</el-row>	
 	<el-dialog
 	  title="提示"
 	  v-model="centerDialogVisible"
@@ -141,9 +178,7 @@
 	      <el-button type="primary" @click="sendMessage()">确 定</el-button>
 	    </span>
 	  </template>
-	
 	</el-dialog>
-	
 </template>
 
 <script>

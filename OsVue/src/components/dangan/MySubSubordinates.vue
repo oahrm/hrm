@@ -1,6 +1,6 @@
 <template>
 	<div style="float: left;margin-top: -20px;">
-		<h3>{{$store.state.employee.empName}}的下属</h3>
+		<h3>{{xuEmp.name}}的下属</h3>
 	</div>
 	<el-input
 	   placeholder="请输入姓名"
@@ -35,7 +35,7 @@
 			      width="100">
 			      <template #default="scope">
 			        <el-button @click="handleSend(scope.row)" type="text" size="small">发消息</el-button>
-					<router-link target="_blank" :to="{path:'/MySubSubordinates',query: {id:scope.row.empId}}">
+					<router-link target="_blank" :to="{path:'/MySubordinates',query:{data:scope.row.empName}}">
 						<el-button type="text" size="small">
 							下属
 						</el-button>
@@ -69,7 +69,6 @@
 		      <el-button type="primary" @click="sendMessage()">确 定</el-button>
 		    </span>
 		  </template>
-		
 		</el-dialog>
 </template>
 
@@ -77,6 +76,7 @@
 	export default {
 	    data() {
 	      return {
+			xuEmp: {},
 			multipleSelection: [],
 			centerDialogVisible: false,
 	        empList: [],
@@ -99,7 +99,6 @@
 				this.multipleSelection = val;
 			},
 			handleSend(row){
-				//console.log(row.name+"你好")
 				this.centerDialogVisible = true
 				this.message.takeId = row.empId
 				this.message.sendId = this.$store.state.employee.empId
@@ -131,7 +130,7 @@
 				this.empListByParentId()
 			},
 			empListByParentId(){
-				this.pageParam.emp.empId = this.$store.state.employee.empId
+				this.pageParam.emp.empId = this.$route.query.id
 				var _this=this
 				this.axios.post("http://localhost:8088/emp/findByParentId",this.pageParam)//list
 				.then(function(response){
@@ -146,9 +145,24 @@
 					console.log(error)
 				})
 			},
+			empByEmpId(){
+				var _this=this
+				this.axios.get("http://localhost:8088/emp/findEmp/"+this.$route.query.id)//list
+				.then(function(response){
+				console.log(response)
+				if(response.data.success){
+					_this.xuEmp = response.data.data
+				}else{
+					_this.$message.error(response.data.message)			
+				}
+				}).catch(function(error){
+					console.log(error)
+				})
+			}
 		},
 		created() {
-			 this.empListByParentId()
+			this.empByEmpId()
+			this.empListByParentId()
 		}
 		  
 	}

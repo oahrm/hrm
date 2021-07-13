@@ -169,7 +169,7 @@
 				
 	  </el-aside>
       <el-container>
-        <el-header>{{$store.state.employee.empName}}</el-header>
+        <el-header>后台管理系统</el-header>
         <el-main>
 			<router-view></router-view>
 		</el-main>
