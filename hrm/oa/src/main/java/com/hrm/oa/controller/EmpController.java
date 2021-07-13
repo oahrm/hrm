@@ -34,7 +34,7 @@ public class EmpController {
     @PostMapping("/empListByName")
     public Result empListByName(@RequestBody PageParam pageParam){
         PageHelper.startPage(Integer.parseInt(pageParam.getPage()), Integer.parseInt(pageParam.getSize()));
-        List<Emp> list = empService.findByName(pageParam.getEmp().getName());
+        List<Emp> list = empService.findByName(pageParam.getEmp());
         PageInfo<Emp> pageInfo = new PageInfo<>(list);
         PageResult<Emp> pageResult = new PageResult<>(pageInfo.getTotal(),list);
         return new Result(ResultCode.SUCCESS,pageResult);

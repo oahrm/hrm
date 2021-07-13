@@ -8,7 +8,7 @@ import java.util.List;
  * 业务类接口
  */
 public interface EmpService {
-    List<Emp> findByName(String name);
+    List<Emp> findByName(Emp emp);
 
     List<Emp> findEmpByDeptIdAndRanks(Emp emp);
 

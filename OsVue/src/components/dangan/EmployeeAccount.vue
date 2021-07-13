@@ -1,12 +1,8 @@
 <template>
 	<el-row class="tac">
 		<el-col :span="5">
-			<el-tree :data="depts" :indent="20">
-			  <!--
-			    node:是否展开，是否叶子节点
-			    data:部门对象
-			      id,name
-			  -->
+			<el-tree :data="depts" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+			<!-- <el-tree :data="depts" :indent="20">
 			   <div class="generalClass" slot-scope="{node,data}" style="width:99%">
 			      <span>
 			         <span>
@@ -17,8 +13,8 @@
 			            </span>           
 			         </span>          
 			      </span>
-			     </div>
-			</el-tree>
+			   </div>
+			</el-tree> -->
 		</el-col>
 		<!-- <el-divider direction="vertical"></el-divider> -->
 		<el-col :span="19">
@@ -154,6 +150,10 @@
 	export default {
 	    data() {
 	      return {
+			defaultProps: {
+			    label: 'name'
+			},
+			depts: {},
 	        activeName: 'first',
 			empList: [],
 			empList2: [],
@@ -170,50 +170,16 @@
 			message: {},
 			centerDialogVisible: false,
 			form: {},
-			msg: '',
-			data: [{
-			          label: '一级 1',
-			          children: [{
-			            label: '二级 1-1',
-			            children: [{
-			              label: '三级 1-1-1'
-			            }]
-			          }]
-			        }, {
-			          label: '一级 2',
-			          children: [{
-			            label: '二级 2-1',
-			            children: [{
-			              label: '三级 2-1-1'
-			            }]
-			          }, {
-			            label: '二级 2-2',
-			            children: [{
-			              label: '三级 2-2-1'
-			            }]
-			          }]
-			        }, {
-			          label: '一级 3',
-			          children: [{
-			            label: '二级 3-1',
-			            children: [{
-			              label: '三级 3-1-1'
-			            }]
-			          }, {
-			            label: '二级 3-2',
-			            children: [{
-			              label: '三级 3-2-1'
-			            }]
-			          }]
-			        }],
-			        defaultProps: {
-			          children: 'children',
-			          label: 'label'
-			        }
+			msg: ''
 	      }
 	    },
 	    methods: {
+		  handleNodeClick(data) {
+			this.pageParam.emp.deptId = data.deptId
+			this.empListByName()
+		  },
 		  byName(){
+			this.pageParam.emp.deptId = null
 			this.empListByName()
 			this.empListByDeptAndRanks()
 			this.empListByParentId()
@@ -301,20 +267,35 @@
 		  	var _this=this
 		  	this.axios.post("http://localhost:8088/emp/findByParentId",this.pageParam)//list
 		  	.then(function(response){
-		  	console.log(response)
-		  	if(response.data.success){
-		  		_this.empList3 = response.data.data.rows
-		  		_this.num3 = response.data.data.total
-		  	}else{
-		  		_this.$message.error(response.data.message)			
-		  	}
+				console.log(response)
+				if(response.data.success){
+					_this.empList3 = response.data.data.rows
+					_this.num3 = response.data.data.total
+				}else{
+					_this.$message.error(response.data.message)			
+				}
 		  	}).catch(function(error){
 		  		console.log(error)
 		  	})
 		  },
+		  deptList(){
+			  var _this=this
+			  this.axios.get("http://localhost:8088/dept/deptList")//list
+			  .then(function(response){
+			  	console.log(response)
+			  	if(response.data.success){
+			  		_this.depts = response.data.data
+			  	}else{
+			  		_this.$message.error(response.data.message)			
+			  	}
+			  }).catch(function(error){
+			  	console.log(error)
+			  })
+		  }
 	   },
 	   created() {
 	   	 this.empListByName()
+		 this.deptList()
 	   }
 	}
 </script>
