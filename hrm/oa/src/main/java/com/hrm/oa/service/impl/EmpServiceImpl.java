@@ -18,11 +18,11 @@ public class EmpServiceImpl implements EmpService {
      * @return
      */
     @Override
-    public List<Emp> findByName(String name) {
-        if(name!=null){
-            name = "%"+name.trim()+"%";
+    public List<Emp> findByName(Emp emp) {
+        if(emp.getName()!=null){
+            emp.setName("%"+emp.getName().trim()+"%");
         }
-        return empDao.selectByName(name);
+        return empDao.selectByName(emp);
     }
 
     /**

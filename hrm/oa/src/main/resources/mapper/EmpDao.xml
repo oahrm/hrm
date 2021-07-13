@@ -45,11 +45,11 @@
     from emp
     where on_the_job_status = 1 and parent_id = #{parentId,jdbcType=VARCHAR} <if test="name != null"> and name like  #{name,jdbcType=VARCHAR} </if>
   </select>
-  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByName" parameterType="com.hrm.oa.entity.Emp" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from emp
-    where on_the_job_status = 1  <if test="name != null"> and name like  #{name,jdbcType=VARCHAR} </if>
+    where on_the_job_status = 1  <if test="name != null"> and name like  #{name,jdbcType=VARCHAR} </if><if test="deptId != null"> and dept_id = #{deptId,jdbcType=VARCHAR} </if>
   </select>
   <select id="selectByOnTheJobStatus" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
