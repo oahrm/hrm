@@ -112,7 +112,7 @@
       <el-table-column label="完成值">
         <template #default="scope">
           <el-input
-          v-show="scope.row.type==1"
+          v-if="scope.row.type==1"
             v-model="scope.row.completeValue"
             @change="scope.row.complete"
             
@@ -120,9 +120,9 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="评分">
+      <el-table-column label="评分" >
         <template #default="scope">
-          <el-input v-model="scope.row.score" style="width:30%" v-if="scope.row.type==2">
+          <el-input v-model="scope.row.score" style="width:60%" v-if="scope.row.type==2">
             
           </el-input>
           {{
@@ -134,8 +134,7 @@
       <el-table-column label="得分">
         <template #default="scope">
           {{
-            (scope.row.goal =
-              scope.row.targetValue / scope.row.completeValue*(scope.row.weight/100) || "")
+            scope.row.type==1?(scope.row.goal = scope.row.score*(scope.row.weight/100) || ""):scope.row.goal=scope.row.score*(scope.row.weight/100)
           }}
         </template>
       </el-table-column>
@@ -422,7 +421,7 @@ export default {
   computed: {
     sumScore() {
       return this.peIndexList
-        .map((row) => row.targetValue / row.completeValue)
+        .map((row) => row.type==1? row.targetValue / row.completeValue*(row.weight/100):row.score*(row.weight/100))
         .reduce((acc, cur) => cur + acc, 0);
     },
     scores: function () {
