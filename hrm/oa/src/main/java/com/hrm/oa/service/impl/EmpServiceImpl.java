@@ -91,5 +91,15 @@ public class EmpServiceImpl implements EmpService {
         return empDao.updateByPrimaryKey(emp);
     }
 
+    /**
+     * 根据部门查询员工
+     * @param deptId
+     * @return
+     */
+    @Override
+    public List<Emp> selectAllByDeptId(String deptId) {
+        return empDao.selectAllByDeptId(deptId);
+    }
+
 
 }

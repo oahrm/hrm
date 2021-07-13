@@ -92,4 +92,13 @@ public class EmpController {
         empService.updateEmpByEmpId(emp);
         return new Result(ResultCode.SUCCESS);
     }
+
+    /**
+     * 根据部门查询员工
+     */
+    @PostMapping("/findEmpsByDeptId")
+    public Result findEmpsByDeptId(@RequestBody Emp emp){
+        List<Emp> emps = empService.selectAllByDeptId(emp.getDeptId());
+        return  new Result(ResultCode.SUCCESS,emps);
+    }
 }
