@@ -180,7 +180,8 @@ export default {
       gradingStatesValue:'',
       sum:0,
       textarea:'',
-      empName:''
+      empName:'',
+      deptName:''
     };
   },
   components: {},
@@ -286,7 +287,9 @@ export default {
         .get(this.baseUrl + "/emp/findEmp/"+_this.empValue)
         .then(function (response) {
           console.log("后端值：",response)
-          _this.empName = response.data.data;
+          _this.empName = response.data.data.name;
+          _this.deptName = response.data.data.deptName;
+          console.log(response.data.data.name)
         })
         .catch(function (error) {
           console.log(error);
@@ -342,13 +345,13 @@ export default {
             graderDepartment:_this.deptValue,
             assessmentScore:_this.sum,
             evaluate:_this.textarea,
-            empName:_this.empName
+            empName:_this.empName,
+            deptName:_this.deptName
           }
         )
         .then(function (response) {
           
             _this.getScore();
-            _this.getTicketRecord();
           
         })
         .catch(function (error) {
@@ -365,7 +368,6 @@ export default {
               message: "添加成功",
               type: "success",
             });
-            _this.getTicketRecord();
           
         })
         .catch(function (error) {
@@ -412,7 +414,6 @@ export default {
     this.getScore();
   },
   mounted() {
-    // this.getTicketRecord();
     this.getEmps();
     this.getDepts();
   },
