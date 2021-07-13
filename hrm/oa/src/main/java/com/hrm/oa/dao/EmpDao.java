@@ -51,4 +51,6 @@ public interface EmpDao {
      * 查询每个员工的直接下属数量
      */
     int updateByPrimaryKey(Emp emp);
+
+    List<Emp> selectAllByDeptId(String deptId);
 }
