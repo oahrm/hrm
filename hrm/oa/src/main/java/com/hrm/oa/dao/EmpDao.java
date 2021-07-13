@@ -39,4 +39,6 @@ public interface EmpDao {
     List<Emp> selectEmpByParenId(Emp emp);
 
     List<Emp> selectByOnTheJobStatus();
+
+    List<Emp> selectAllByDeptId(String deptId);
 }

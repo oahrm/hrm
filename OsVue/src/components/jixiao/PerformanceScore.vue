@@ -10,7 +10,7 @@
     <el-table-column type="selection"> </el-table-column>
     <el-table-column prop="empName" label="人员姓名">
     </el-table-column>
-    <el-table-column prop="graderDepartment" label="部门"></el-table-column>
+    <el-table-column prop="graderDepartment" label="部门编号"></el-table-column>
     <el-table-column label="考核期间" prop="scoreDate" :formatter="dateFormat" show-overflow-tooltip>
     </el-table-column>
 
@@ -59,11 +59,30 @@
     width="80%"
     :before-close="handleClose"
   >
-    评分状态：<el-input></el-input>
+        选择部门：
+    		<el-select v-model="deptValue" placeholder="请选择">
+          <el-option
+          v-for="item in deptOptions"
+          :key="item.deptId"
+          :label="item.name"
+          :value="item.deptId">
+          </el-option>
+        </el-select>
+
+   
      评分对象：
-  <el-select v-model="value" placeholder="Select">
+  <el-select v-model="empValue" placeholder="Select">
     <el-option
       v-for="item in empOptions"
+      :key="item.empId"
+      :label="item.name"
+      :value="item.empId">
+    </el-option>
+  </el-select>
+   评分状态：
+    <el-select v-model="gradingStatesValue" placeholder="Select">
+    <el-option
+      v-for="item in gradingStates"
       :key="item.value"
       :label="item.label"
       :value="item.value">
@@ -83,23 +102,28 @@
 
       <el-table-column label="完成值">
         <template #default="scope">
-          <el-input v-model="scope.row.completeValue"></el-input>
+          <el-input v-model="scope.row.completeValue" @change="scope.row.complete"></el-input>
         </template>
       </el-table-column>
 
-      <el-table-column prop="score" label="评分">
-        
+      <el-table-column  label="评分">
+        <template #default="scope">
+          {{scope.row.targetValue/scope.row.completeValue}}
+        </template>
       </el-table-column>
 
       <el-table-column prop="goal" label="得分">
+        <template #default="scope">
+          {{sumTotal(scope.row.targetValue/scope.row.completeValue*4)}}{{scope.row.targetValue/scope.row.completeValue*4}}
+        </template>
       </el-table-column>
     </el-table>
-    考核得分：
+    考核得分：{{sum}}
 
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
+        <el-button type="primary" @click="addIndexList"
           >确 定</el-button
         >
       </span>
@@ -117,6 +141,8 @@ export default {
       // baseUrl:"http://localhost:7777/vueaxiosmvc"
       empOptions: [],
       empValue: "",
+      deptOptions:[],
+	    deptValue: "",
       paymentValue: "",
       originStation: [],
       originStaNameValue: "",
@@ -133,11 +159,27 @@ export default {
       },
       tableDateLength:'',
       dialogVisible: false,
-      peIndexList:[]
+      peIndexList:[],
+      gradingStates: [{
+          value: '0',
+          label: '未考核'
+        }, {
+          value: '1',
+          label: '考核中'
+        }, {
+          value: '2',
+          label: '已完成'
+        }],
+      gradingStatesValue:'',
+      sum:0
     };
   },
   components: {},
   methods: {
+
+    sumTotal(val){
+      this.sum = val
+    },
 
     handleSizeChange(val){
       this.pagination.pageSize=val
@@ -178,15 +220,35 @@ export default {
       return moment(date).format("YYYY-MM-DD HH:mm:ss");
     },
 
-
     getScore() {
       var _this = this;
       this.axios
         .post(this.baseUrl + "/peExamineGrade/findAllDicators", this.pagination)
         .then(function (response) {
           _this.tableData = response.data.data.list;
+          _this.tableData.forEach(e=>{
+            if(e.gradingState===0){
+              e.gradingState="未开始"
+            }else if(e.gradingState===1){
+              e.gradingStates="考核中"
+            }else{
+              e.e.gradingState="已结束"
+            }
+          })
           _this.tableDateLength = response.data.data.total
           console.log(_this.tableData);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+
+        getDepts(){
+       var _this = this;
+      this.axios
+        .get(this.baseUrl + "/dept/deptList")
+        .then(function (response) {
+          _this.deptOptions = response.data.data
         })
         .catch(function (error) {
           console.log(error);
@@ -197,23 +259,25 @@ export default {
 
        var _this = this;
       this.axios
-        .get(this.baseUrl + "/emp/empList")
+        .post(this.baseUrl + "/emp/findEmpsByDeptId",{
+            deptId:_this.deptValue
+        })
         .then(function (response) {
-          _this.empOptions = response.data.data.list;
+          _this.empOptions = response.data.data;
           console.log("员工列表",_this.empOptions);
         })
         .catch(function (error) {
           console.log(error);
         });
-
-      
     },
 
     getPeIndexList() {
+      console.log("进入了这里")
       var _this = this;
       this.axios
-        .post(this.baseUrl + "/peIndexList/findAll", {
-          empId:1,
+        .post(this.baseUrl + "/peIndexList/findAllIndexList", {
+          empId:this.empValue,
+          deptId:this.deptValue
         })
         .then(function (response) {
           _this.peIndexList = response.data.data;
@@ -223,6 +287,7 @@ export default {
           console.log(error);
         });
     },
+    
 
     removePeIndexList(id){
          var _this = this;
@@ -243,31 +308,42 @@ export default {
         })
         .catch((_) => {});
     },
-    buy() {
+
+    addIndexList(){
+      this.dialogVisible = false;
       const _this = this;
-      this.axios
+
+            this.axios
         .post(
-          this.baseUrl + "/station/buy",
-          {
-            originStaName: this.originStaNameValue,
-            destinationStaName: this.destinationStaNameValue,
-            ticMoney: this.price,
-            ticWay: this.paymentValue,
-          },
-          {
-            headers: {
-              "X-Requested-With": "XMLHttpRequest",
-            },
+          this.baseUrl + "/peExamineGrade/examineGrade",{
+
           }
         )
         .then(function (response) {
-          if (response.data == 1) {
+          
             _this.$message({
-              message: "购买成功",
+              message: "添加成功",
               type: "success",
             });
             _this.getTicketRecord();
-          }
+          
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+      this.axios
+        .post(
+          this.baseUrl + "/peIndexList/addIndexList",_this.peIndexList
+        )
+        .then(function (response) {
+          
+            _this.$message({
+              message: "添加成功",
+              type: "success",
+            });
+            _this.getTicketRecord();
+          
         })
         .catch(function (error) {
           console.log(error);
@@ -315,14 +391,26 @@ export default {
   mounted() {
     // this.getTicketRecord();
     this.getEmps();
+    this.getDepts();
   },
   watch: {
     // pagination.is: function () {
     //   this.getScore();
     // },
-    dialogVisible: function () {
-      this.getPeIndexList();
+    deptValue: function () {
+      this.empValue ="";
+      this.getEmps();
+      
     },
+    empValue: function () {
+      this.getPeIndexList();
+      
+    },
+
+    // 监控评分状态字段
+    gradingStatesValue:function(){
+      
+    }
   },
 };
 </script>

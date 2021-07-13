@@ -2,9 +2,11 @@ package com.hrm.oa.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.hrm.oa.common.Pagination;
+import com.hrm.oa.entity.Emp;
 import com.hrm.oa.entity.PeAssessmentIndicators;
 import com.hrm.oa.entity.PeCycleSetting;
 import com.hrm.oa.entity.PeExamineGrade;
+import com.hrm.oa.service.PeAssessmentIndicatorsService;
 import com.hrm.oa.service.PeExamineGradeService;
 import com.hrm.oa.util.IdWorker;
 import com.hrm.oa.vo.Result;
@@ -32,6 +34,7 @@ public class PeExamineGradeController {
     @Resource
     private PeExamineGradeService peExamineGradeService;
 
+
     IdWorker idWorker = new IdWorker();
 
     /**
@@ -56,7 +59,7 @@ public class PeExamineGradeController {
         return new Result(ResultCode.SUCCESS,pageInfo);
     }
 
-    @PostMapping
+    @PostMapping("examineGrade")
     public Result addExamineGrades(@RequestBody PeExamineGrade peExamineGrade){
         peExamineGrade.setScoreId(String.valueOf(idWorker.nextId()));
         int i = peExamineGradeService.insert(peExamineGrade);
@@ -69,12 +72,6 @@ public class PeExamineGradeController {
         return new Result(ResultCode.SUCCESS);
     }
 
-    @PostMapping("/examineGrade")
-    public Result addSetting(@RequestBody PeExamineGrade peExamineGrade) {
-        peExamineGrade.setScoreId(idWorker.nextId()+"");
-        peExamineGradeService.insert(peExamineGrade);
-        return new Result(ResultCode.SUCCESS);
-    }
 
     @DeleteMapping("/{id}")
     public Result deleteSecitonById(@PathVariable String id){
@@ -82,6 +79,8 @@ public class PeExamineGradeController {
         boolean statu =  peExamineGradeService.deleteById(id);
         return new Result(ResultCode.SUCCESS,statu);
     }
+
+
 
 
 

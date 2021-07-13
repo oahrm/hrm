@@ -60,4 +60,9 @@ public class EmpServiceImpl implements EmpService {
     public List<Emp> findAllEmp() {
         return empDao.selectByOnTheJobStatus();
     }
+
+    @Override
+    public List<Emp> selectAllByDeptId(String deptId) {
+        return empDao.selectAllByDeptId(deptId);
+    }
 }

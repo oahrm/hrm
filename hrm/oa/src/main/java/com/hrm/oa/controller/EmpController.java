@@ -64,4 +64,10 @@ public class EmpController {
         PageResult<Emp> pageResult = new PageResult<>(pageInfo.getTotal(), list);
         return new Result(ResultCode.SUCCESS, pageResult);
     }
+
+    @PostMapping("/findEmpsByDeptId")
+    public Result findEmpsByDeptId(@RequestBody Emp emp){
+        List<Emp> emps = empService.selectAllByDeptId(emp.getDeptId());
+        return  new Result(ResultCode.SUCCESS,emps);
+    }
 }

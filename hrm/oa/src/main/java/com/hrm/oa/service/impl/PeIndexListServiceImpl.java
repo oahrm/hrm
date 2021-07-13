@@ -82,4 +82,5 @@ public class PeIndexListServiceImpl implements PeIndexListService {
         List<PeIndexList> peIndexLists = peIndexListDao.queryAll(peIndexList);
         return peIndexLists;
     }
+
 }

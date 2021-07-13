@@ -7,10 +7,10 @@
         <result property="nameOfIndex" column="name_of_index" jdbcType="VARCHAR"/>
         <result property="indicatorDescription" column="indicator_description" jdbcType="VARCHAR"/>
         <result property="type" column="type" jdbcType="VARCHAR"/>
-        <result property="targetValue" column="target_value" jdbcType="VARCHAR"/>
-        <result property="completeValue" column="complete_value" jdbcType="VARCHAR"/>
-        <result property="score" column="score" jdbcType="VARCHAR"/>
-        <result property="goal" column="goal" jdbcType="VARCHAR"/>
+        <result property="targetValue" column="target_value" jdbcType="INTEGER"/>
+        <result property="completeValue" column="complete_value" jdbcType="INTEGER"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
+        <result property="goal" column="goal" jdbcType="INTEGER"/>
         <result property="initiateMode" column="initiate_mode" jdbcType="INTEGER"/>
         <result property="empId" column="emp_id" jdbcType="VARCHAR"/>
         <result property="inExplain" column="in_explain" jdbcType="VARCHAR"/>
@@ -24,7 +24,7 @@
         select
           index_id, name_of_index, indicator_description, type, target_value, complete_value, score, goal, initiate_mode, emp_id, in_explain, dept_id, score_id, pointer_type
         from hrm.pe_index_list
-        where  index_id= #{indexId}
+        where  index_id = #{indexId}
     </select>
 
     <!--查询指定行数据-->
@@ -168,7 +168,6 @@
                 pointer_type = #{pointerType},
             </if>
         </set>
-        where = #{}
     </update>
 
     <!--通过主键删除-->

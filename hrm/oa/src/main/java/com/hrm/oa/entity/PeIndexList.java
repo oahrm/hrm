@@ -6,10 +6,10 @@ import java.io.Serializable;
  * 指标列表(PeIndexList)实体类
  *
  * @author makejava
- * @since 2021-07-12 16:26:21
+ * @since 2021-07-13 01:50:39
  */
 public class PeIndexList implements Serializable {
-    private static final long serialVersionUID = 370391307556947937L;
+    private static final long serialVersionUID = 556016569584236630L;
 
     private String indexId;
 
@@ -19,13 +19,13 @@ public class PeIndexList implements Serializable {
 
     private String type;
 
-    private Object targetValue;
+    private Integer targetValue;
 
-    private Object completeValue;
+    private Integer completeValue;
 
-    private Object score;
+    private Integer score;
 
-    private Object goal;
+    private Integer goal;
 
     private Integer initiateMode;
 
@@ -72,35 +72,35 @@ public class PeIndexList implements Serializable {
         this.type = type;
     }
 
-    public Object getTargetValue() {
+    public Integer getTargetValue() {
         return targetValue;
     }
 
-    public void setTargetValue(Object targetValue) {
+    public void setTargetValue(Integer targetValue) {
         this.targetValue = targetValue;
     }
 
-    public Object getCompleteValue() {
+    public Integer getCompleteValue() {
         return completeValue;
     }
 
-    public void setCompleteValue(Object completeValue) {
+    public void setCompleteValue(Integer completeValue) {
         this.completeValue = completeValue;
     }
 
-    public Object getScore() {
+    public Integer getScore() {
         return score;
     }
 
-    public void setScore(Object score) {
+    public void setScore(Integer score) {
         this.score = score;
     }
 
-    public Object getGoal() {
+    public Integer getGoal() {
         return goal;
     }
 
-    public void setGoal(Object goal) {
+    public void setGoal(Integer goal) {
         this.goal = goal;
     }
 

@@ -1,24 +1,59 @@
 <template>
 	  <el-tabs v-model="activeName" @tab-click="handleClick">
     <el-tab-pane label="考核指标项" name="first">
-		<el-button>新建指标项</el-button>
+		<el-select v-model="deptValue" placeholder="请选择">
+			<el-option
+			v-for="item in deptOptions"
+			:key="item.deptId"
+			:label="item.name"
+			:value="item.deptId">
+			</el-option>
+		</el-select>
+		<el-button @click="indicatorsFlag=true">新建指标项</el-button>
+
+
+
 		<el-table :data="peAssessmentIndicators" style="width: 100%">
-      <el-table-column prop="nameOfIndex" label="指标名称"> </el-table-column>
-	  <el-table-column prop="nameOfIndex" label="描述"> </el-table-column>
-      <el-table-column prop="type" label="指标类型"> </el-table-column>
+      	<el-table-column prop="nameOfIndex" label="指标名称"> </el-table-column>
+	  	<el-table-column prop="indicatorDescription" label="描述"> </el-table-column>
+      	<el-table-column prop="type" label="指标类型"> </el-table-column>
 
-      <el-table-column prop="score" label="是否启用">
-		<template #default="scope">
-          <el-input v-model="scope.row.completeValue"></el-input>
-        </template>
-      </el-table-column>
+      	<el-table-column prop="score" label="是否启用">
+			<template #default="scope">
 
-      <el-table-column prop="goal" label="得分">
-      </el-table-column>
+				<el-tooltip :content="'Switch value: ' + scope.row.completeValue" placement="top">
+					<el-switch
+						v-model="scope.row.completeValue"
+						active-color="#13ce66"
+						inactive-color="#ff4949"
+						active-value="1"
+						inactive-value="0"
+					>
+					</el-switch>
+				</el-tooltip>
+
+
+			</template>
+      	</el-table-column>
+
     </el-table>
+
+		<el-dialog
+			title="提示"
+			v-model="indicatorsFlag"
+			width="60%"
+			:before-close="handleClose">
+			<span>这是一段信息</span>
+			<template #footer>
+				<span class="dialog-footer">
+				<el-button @click="dialogVisible = false">取 消</el-button>
+				<el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+				</span>
+			</template>
+		</el-dialog>
 	</el-tab-pane>
-    <el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
-    <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
+    <el-tab-pane label="配置管理" name="second">基础设置</el-tab-pane>
+    <el-tab-pane label="角色管理" name="third"></el-tab-pane>
     <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
   </el-tabs>
 </template>
@@ -33,6 +68,8 @@ export default {
       // baseUrl:"http://localhost:7777/vueaxiosmvc"
       empOptions: [],
       empValue: "",
+	  deptOptions:[],
+	  deptValue: "",
       paymentValue: "",
       originStation: [],
       originStaNameValue: "",
@@ -49,7 +86,8 @@ export default {
       },
       tableDateLength:'',
       dialogVisible: false,
-      peAssessmentIndicators:[]
+      peAssessmentIndicators:'',
+	  indicatorsFlag:false
     };
   },
   components: {},
@@ -99,26 +137,30 @@ export default {
       var _this = this;
       this.axios
         .post(this.baseUrl + "/peAssessmentIndicators/findAllDicators", {
-			deptId:1
+			deptId:_this.deptValue
 		})
         .then(function (response) {
-          _this.peAssessmentIndicators = response.data.data.list;
-          _this.tableDateLength = response.data.data.total
-          console.log(_this.tableData);
+          _this.peAssessmentIndicators = response.data.data;
+		  _this.peAssessmentIndicators.forEach(element => {
+			  if(element.completeValue==1){
+				  element.completeValue = true
+			  }else{
+				  element.completeValue = false
+			  } 
+		  });
+          console.log("peInd",_this.peAssessmentIndicators);
         })
         .catch(function (error) {
           console.log(error);
         });
     },
 
-    getEmps(){
-
+    getDepts(){
        var _this = this;
       this.axios
         .get(this.baseUrl + "/dept/deptList")
         .then(function (response) {
-          _this.empOptions = response.data.data.list;
-          console.log("员工列表",_this.empOptions);
+          _this.deptOptions = response.data.data
         })
         .catch(function (error) {
           console.log(error);
@@ -230,7 +272,7 @@ export default {
   },
   mounted() {
     // this.getTicketRecord();
-    this.getEmps();
+    this.getDepts();
   },
   watch: {
     // pagination.is: function () {
@@ -239,6 +281,10 @@ export default {
     dialogVisible: function () {
       this.getPeIndexList();
     },
+
+	deptValue:function(){
+		this.getPeAssessmentIndicators();
+	}
   },
 };
 </script>
