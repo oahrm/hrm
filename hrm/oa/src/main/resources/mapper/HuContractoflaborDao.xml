@@ -10,11 +10,31 @@
     <result column="signer_time" jdbcType="TIME" property="signerTime" />
     <result column="signer_state" jdbcType="INTEGER" property="signerState" />
     <result column="engageform" jdbcType="INTEGER" property="engageform" />
+    <result column="id" jdbcType="VARCHAR" property="id" />
+
+    <collection property="re_entry_applica" ofType="com.hrm.oa.entity.ReEntryApplica">
+      <id column="id" jdbcType="VARCHAR" property="id" />
+      <result column="title" jdbcType="VARCHAR" property="title" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+      <result column="offer_id" jdbcType="VARCHAR" property="offerId" />
+      <result column="post_line" jdbcType="VARCHAR" property="postLine" />
+      <result column="entrystatus" jdbcType="INTEGER" property="entrystatus" />
+      <result column="contractstatus" jdbcType="INTEGER" property="contractstatus" />
+      <result column="job_responsibilities" jdbcType="VARCHAR" property="jobResponsibilities" />
+      <result column="contract_id" jdbcType="VARCHAR" property="contractId" />
+    </collection>
+
   </resultMap>
   <sql id="Base_Column_List">
-    contract_id, dept_name, signer_name, signer_post, signer_phone, signer_time, signer_state, 
-    engageform
+    com.contract_id, com.dept_name, com.signer_name, com.signer_post, com.signer_phone, com.signer_time, com.signer_state,
+    com.engageform, com.id
   </sql>
+  <sql id="re_entry_applica">
+    app.id, app.title, app.name, app.idcard, app.offer_id, app.post_line, app.entrystatus, app.contractstatus,
+    app.job_responsibilities, app.contract_id
+  </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -25,13 +45,13 @@
     delete from hu_contractoflabor
     where contract_id = #{contractId,jdbcType=VARCHAR}
   </delete>
+
+<!--  劳务合同记录表添加-->
   <insert id="insert" keyColumn="contract_id" keyProperty="contractId" parameterType="com.hrm.oa.entity.HuContractoflabor" useGeneratedKeys="true">
-    insert into hu_contractoflabor (dept_name, signer_name, signer_post, 
-      signer_phone, signer_time, signer_state, 
-      engageform)
-    values (#{deptName,jdbcType=VARCHAR}, #{signerName,jdbcType=VARCHAR}, #{signerPost,jdbcType=VARCHAR}, 
-      #{signerPhone,jdbcType=VARCHAR}, #{signerTime,jdbcType=TIME}, #{signerState,jdbcType=INTEGER}, 
-      #{engageform,jdbcType=INTEGER})
+    insert into hu_contractoflabor (contract_id,dept_name, signer_name, signer_post,
+      signer_phone, signer_time, id)
+    values (#{contractId,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, #{signerName,jdbcType=VARCHAR}, #{signerPost,jdbcType=VARCHAR},
+      #{signerPhone,jdbcType=VARCHAR}, #{signerTime,jdbcType=TIME}, #{id,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="contract_id" keyProperty="contractId" parameterType="com.hrm.oa.entity.HuContractoflabor" useGeneratedKeys="true">
     insert into hu_contractoflabor
@@ -56,6 +76,9 @@
       </if>
       <if test="engageform != null">
         engageform,
+      </if>
+      <if test="contractId != null">
+        contract_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
