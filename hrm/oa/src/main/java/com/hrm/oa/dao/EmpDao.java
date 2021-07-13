@@ -22,7 +22,7 @@ public interface EmpDao {
      * 通过姓名模糊查询员工
      * @return
      */
-    List<Emp> selectByName(String name);
+    List<Emp> selectByName(Emp emp);
 
     /**
      * 通过部门和职级查询员工

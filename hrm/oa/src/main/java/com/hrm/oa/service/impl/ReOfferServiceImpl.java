@@ -31,7 +31,7 @@ public class ReOfferServiceImpl implements ReOfferService {
     //将签署状态更改为1
     @Override
     public int updateOffer_Hucontracto(Integer id) {
-       return reOfferDao.updateOffer_Hucontracto(id);
+        return reOfferDao.updateOffer_Hucontracto(id);
     }
 
     //查询出签署状态为以1的数据到员工入职页面
