@@ -60,7 +60,7 @@
 						      <template #default="scope">
 						        <el-button @click="handleSend(scope.row)" type="text" size="small">发消息</el-button>
 						      </template>
-						    </el-table-column>
+						</el-table-column>
 					</el-table>
 					<div class="block">
 					    <el-pagination
@@ -96,6 +96,14 @@
 						<!-- <el-table-column prop="mobile" label="办公室电话" show-overflow-tooltip></el-table-column> -->
 						<el-table-column prop="mailbox" label="邮箱" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="emergencyContactNumber" label="紧急联系电话" show-overflow-tooltip></el-table-column>
+						<el-table-column
+						      fixed="right"
+						      label="操作"
+						      width="100">
+						      <template #default="scope">
+						        <el-button @click="handleSend(scope.row)" type="text" size="small">发消息</el-button>
+						      </template>
+						</el-table-column>
 					</el-table>
 					<div class="block">
 					    <el-pagination
@@ -131,6 +139,14 @@
 						<!-- <el-table-column prop="mobile" label="办公室电话" show-overflow-tooltip></el-table-column> -->
 						<el-table-column prop="mailbox" label="邮箱" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="emergencyContactNumber" label="紧急联系电话" show-overflow-tooltip></el-table-column>
+						<el-table-column
+						      fixed="right"
+						      label="操作"
+						      width="100">
+						      <template #default="scope">
+						        <el-button @click="handleSend(scope.row)" type="text" size="small">发消息</el-button>
+						      </template>
+						</el-table-column>
 					</el-table>
 					<div class="block">
 					    <el-pagination

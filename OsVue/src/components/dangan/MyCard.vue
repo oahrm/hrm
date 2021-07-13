@@ -234,6 +234,7 @@
 			    }
 			  };
 	      return {
+			contractoflabor: {},
 	        activeName: 'a',
 			activeNames3: '11',
 			activeNames4: '111',
@@ -288,12 +289,11 @@
 					this.selectOne()
 					this.findFamilyList()
 				}else if(tab.index == 2){
+					this.findContractoflabor()
 					this.findWorkList()
 					this.findEmpEdu()
 				}else if(tab.index == 3){
 					this.findAllAss()
-				}else{
-					
 				}
 			},
 			update(){
@@ -451,6 +451,21 @@
 							_this.jybj[i].beginTime = _this.formatDate(_this.jybj[i].beginTime)
 							_this.jybj[i].endTime = _this.formatDate(_this.jybj[i].endTime)
 						}
+					}else{
+						_this.$message.error(response.data.message)
+					}
+				}).catch(function(error){
+					console.log(error)
+				})
+			},
+			findContractoflabor(){
+				var id = this.emp.sigerId
+				var _this=this
+				this.axios.get("http://localhost:8088/contractoflaborList/"+id)
+				.then(function(response){
+					console.log(response)
+					if(response.data.success){
+						_this.contractoflabor = response.data.data			
 					}else{
 						_this.$message.error(response.data.message)
 					}
