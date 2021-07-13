@@ -54,7 +54,12 @@ public class PeIndexListController {
     public Result findAllIndexList(@RequestBody PeIndexList peIndexList){
         System.out.println("查询考核指标项");
         System.out.println(peIndexList.getEmpId());
+        System.out.println(peIndexList.getDeptId());
+        System.out.println(peIndexList.getScoreId());
         List<PeIndexList> lists = peIndexListService.queryAllIndexList(peIndexList);
+        for (PeIndexList list : lists) {
+            System.out.println(list.toString());
+        }
         return new Result(ResultCode.SUCCESS,lists);
     }
 
@@ -87,7 +92,9 @@ public class PeIndexListController {
     @PostMapping("/addIndexList")
     public Result addIndexList(@RequestBody List<PeIndexList> indexList){
         PeExamineGrade peExamineGrade = new PeExamineGrade();
-        peExamineGrade.setScoreId(idWorker.nextId()+"");
+        if(peExamineGrade.getScoreId()==null||peExamineGrade.getScoreId().equals("")){
+            peExamineGrade.setScoreId(idWorker.nextId()+"");
+        }
         peExamineGrade.setPerformanceScoringObject(indexList.get(0).getEmpId());
         for (PeIndexList peIndexList : indexList) {
             peIndexList.setIndexId(idWorker.nextId()+"");

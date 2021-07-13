@@ -41,11 +41,11 @@ public class PeExamineGradeController {
     /**
      * 通过主键查询单条数据
      *
-     * @param id 主键
+     * @param
      * @return 单条数据
      */
-    @GetMapping("/selectOne")
-    public PeExamineGrade selectOne(String id) {
+    @GetMapping("/selectOne/{id}")
+    public PeExamineGrade selectOne(@PathVariable String id) {
         return this.peExamineGradeService.queryById(id);
     }
 
@@ -59,10 +59,13 @@ public class PeExamineGradeController {
         return new Result(ResultCode.SUCCESS,pageInfo);
     }
 
-    @PostMapping("examineGrade")
+    @PostMapping("/examineGrade")
     public Result addExamineGrades(@RequestBody PeExamineGrade peExamineGrade){
         System.out.println("进入了这个地方");
-        peExamineGrade.setScoreId(String.valueOf(idWorker.nextId()));
+        System.out.println(peExamineGrade.getScoreId());
+        if(peExamineGrade.getScoreId()==null||peExamineGrade.getScoreId().equals("")){
+            peExamineGrade.setScoreId(String.valueOf(idWorker.nextId()));
+        }
         peExamineGrade.setScoreDate(new Date());
         int i = peExamineGradeService.insert(peExamineGrade);
         return new Result(ResultCode.SUCCESS,i);

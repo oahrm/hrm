@@ -7,6 +7,7 @@ import com.hrm.oa.entity.PeExamineGrade;
 import com.hrm.oa.dao.PeExamineGradeDao;
 import com.hrm.oa.service.PeExamineGradeService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
  * @since 2021-07-11 16:23:59
  */
 @Service("peExamineGradeService")
+@Transactional
 public class PeExamineGradeServiceImpl implements PeExamineGradeService {
     @Resource
     private PeExamineGradeDao peExamineGradeDao;

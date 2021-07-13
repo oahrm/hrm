@@ -33,7 +33,7 @@
 
     <el-table-column label="操作" show-overflow-tooltip>
       <template #default="scope">
-        <el-button @click="updateExamineGrade()">编辑</el-button>
+        <el-button @click="updateExamineGrade(scope.row)">编辑</el-button>
         <el-button type="danger" @click="removePeIndexList(scope.row.scoreId)"
           >删除</el-button
         >
@@ -59,7 +59,7 @@
   </el-pagination>
 
   <el-dialog
-    title="提示"
+    title="绩效评分"
     v-model="dialogVisible"
     width="80%"
     :before-close="handleClose"
@@ -97,10 +97,14 @@
     </el-select>
     <el-table :data="peIndexList" style="width: 100%">
       <el-table-column prop="nameOfIndex" label="分类"> </el-table-column>
-      <el-table-column prop="type" label="指标类型"> </el-table-column>
+      <el-table-column prop="type" label="指标类型">
+        <template #default="scope">
+            {{scope.row.type==1?'定量':'定性'}}
+        </template>
+      </el-table-column>
       <el-table-column prop="indicatorDescription" label="指标描述">
       </el-table-column>
-      <el-table-column prop="weight" label="权重">
+      <el-table-column prop="weight" label="权重%">
 
       </el-table-column>
       <el-table-column label="目标值">
@@ -211,7 +215,18 @@ export default {
   },
   components: {},
   methods: {
-    updateExamineGrade() {},
+    updateExamineGrade(row) {
+      var _this = this;
+      console.log(row.performanceScoringObject)
+      _this.empValue = row.performanceScoringObject
+      _this.deptValue = row.graderDepartment
+      _this.scoreId = row.scoreId
+      _this.getPeIndexListByCondition();
+      _this.getExamine(row.scoreId);
+      this.dialogVisible=true
+      
+
+    },
 
     sumTotal(val) {
       var _this = this;
@@ -299,6 +314,7 @@ export default {
         })
         .then(function (response) {
           _this.empOptions = response.data.data;
+          _this.empValue = _this.empOptions[0].empId
         })
         .catch(function (error) {
           console.log(error);
@@ -307,6 +323,7 @@ export default {
 
     getEmpId() {
       var _this = this;
+
       this.axios
         .get(this.baseUrl + "/emp/findEmp/" + _this.empValue)
         .then(function (response) {
@@ -321,16 +338,54 @@ export default {
     getPeIndexList() {
       var _this = this;
       this.axios
-        .post(this.baseUrl + "/peIndexList/findAllIndexList", {
+        .post(this.baseUrl + "/peIndexList/findAllIndexList/", {
           empId: this.empValue,
           deptId: this.deptValue,
         })
         .then(function (response) {
           _this.peIndexList = response.data.data;
+          _this.peIndexList.forEach(e=>{
+          })
         })
         .catch(function (error) {
           console.log(error);
         });
+    },
+
+    getExamine(){
+            var _this = this;
+                  var id = _this.scoreId
+            this.axios
+              .get(this.baseUrl + "/peExamineGrade/selectOne/"+id)
+              .then(function (response) {
+                _this.textarea =response.data.evaluate
+                console.log(response)
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+
+    },
+
+    getPeIndexListByCondition(){
+            var _this = this;
+            console.log("员工",_this.empValue)
+            console.log("部门",_this.deptValue)
+            console.log("分数",_this.scoreId)
+            this.axios
+              .post(this.baseUrl + "/peIndexList/findAll/", {
+                empId: this.empValue,
+                deptId: this.deptValue,
+                scoreId:this.scoreId
+              })
+              .then(function (response) {
+                _this.peIndexList = response.data.data;
+                _this.peIndexList.forEach(e=>{
+                })
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
     },
 
     removePeIndexList(id) {
@@ -366,15 +421,17 @@ export default {
         }
       });
 
+
       this.axios
         .post(this.baseUrl + "/peExamineGrade/examineGrade", {
           performanceScoringObject: _this.empValue,
           gradingState: _this.gradingStatesValue,
           graderDepartment: _this.deptValue,
-          assessmentScore: _this.sum,
+          assessmentScore: _this.scores,
           evaluate: _this.textarea,
           empName: _this.empName,
           deptName: _this.deptName,
+          scoreId:_this.scoreId
         })
         .then(function (response) {})
         .catch(function (error) {
@@ -407,12 +464,13 @@ export default {
     //   this.getScore();
     // },
     deptValue: function () {
-      this.empValue = "";
+      // this.empValue = "";
       this.getEmps();
       // this.getEmpId();
     },
     empValue: function () {
-      this.getPeIndexList();
+      this.scoreId!=null||this.scoreId!=''? this.getPeIndexList():this.getPeIndexListByCondition();
+      // this.getPeIndexListByCondition();
     },
 
     // 监控评分状态字段
@@ -421,11 +479,11 @@ export default {
   computed: {
     sumScore() {
       return this.peIndexList
-        .map((row) => row.type==1? row.targetValue / row.completeValue*(row.weight/100):row.score*(row.weight/100))
+        .map((row) => row.score*(row.weight/100))
         .reduce((acc, cur) => cur + acc, 0);
     },
     scores: function () {
-      return this.sumScore;
+      return this.scores= this.sumScore;
     },
   },
 };
