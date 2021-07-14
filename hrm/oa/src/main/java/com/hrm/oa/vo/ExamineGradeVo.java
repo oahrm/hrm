@@ -8,4 +8,5 @@ package com.hrm.oa.vo;
  * @Description:
  */
 public class ExamineGradeVo {
+
 }

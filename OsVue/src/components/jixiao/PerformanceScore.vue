@@ -99,38 +99,42 @@
       <el-table-column prop="nameOfIndex" label="分类"> </el-table-column>
       <el-table-column prop="type" label="指标类型">
         <template #default="scope">
-            {{scope.row.type==1?'定量':'定性'}}
+          {{ scope.row.type == 1 ? "定量" : "定性" }}
         </template>
       </el-table-column>
       <el-table-column prop="indicatorDescription" label="指标描述">
       </el-table-column>
-      <el-table-column prop="weight" label="权重%">
-
-      </el-table-column>
+      <el-table-column prop="weight" label="权重%"> </el-table-column>
       <el-table-column label="目标值">
         <template #default="scope">
-          <el-input v-model="scope.row.targetValue"  v-if="scope.row.type==1"> </el-input>
+          <el-input v-model="scope.row.targetValue" v-if="scope.row.type == 1">
+          </el-input>
         </template>
       </el-table-column>
 
       <el-table-column label="完成值">
         <template #default="scope">
           <el-input
-          v-if="scope.row.type==1"
+            v-if="scope.row.type == 1"
             v-model="scope.row.completeValue"
             @change="scope.row.complete"
-            
           ></el-input>
         </template>
       </el-table-column>
 
-      <el-table-column label="评分" >
+      <el-table-column label="评分">
         <template #default="scope">
-          <el-input v-model="scope.row.score" style="width:60%" v-if="scope.row.type==2">
-            
+          <el-input
+            v-model="scope.row.score"
+            style="width: 60%"
+            v-if="scope.row.type == 2"
+          >
           </el-input>
           {{
-            scope.row.type==1?(scope.row.score =scope.row.completeValue/scope.row.targetValue*100  || ""):''
+            scope.row.type == 1
+              ? (scope.row.score =
+                  (scope.row.completeValue / scope.row.targetValue) * 100 || "")
+              : ""
           }}
         </template>
       </el-table-column>
@@ -138,7 +142,10 @@
       <el-table-column label="得分">
         <template #default="scope">
           {{
-            scope.row.type==1?(scope.row.goal = scope.row.score*(scope.row.weight/100) || ""):scope.row.goal=scope.row.score*(scope.row.weight/100)
+            scope.row.type == 1
+              ? (scope.row.goal =
+                  scope.row.score * (scope.row.weight / 100) || "")
+              : (scope.row.goal = scope.row.score * (scope.row.weight / 100))
           }}
         </template>
       </el-table-column>
@@ -153,11 +160,15 @@
       v-model="textarea"
     >
     </el-input>
-
+    <el-button @click="saveEaxm()">保存</el-button>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addOrUpdate==true?addIndexList():updateIndexList()">确 定</el-button>
+        <el-button
+          type="primary"
+          @click="addOrUpdate == true ? addIndexList() : updateIndexList()"
+          >确 定</el-button
+        >
       </span>
     </template>
   </el-dialog>
@@ -211,23 +222,21 @@ export default {
       textarea: "",
       empName: "",
       deptName: "",
-      addOrUpdate:true
+      addOrUpdate: true,
     };
   },
   components: {},
   methods: {
     updateExamineGrade(row) {
       var _this = this;
-      console.log(row.performanceScoringObject)
-      _this.empValue = row.performanceScoringObject
-      _this.deptValue = row.graderDepartment
-      _this.scoreId = row.scoreId
+      console.log(row.performanceScoringObject);
+      _this.empValue = row.performanceScoringObject;
+      _this.deptValue = row.graderDepartment;
+      _this.scoreId = row.scoreId;
       _this.getPeIndexListByCondition();
       _this.getExamine(row.scoreId);
-      this.dialogVisible=true
-      _this.addOrUpdate=false;
-      
-
+      this.dialogVisible = true;
+      _this.addOrUpdate = false;
     },
 
     sumTotal(val) {
@@ -316,7 +325,7 @@ export default {
         })
         .then(function (response) {
           _this.empOptions = response.data.data;
-          _this.empValue = _this.empOptions[0].empId
+          _this.empValue = _this.empOptions[0].empId;
         })
         .catch(function (error) {
           console.log(error);
@@ -346,48 +355,45 @@ export default {
         })
         .then(function (response) {
           _this.peIndexList = response.data.data;
-          _this.peIndexList.forEach(e=>{
-          })
+          _this.peIndexList.forEach((e) => {});
         })
         .catch(function (error) {
           console.log(error);
         });
     },
 
-    getExamine(){
-            var _this = this;
-                  var id = _this.scoreId
-            this.axios
-              .get(this.baseUrl + "/peExamineGrade/selectOne/"+id)
-              .then(function (response) {
-                _this.textarea =response.data.evaluate
-                console.log(response)
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
-
+    getExamine() {
+      var _this = this;
+      var id = _this.scoreId;
+      this.axios
+        .get(this.baseUrl + "/peExamineGrade/selectOne/" + id)
+        .then(function (response) {
+          _this.textarea = response.data.evaluate;
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
 
-    getPeIndexListByCondition(){
-            var _this = this;
-            console.log("员工",_this.empValue)
-            console.log("部门",_this.deptValue)
-            console.log("分数",_this.scoreId)
-            this.axios
-              .post(this.baseUrl + "/peIndexList/findAll/", {
-                empId: this.empValue,
-                deptId: this.deptValue,
-                scoreId:this.scoreId
-              })
-              .then(function (response) {
-                _this.peIndexList = response.data.data;
-                _this.peIndexList.forEach(e=>{
-                })
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
+    getPeIndexListByCondition() {
+      var _this = this;
+      console.log("员工", _this.empValue);
+      console.log("部门", _this.deptValue);
+      console.log("分数", _this.scoreId);
+      this.axios
+        .post(this.baseUrl + "/peIndexList/findAll/", {
+          empId: this.empValue,
+          deptId: this.deptValue,
+          scoreId: this.scoreId,
+        })
+        .then(function (response) {
+          _this.peIndexList = response.data.data;
+          _this.peIndexList.forEach((e) => {});
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
 
     removePeIndexList(id) {
@@ -407,6 +413,45 @@ export default {
         .catch((_) => {});
     },
 
+    saveEaxm(){
+      const _this = this;
+
+      _this.empOptions.forEach((e) => {
+        if (e.empId == _this.empValue) {
+          _this.empName = e.name;
+        }
+      });
+
+      _this.deptOptions.forEach((e) => {
+        if (e.deptId == _this.deptValue) {
+          _this.deptName = e.name;
+        }
+      });
+
+      this.axios
+        .post(this.baseUrl + "/peExamineGrade/examineGrade", {
+          performanceScoringObject: _this.empValue,
+          gradingState: _this.gradingStatesValue,
+          graderDepartment: _this.deptValue,
+          assessmentScore: _this.scores,
+          evaluate: _this.textarea,
+          empName: _this.empName,
+          deptName: _this.deptName,
+        })
+        .then(function (response) {
+          _this.scoreId = response.data.data;
+          console.log(response)
+          console.log("scope", response);
+                    _this.$message({
+            message: "保存成功",
+            type: "success",
+          });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+
     addIndexList() {
       this.dialogVisible = false;
       const _this = this;
@@ -423,30 +468,12 @@ export default {
         }
       });
 
-
-      this.axios
-        .post(this.baseUrl + "/peExamineGrade/examineGrade", {
-          performanceScoringObject: _this.empValue,
-          gradingState: _this.gradingStatesValue,
-          graderDepartment: _this.deptValue,
-          assessmentScore: _this.scores,
-          evaluate: _this.textarea,
-          empName: _this.empName,
-          deptName: _this.deptName,
-        })
-        .then(function (response) {
-          _this.scoreId = response.data.data.data
-          console.log("scope",response)
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-
-          _this.peIndexList.forEach(e=>{
-            e.scoreId = _this.scoreId
-            e.empId = _this.empValue
-            e.deptId = _this.deptValue
-          })
+      _this.peIndexList.forEach((e) => {
+        e.scoreId = _this.scoreId;
+        e.empId = _this.empValue;
+        e.deptId = _this.deptValue;
+      });
+      console.log("添加列表")
       this.axios
         .post(this.baseUrl + "/peIndexList/addIndexList", _this.peIndexList)
         .then(function (response) {
@@ -461,7 +488,7 @@ export default {
         });
     },
 
-    updateIndexList(){
+    updateIndexList() {
       this.dialogVisible = false;
       const _this = this;
 
@@ -477,7 +504,6 @@ export default {
         }
       });
 
-
       this.axios
         .put(this.baseUrl + "/peExamineGrade", {
           performanceScoringObject: _this.empValue,
@@ -487,15 +513,14 @@ export default {
           evaluate: _this.textarea,
           empName: _this.empName,
           deptName: _this.deptName,
-          scoreId:_this.scoreId
+          scoreId: _this.scoreId,
         })
         .then(function (response) {
-          console.log(response)
+          console.log(response);
         })
         .catch(function (error) {
           console.log(error);
         });
-
 
       this.axios
         .post(this.baseUrl + "/peIndexList/updateIndexList", _this.peIndexList)
@@ -505,12 +530,12 @@ export default {
             type: "success",
           });
           _this.getScore();
-          _this.addOrUpdate=true;
+          _this.addOrUpdate = true;
         })
         .catch(function (error) {
           console.log(error);
         });
-    }
+    },
   },
   created() {
     this.getScore();
@@ -529,7 +554,9 @@ export default {
       // this.getEmpId();
     },
     empValue: function () {
-      this.scoreId!=null||this.scoreId!=''? this.getPeIndexList():this.getPeIndexListByCondition();
+      this.scoreId != null || this.scoreId != ""
+        ? this.getPeIndexList()
+        : this.getPeIndexListByCondition();
       // this.getPeIndexListByCondition();
     },
 
@@ -539,11 +566,11 @@ export default {
   computed: {
     sumScore() {
       return this.peIndexList
-        .map((row) => row.score*(row.weight/100))
+        .map((row) => row.score * (row.weight / 100))
         .reduce((acc, cur) => cur + acc, 0);
     },
     scores: function () {
-      return this.scores= this.sumScore;
+      return (this.scores = this.sumScore);
     },
   },
 };
