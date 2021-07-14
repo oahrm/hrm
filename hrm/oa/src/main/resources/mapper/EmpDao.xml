@@ -23,12 +23,14 @@
     <result column="mailbox" jdbcType="VARCHAR" property="mailbox" />
     <result column="siger_id" jdbcType="VARCHAR" property="sigerId" />
     <result column="become_time" jdbcType="TIMESTAMP" property="becomeTime" />
+    <result column="posttransfer_status" jdbcType="TIMESTAMP" property="posttransferStatus" />
+    <result column="quit_status" jdbcType="TIMESTAMP" property="quitStatus" />
 
   </resultMap>
   <sql id="Base_Column_List">
     emp_id, mobile, `password`, `name`, sex, post, ranks, dept_id, dept_name, on_the_job_status, is_it_online,
     parent_id, job_description, office_location, emergency_contact, emergency_contact_number, 
-    entry_time, leavedate, mailbox, siger_id, become_time
+    entry_time, leavedate, mailbox, siger_id, become_time, posttransfer_status, quit_status
   </sql>
 
   <select id="selectAllByDeptId" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -85,6 +87,55 @@
      where emp_id = #{empId,jdbcType=VARCHAR}
   </update>
 
+
+
+
+
+  <!--  查询员工表为已转正未调岗的员工到未调岗页面-->
+  <select id="selectEmpOersWdg" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from emp
+    where on_the_job_status =1 and posttransfer_status = 0
+  </select>
+
+<!--  查询员工表已转正已调岗的员工到已调岗页面-->
+  <select id="selectEmpOersYdg" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from emp
+    where on_the_job_status =1 and posttransfer_status = 1
+  </select>
+
+  <!--  将调岗状态更改为1-->
+  <update id="updateEmp_HuPosttransfer">
+     update emp set posttransfer_status=1
+     where emp_id = #{empId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateEmp_HuLiZhi">
+     update emp set quit_status=1
+     where emp_id = #{empId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectEmpHuLiZhi" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from emp
+    where quit_status =0
+  </select>
+
+  <select id="selectEmpHuYLiZhi" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from emp
+    where quit_status =1
+  </select>
+
+  <update id="updateEmp_Deptname">
+     update emp set dept_name = '产品部'
+     where emp_id = #{empId,jdbcType=VARCHAR}
+  </update>
 
 
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">

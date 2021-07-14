@@ -50,8 +50,6 @@
 			</el-table>
 			
 		</el-tab-pane>
-		<el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
-		<el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
 	</el-tabs>
 	 
 	<el-dialog v-model="dialogFormVisible" title="员工转正信息" :before-close="cls" destroy-on-close>
@@ -141,24 +139,6 @@
 								}).catch(function(error) {
 									console.log(error)
 								})
-							console.log("-=-=-=-=-=-=-=-=-=-=-=-=")
-
-							// _this.axios.post("http://localhost:8088/AddHuContractoflabor", _this.form)
-							// 	.then(function(response) {
-							// 		var hu_contractoflabor = response.data.data
-							// 		_this.OfferHuContractoflaborData.push(hu_contractoflabor)
-							// 		for (var key in _this.form) {
-							// 			delete _this.form[key];
-							// 			console.log("111")
-							// 		}
-
-							// 		console.log("7777777777777777777777")
-
-							// 	}).catch(function(error) {
-							// 		console.log(error)
-							// 	})
-
-							// AddHuContractoflabor
 
 							_this.dialogFormVisible = false
 						}).catch(function(error) {

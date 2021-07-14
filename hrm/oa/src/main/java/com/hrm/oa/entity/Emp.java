@@ -59,6 +59,10 @@ public class Emp implements Serializable {
     private String mailbox;
 
     private String sigerId;
+    //调岗状态
+    private Integer posttransferStatus;
+    //离职状态
+    private Integer quitStatus;
 
     private static final long serialVersionUID = 1L;
 }
