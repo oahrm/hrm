@@ -22,7 +22,6 @@ import java.util.List;
  */
 @RestController
 @Slf4j
-@RequestMapping("PrStage")
 public class PrStageController {
 
     @Autowired
@@ -30,14 +29,14 @@ public class PrStageController {
     @Autowired
     private IdWorker idWorker;
 
-    @PostMapping("/insertpr_stage")
+    @PostMapping("/insertprstage")
     public Result insertCourse(@RequestBody PrStage prStage){
         prStage.setSId(idWorker.nextId()+"");
         PrStage prStageNew=prStageService.insertpr_stage(prStage);
         return new Result(ResultCode.SUCCESS,prStageNew);
     }
 
-    @GetMapping("/selectAllpr_stageInfo")
+    @GetMapping("/selectAllprstageInfo")
     public Result selectAllpr_stageInfo(@RequestParam("currentPage") int currentPage,
                                                 @RequestParam("pagesize") int pagesize){
         PageHelper.startPage(currentPage,pagesize);
@@ -46,7 +45,7 @@ public class PrStageController {
         return new Result(ResultCode.SUCCESS,prStagePageInfo);
     }
 
-    @GetMapping("/selectAllpr_stage")
+    @GetMapping("/selectAllprstage")
     public Result selectAllpr_stage(){
         List<PrStage> entityPage =prStageService.selectAllpr_stage();
         return new Result(ResultCode.SUCCESS,entityPage);

@@ -19,7 +19,7 @@
         </el-table-column>
         <el-table-column prop="type" label="指标类型"> </el-table-column>
         <el-table-column prop="weight" label="权重%"> </el-table-column>
-        <el-table-column prop="score" label="是否启用">
+<!--        <el-table-column prop="score" label="是否启用">
           <template #default="scope">
             <el-tooltip
               :content="'Switch value: ' + scope.row.initiateMode"
@@ -35,7 +35,7 @@
               </el-switch>
             </el-tooltip>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column>
           <template #default="scope">
             <el-button @click="updateIndictorShow(scope.row.indexNumber)"
@@ -79,7 +79,7 @@
         <el-input v-model="weight" style="width:30%"> </el-input>
 
         <br />
-        是否启用：
+<!--        是否启用：
         <el-tooltip :content="'Switch value: ' + initiateMode" placement="top">
           <el-switch
             v-model="initiateMode"
@@ -89,7 +89,7 @@
             inactive-value="0"
           >
           </el-switch>
-        </el-tooltip>
+        </el-tooltip> -->
         <template #footer>
           <span class="dialog-footer">
             <el-button
@@ -294,6 +294,7 @@ export default {
           type: _this.indicatorValue,
           initiateMode: _this.initiateMode,
           deptId: _this.deptValue,
+		  weight:_this.weight
         })
         .then(function (response) {
           if (response.status == "200")

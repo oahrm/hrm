@@ -29,7 +29,7 @@
 	</div>
 	
 	<div>
-		<el-dialog v-model="dialogFormVisible" title="员工合同签署" :before-close="cls">
+		<el-dialog v-model="dialogFormVisible" title="员工入职" :before-close="cls">
 			<el-form :inline="true" :model="form" ref="ruleForm" class="demo-ruleForm">
 				<div style="display: flex; justify-content: space-between;">
 					<el-form-item label="签署人 :" prop="zxr">
